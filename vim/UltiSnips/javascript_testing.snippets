@@ -1,0 +1,69 @@
+priority -50
+
+snippet des "Describe (js)" b
+describe('${1:description}', function() {
+	$0
+});
+endsnippet
+
+snippet it "it (js)" b
+it('${1:description}', function() {
+	$0
+});
+endsnippet
+
+snippet bef "before each (js)" b
+beforeEach(function() {
+	$0
+});
+endsnippet
+
+snippet aft "after each (js)" b
+afterEach(function() {
+	$0
+});
+endsnippet
+
+snippet exp "expect (js)" b
+expect(${1:target})$0;
+endsnippet
+
+snippet exe "expect to equal (js)" b
+expect(${1:target}).toEqual(${2:value});
+endsnippet
+
+snippet exb "expect to be (js)" b
+expect(${1:target}).toBe(${2:value});
+endsnippet
+
+snippet exm "expect to match (js)" b
+expect(${1:target}).toMatch(${2:pattern});
+endsnippet
+
+snippet spy "spy on (js)" b
+spyOn(${1:object}, '${2:method}')$0;
+endsnippet
+
+snippet spyr "spy on and return (js)" b
+spyOn(${1:object}, '${2:method}').and.returnValue(${3:arguments});
+endsnippet
+
+snippet spyct "spy on and call through (js)" b
+spyOn(${1:object}, '${2:method}').and.callThrough();
+endsnippet
+
+snippet spycf "spy on and call fake (js)" b
+spyOn(${1:object}, '${2:method}').and.callFake(${3:function});
+endsnippet
+
+snippet exthbc "expect to have been called (js)" b
+expect(${1:target}).toHaveBeenCalled();
+endsnippet
+
+snippet exnthbc "expect not to have been called (js)" b
+expect(${1:target}).not.toHaveBeenCalled();
+endsnippet
+
+snippet exthbcw "expect to have been called with (js)" b
+expect(${1:target}).toHaveBeenCalledWith(${2:arguments});
+endsnippet

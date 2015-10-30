@@ -1,0 +1,97 @@
+snippet doctype "HTML - 5.0 (doctype)" b
+<!DOCTYPE html>
+endsnippet
+
+snippet body "<body>"
+<body>
+	$0
+</body>
+endsnippet
+
+snippet div "<div>" w
+<div>
+	$0
+</div>
+endsnippet
+
+snippet div. "<div> with class" w
+<div`!p snip.rv=' class="' if t[1] else ""`${1:name}`!p snip.rv = '"' if t[1] else ""`>
+	$0
+</div>
+endsnippet
+
+snippet input "Input with Label" w
+<label for="${2:${1/[[:alpha:]]+|( )/(?1:_:\L$0)/g}}">$1</label>
+<input type="${3:text/submit/hidden/button}" name="${4:$2}" value="$5"${6: id="${7:$2}"}`!p x(snip)`>
+endsnippet
+
+snippet submit
+<input type="submit" value="${2}" ${3}/>${7}
+endsnippet
+
+snippet textarea
+<textarea name="$2"${3: id="$4"}>$5</textarea>
+endsnippet
+
+snippet img
+<img src="$1"${2: alt="$3"}/>
+endsnippet
+
+snippet head "XHTML <head>"
+<head>
+	<meta charset="utf-8">
+	<title>${1:`!p snip.rv = snip.basename or "Page Title"`}</title>
+	$0
+</head>
+endsnippet
+
+snippet script "<script src...>" w
+<script src="$1">$2</script>
+endsnippet
+
+snippet style "XHTML <style>" w
+<style type="text/css" media="screen">
+	$0
+</style>
+endsnippet
+
+snippet table "XHTML <table>" w
+<table border="${1:0}"${2: cellspacing="${3:5}" cellpadding="${4:5}"}>
+	<tr><th>${5:Header}</th></tr>
+	<tr><td>${0:Data}</td></tr>
+</table>
+endsnippet
+
+snippet a "Link" w
+<a href="${1:http://www.${2:url.com}}"${3: target="_blank"}>${4:Anchor Text}</a>
+endsnippet
+
+snippet p "paragraph" w
+<p>$0</p>
+endsnippet
+
+snippet li "list item" w
+<li>$0</li>
+endsnippet
+
+snippet ul "unordered list" w
+<ul>
+$0
+</ul>
+endsnippet
+
+snippet td "table cell" w
+<td>$0</td>
+endsnippet
+
+snippet th "table header" w
+<th>$0</th>
+endsnippet
+
+snippet tr "table row" w
+<tr>$0</tr>
+endsnippet
+
+snippet title "XHTML <title>" w
+<title>${1:`!p snip.rv = snip.basename or "Page Title"`}</title>
+endsnippet

@@ -1,0 +1,66 @@
+snippet #! "shebang" b
+#!/usr/bin/env node
+endsnippet
+
+snippet ex "exports" b
+module.exports = $0;
+endsnippet
+
+snippet cl "console.log" b
+console.log(${1:'${2:value}'});
+endsnippet
+
+snippet us "strict mode"
+'use strict';
+endsnippet
+
+snippet fun "function (fun)"
+function ${1:function_name}(${2:argument}) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet f "anonymous function" w
+function($1) {
+	$0
+}
+endsnippet
+
+snippet :f "Object Method"
+${1:method_name}: function(${3:attribute}) {
+	${VISUAL}$0
+}${10:,}
+endsnippet
+
+snippet iife "Immediately-Invoked Function Expression (iife)"
+(function (${1:argument}) {
+	'use strict';
+	${VISUAL}$0
+}(${2:$1}));
+endsnippet
+
+snippet if
+if (${1:true}) {
+	${0}
+}
+endsnippet
+
+snippet ife
+if (${1:true}) {
+	${2}
+} else {
+	${0}
+}
+endsnippet
+
+snippet ret
+return ${0:result};
+endsnippet
+
+snippet /**
+/**
+* ${0:description}
+*
+*/
+endsnippet
+

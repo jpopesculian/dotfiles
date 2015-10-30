@@ -1,0 +1,25 @@
+priority -50
+
+snippet mod "angular.module" b
+angular.module('${1:name}', [${2:'${3:dependency}'}]);
+endsnippet
+
+snippet befi "before each (js, inject)" b
+beforeEach(inject(function($1) {
+	$0
+}));
+endsnippet
+
+snippet befm "before each module" b
+beforeEach(module(${1:'${2:module_name}'}));
+endsnippet
+
+snippet iti "it (js, inject)" b
+it('${1:description}', inject(function($2) {
+	$0
+}));
+endsnippet
+
+snippet inj "get from $injector" b
+${1:Service} = \$injector.get('${2:$1}');
+endsnippet
