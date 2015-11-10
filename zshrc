@@ -57,12 +57,7 @@ export PATH="/home/julian/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:/home/julian/.d
 # export MANPATH="/usr/local/man:$MANPATH"
 export GOPATH="/home/julian/.go"
 
-export MONGO_URL="mongodb://localhost:27017/rocketchat"
-export MAIL_URL="smtp://app41251782%40heroku.com:9ni01o0z7438@smtp.sendgrid.net:587"
 export EDITOR=vim
-
-export NVM_DIR="/home/julian/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 source $ZSH/oh-my-zsh.sh
 
@@ -91,8 +86,15 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias tmux="TERM=screen-256color-bce tmux && exit"
-if [ "$TMUX" = "" ]; then tmux; fi
 
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
+
+if hash direnv 2>/dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
+alias tmux="TERM=screen-256color-bce tmux && exit"
+if hash direnv 2>/dev/null; then
+    if [ "$TMUX" = "" ]; then tmux; fi
+fi
