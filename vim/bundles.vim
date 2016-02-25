@@ -40,6 +40,7 @@ Bundle "elzr/vim-json"
 " HTML
 Bundle "othree/html5.vim"
 Bundle "edsono/vim-matchit"
+Bundle "mattn/emmet-vim"
 
 " CSS
 Bundle "hail2u/vim-css3-syntax"
