@@ -109,7 +109,7 @@ vnoremap <leader>s :sort<CR>
 nnoremap <leader>s {jV}k:sort<CR>
 
 " Window mgmt
-nnoremap <leader>t :tabe<CR>
+nnoremap <leader>t :tab split<CR>
 nnoremap <leader>sv :vs<CR>
 nnoremap <leader>sh :sp<CR>
 nnoremap <leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
@@ -136,8 +136,6 @@ nnoremap <leader>f :NERDTreeToggle<CR>
 nnoremap <leader>F :NERDTreeFind<CR>
 nnoremap <leader>d :e %:p:h<CR>
 nnoremap <leader>D :e .<CR>
-nnoremap <leader>o :e **/*
-nnoremap <leader>O :tabe **/*
 
 " File search
 set grepprg=ag " note using rking/ag.vim
@@ -148,6 +146,14 @@ nnoremap <leader>gj :Ag --js
 nnoremap <leader>gp :Ag --python 
 nnoremap <leader>gr :Ag --ruby 
 nnoremap <leader>gs :Ag --sass 
+
+" Quick FZF
+nnoremap <leader>o :GFiles<CR>
+nnoremap <leader>O :Files<CR>
+nnoremap <leader>e :Buffers<CR>
+nnoremap <leader>E :History<CR>
+nnoremap <leader>H :History:<CR>
+nnoremap <leader>/ :History/<CR>
 
 " Replace all
 nnoremap <leader>r :%s/<c-r>=expand("<cword>")<cr>/
@@ -195,6 +201,10 @@ nnoremap <leader>c :ccl <bar> lcl<cr>
 " Run current file
 nnoremap <leader>x :!./%<cr>
 
+" Reads and writes file as hexadump
+nnoremap <leader>br :%!xxd<CR>
+nnoremap <leader>bw :%!xxd -r<CR>
+
 "Run a python file
 autocmd FileType python nnoremap <buffer>x :exec '!python' shellescape(@%, 1)<cr>
 
@@ -220,9 +230,14 @@ function! TxtMode()
 endfunction
 command! English call TxtMode()
 
-" Switching j and k for workman
-:noremap j k
-:noremap k j
+" deoplete
+let g:deoplete#enable_at_startup = 1
+
+" neomake
+autocmd! BufWritePost * Neomake
+
+" toggle search highlight with F3
+nnoremap <F3> :set hlsearch!<CR>
 
 " Extra config files " note: deprecate: move to .vim/autoload/
 runtime! '~/.vimrc.*'

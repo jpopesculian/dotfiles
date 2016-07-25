@@ -12,12 +12,14 @@ Bundle "gmarik/vundle"
 
 " General
 Bundle "editorconfig/editorconfig-vim"
-Bundle "Valloric/YouCompleteMe"
+" Bundle "Valloric/YouCompleteMe"
+Bundle "Shougo/deoplete.nvim"
 Bundle "flazz/vim-colorschemes"
 Bundle "jeffkreeftmeijer/vim-numbertoggle"
 Bundle "rking/ag.vim"
 Bundle "scrooloose/nerdtree"
-Bundle "scrooloose/syntastic"
+" Bundle "scrooloose/syntastic"
+Bundle "neomake/neomake"
 Bundle "skwp/greplace.vim"
 Bundle "tomtom/tcomment_vim"
 Bundle "tpope/vim-fugitive"
@@ -25,6 +27,7 @@ Bundle "tpope/vim-repeat"
 Bundle "tpope/vim-surround"
 Bundle "airblade/vim-gitgutter"
 Bundle "tpope/vim-unimpaired"
+Bundle "ctrlpvim/ctrlp.vim"
 " Snippets
 Bundle "sirver/ultisnips"
 
@@ -52,6 +55,7 @@ Bundle "groenewege/vim-less"
 " Bundle "klen/python-mode"
 
 " Ruby
+Bundle "tpope/vim-rails"
 " HAML
 " (also contains sass)
 Bundle "tpope/vim-haml"
@@ -83,6 +87,10 @@ Bundle "chooh/brightscript.vim"
 
 " Go
 Bundle "fatih/vim-go"
+
+" fzf
+Bundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Bundle 'junegunn/fzf.vim'
 
 
 filetype plugin indent on

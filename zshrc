@@ -45,11 +45,14 @@ ZSH_THEME="robbyrussell"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+ZSH_TMUX_AUTOSTART=true
+export DISABLE_AUTO_TITLE=true
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git tmuxinator bundler rails tmux history)
 
 # User configuration
 
@@ -57,7 +60,7 @@ export PATH="/home/julian/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:/home/julian/.d
 # export MANPATH="/usr/local/man:$MANPATH"
 export GOPATH="/home/julian/.go"
 
-export EDITOR=vim
+export EDITOR=nvim
 
 source $ZSH/oh-my-zsh.sh
 
@@ -90,11 +93,31 @@ source $ZSH/oh-my-zsh.sh
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
+alias mux=tmuxinator
+
 if hash direnv 2>/dev/null; then
     eval "$(direnv hook zsh)"
 fi
 
-alias tmux="TERM=screen-256color-bce tmux && exit"
-if hash direnv 2>/dev/null; then
-    if [ "$TMUX" = "" ]; then tmux; fi
+# git sync
+git() { if [[ $@ == 'sync' ]]; then command git-umatm; else command git "$@"; fi }
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+export NVM_DIR="/home/julian/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+emscripten="/opt/emsdk_portable"
+if [ -d "$emscripten" ] 
+then
+    export EM_CONFIG="/home/julian/.emscripten"
+    export EMSCRIPTEN="$emscripten/emscripten/master"
+    export PATH="$PATH:$emscripten"
+    export PATH="$PATH:$EMSCRIPTEN"
+    export PATH="$PATH:$emscripten/clang/fastcomp/build_master_64/bin"
+    export PATH="$PATH:$emscripten/emscripten/node/4.1.1_64bit/bin"
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+alias fzf=fzf-tmux
+alias fzg='ag --nobreak --nonumbers --noheading . | fzf'

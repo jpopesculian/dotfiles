@@ -1,6 +1,7 @@
 [user]
 	email = jpopesculian@gmail.com
 	name = Julian Popescu
+	signingkey = E386416A
 [core]
     text = auto
     excludesfile = ~/.gitignore
@@ -33,3 +34,5 @@
     tool = vimdiff
 [fetch]
     prune = true
+[commit]
+	gpgsign = true
