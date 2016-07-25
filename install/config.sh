@@ -28,3 +28,6 @@ curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.2.3.tar.gz && \
 cd $HOME
 ln -s .dotfiles/rcrc .rcrc
 rcup -v
+
+cd $HOME/config
+ln -s $HOME/.vim nvim
