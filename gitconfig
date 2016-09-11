@@ -1,7 +1,7 @@
 [user]
 	email = jpopesculian@gmail.com
 	name = Julian Popescu
-	signingkey = E386416A
+	signingkey = 1A7B7846
 [core]
     text = auto
     excludesfile = ~/.gitignore

@@ -233,8 +233,16 @@ command! English call TxtMode()
 " deoplete
 let g:deoplete#enable_at_startup = 1
 
+" pandoc
+let g:pandoc#command#latex_engine = 'pdflatex'
+let g:pandoc#command#autoexec_command = 'Pandoc pdf'
+:command PandocWatch let g:pandoc#command#autoexec_on_writes = 1
+
 " neomake
 autocmd! BufWritePost * Neomake
+
+" read jsrender templates as html
+au BufReadPost *.jsr set syntax=html
 
 " toggle search highlight with F3
 nnoremap <F3> :set hlsearch!<CR>

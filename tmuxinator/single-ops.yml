@@ -7,7 +7,7 @@ root: ~/Development/single-ops
 # socket_name: foo
 
 # Runs before everything. Use it to start daemons etc.
-# pre: sudo /etc/rc.d/mysqld start
+pre: git checkout <%= ARGV[2] %>
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247
@@ -19,7 +19,7 @@ root: ~/Development/single-ops
 # tmux_command: byobu
 
 # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
-startup_window: editor
+startup_window: 1
 
 # Controls whether the tmux session should be attached to automatically. Defaults to true.
 # attach: false
@@ -35,5 +35,5 @@ windows:
       panes: 
         - 'bundle exec rails s'
         - 'browser-sync start --proxy localhost:3000 --files app --port 3001 --ui-port 3002'
-        - 'ngrok start browsersync'
+        - 'ngrok start singleops'
   - monitor: 'htop'

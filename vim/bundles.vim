@@ -78,8 +78,10 @@ Bundle "dag/vim2hs"
 
 " Markdown / Writing
 Bundle "reedes/vim-wordy"
-" Bundle "vim-pandoc/vim-pandoc"
-" Bundle "vim-pandoc/vim-pandoc-syntax"
+Bundle "godlygeek/tabular"
+Bundle "iamcco/markdown-preview.vim"
+Bundle "vim-pandoc/vim-pandoc"
+Bundle "vim-pandoc/vim-pandoc-syntax"
 " bug in ftplugin with tabstop/shiftwidth Bundle "PProvost/vim-markdown-jekyll"
 
 " Roku Brightscript

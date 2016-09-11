@@ -92,6 +92,8 @@ source $ZSH/oh-my-zsh.sh
 
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
+alias lah='ls --color -lah --group-directories-first'
+alias et=$EDITOR
 
 alias mux=tmuxinator
 
