@@ -19,7 +19,7 @@ pre: git checkout <%= ARGV[2] %>
 # tmux_command: byobu
 
 # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
-startup_window: 1
+startup_window: editor
 
 # Controls whether the tmux session should be attached to automatically. Defaults to true.
 # attach: false
@@ -29,11 +29,19 @@ startup_window: 1
 
 windows:
   - editor: 'nvim'
-  - console: 'bundle exec rails c'
-  - server: 
+  - tasks:
+      root: '~/Development/project-management'
+      layout: 'main-vertical'
+      panes:
+        - 'pomo'
+        - 'todo l by p'
+  - console: 'spring rails c'
+  - server: 'bundle exec rails s'
+  - sync: 
       layout: 'main-horizontal'
       panes: 
-        - 'bundle exec rails s'
-        - 'browser-sync start --proxy localhost:3000 --files app --port 3001 --ui-port 3002'
+        - 'bundle exec sidekiq'
+        - 'browser-sync start --proxy localhost:3000 --files app --port 3001 --ui-port 3002 --open singleops-sync.dev'
         - 'ngrok start singleops'
   - monitor: 'htop'
+  - notes: 'notes'

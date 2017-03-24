@@ -52,13 +52,24 @@ export DISABLE_AUTO_TITLE=true
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmuxinator bundler rails tmux history)
+plugins=(git tmuxinator bundler tmux history bundler)
 
 # User configuration
 
-export PATH="/home/julian/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:/home/julian/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/julian/.rvm/bin:/home/julian/.rvm/bin:/home/julian/.go/bin"
+export PATH="/home/julian/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:/home/julian/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/julian/.rvm/bin:/home/julian/.rvm/bin:/home/julian/.go/bin:/home/julian/.vimpkg/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
+
 export GOPATH="/home/julian/.go"
+export GOBIN="$GOPATH/bin"
+export GOROOT="/usr/lib/go-1.7"
+
+export ANDROID_HOME="/home/julian/Android/Sdk"
+export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+
+export RUST_HOME="/home/julian/.cargo/bin"
+export PATH="$PATH:$RUST_HOME"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 export EDITOR=nvim
 
@@ -89,11 +100,18 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# powerline
+powerline-daemon -q
+powerline_installation='/usr/local/lib/python3.5/dist-packages/powerline'
+. "$powerline_installation/bindings/zsh/powerline.zsh"
 
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 alias lah='ls --color -lah --group-directories-first'
+
 alias et=$EDITOR
+NOTES_PATH="$HOME/Documents/notes"
+alias notes="mkdir -p $NOTES_PATH/$(date +%Y/%m/%d) && $EDITOR $NOTES_PATH/$(date +%Y/%m/%d)/notes.md"
 
 alias mux=tmuxinator
 
@@ -104,22 +122,28 @@ fi
 # git sync
 git() { if [[ $@ == 'sync' ]]; then command git-umatm; else command git "$@"; fi }
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
-export NVM_DIR="/home/julian/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-emscripten="/opt/emsdk_portable"
-if [ -d "$emscripten" ] 
-then
-    export EM_CONFIG="/home/julian/.emscripten"
-    export EMSCRIPTEN="$emscripten/emscripten/master"
-    export PATH="$PATH:$emscripten"
-    export PATH="$PATH:$EMSCRIPTEN"
-    export PATH="$PATH:$emscripten/clang/fastcomp/build_master_64/bin"
-    export PATH="$PATH:$emscripten/emscripten/node/4.1.1_64bit/bin"
-fi
+dong() { 
+    notification="notify-send 'Ding [$@]: Timer is up!'"
+    ding $@ -c $notification --no-timer&
+}
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 alias fzf=fzf-tmux
 alias fzg='ag --nobreak --nonumbers --noheading . | fzf'
+alias fzh='ag --hidden --ignore .git -l -g "" . | fzf'
+
+# github#knqyf263/pet
+function pet-last() {
+  PREV=$(fc -lrn | head -n 1)
+  sh -c "pet new `printf %q "$PREV"`"
+}
+
+function pet-select() {
+  BUFFER=$(pet search --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle redisplay
+}
+zle -N pet-select
+bindkey '^s' pet-select
+
+eval "$POST_RC_EXEC"

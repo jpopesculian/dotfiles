@@ -2,97 +2,115 @@ if &compatible
   set nocompatible
 end
 
-filetype off
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call plug#begin('~/.vim/plugged')
 
 " Let Vundle manage Vundle
-Bundle "gmarik/vundle"
+Plug 'gmarik/vundle'
 
 " General
-Bundle "editorconfig/editorconfig-vim"
-" Bundle "Valloric/YouCompleteMe"
-Bundle "Shougo/deoplete.nvim"
-Bundle "flazz/vim-colorschemes"
-Bundle "jeffkreeftmeijer/vim-numbertoggle"
-Bundle "rking/ag.vim"
-Bundle "scrooloose/nerdtree"
-" Bundle "scrooloose/syntastic"
-Bundle "neomake/neomake"
-Bundle "skwp/greplace.vim"
-Bundle "tomtom/tcomment_vim"
-Bundle "tpope/vim-fugitive"
-Bundle "tpope/vim-repeat"
-Bundle "tpope/vim-surround"
-Bundle "airblade/vim-gitgutter"
-Bundle "tpope/vim-unimpaired"
-Bundle "ctrlpvim/ctrlp.vim"
+Plug 'sheerun/vim-polyglot'
+Plug 'editorconfig/editorconfig-vim'
+" Plug 'Valloric/YouCompleteMe'
+Plug 'flazz/vim-colorschemes'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+Plug 'scrooloose/nerdtree'
+Plug 'mileszs/ack.vim'
+" Plug 'scrooloose/syntastic'
+Plug 'neomake/neomake'
+Plug 'skwp/greplace.vim'
+" Plug 'tomtom/tcomment_vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'majutsushi/tagbar'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-unimpaired'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-scripts/loremipsum'
 " Snippets
-Bundle "sirver/ultisnips"
+Plug 'sirver/ultisnips'
+Plug 'AndrewRadev/splitjoin.vim'
 
 " Javascript
-Bundle "marijnh/tern_for_vim"
-Bundle "pangloss/vim-javascript"
-Bundle "jelera/vim-javascript-syntax"
-Bundle "othree/javascript-libraries-syntax.vim"
-Bundle "kchmck/vim-coffee-script"
+Plug 'marijnh/tern_for_vim'
+Plug 'pangloss/vim-javascript'
+" Plug 'jelera/vim-javascript-syntax'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'kchmck/vim-coffee-script'
+Plug 'posva/vim-vue'
+" Plug 'othree/yajs.vim'
+Plug 'othree/es.next.syntax.vim'
 " JSON
-Bundle "elzr/vim-json"
+Plug 'elzr/vim-json'
 
 " HTML
-Bundle "othree/html5.vim"
-Bundle "edsono/vim-matchit"
-Bundle "mattn/emmet-vim"
+Plug 'othree/html5.vim'
+Plug 'mattn/emmet-vim'
 
 " CSS
-Bundle "hail2u/vim-css3-syntax"
+Plug 'hail2u/vim-css3-syntax'
 " Less
-Bundle "groenewege/vim-less"
+Plug 'groenewege/vim-less'
 
 " Python
-" Bundle "davidhalter/jedi-vim" " trying out ycm instead
-" Bundle "klen/python-mode"
+" Plug 'davidhalter/jedi-vim' ' trying out ycm instead
+" Plug 'klen/python-mode'
 
 " Ruby
-Bundle "tpope/vim-rails"
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+Plug 'rhysd/vim-crystal'
+
 " HAML
 " (also contains sass)
-Bundle "tpope/vim-haml"
+Plug 'tpope/vim-haml'
 " YAML
-Bundle "ingydotnet/yaml-vim"
-Bundle "chase/vim-ansible-yaml"
+Plug 'ingydotnet/yaml-vim'
+Plug 'chase/vim-ansible-yaml'
 
 " Clojure
-Bundle "guns/vim-sexp"
-Bundle "tpope/vim-sexp-mappings-for-regular-people"
-Bundle "guns/vim-clojure-static"
-Bundle "tpope/vim-leiningen"
-Bundle "tpope/vim-fireplace"
-Bundle "guns/vim-clojure-highlight"
-Bundle "junegunn/rainbow_parentheses.vim"
+Plug 'guns/vim-sexp'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'guns/vim-clojure-static'
+Plug 'tpope/vim-leiningen'
+Plug 'tpope/vim-fireplace'
+Plug 'guns/vim-clojure-highlight'
+Plug 'junegunn/rainbow_parentheses.vim'
 
 " Haskell
-Bundle "haskell.vim"
-Bundle "dag/vim2hs"
+Plug 'haskell.vim'
+Plug 'dag/vim2hs'
 
 " Markdown / Writing
-Bundle "reedes/vim-wordy"
-Bundle "godlygeek/tabular"
-Bundle "iamcco/markdown-preview.vim"
-Bundle "vim-pandoc/vim-pandoc"
-Bundle "vim-pandoc/vim-pandoc-syntax"
-" bug in ftplugin with tabstop/shiftwidth Bundle "PProvost/vim-markdown-jekyll"
+Plug 'reedes/vim-wordy'
+Plug 'godlygeek/tabular'
+Plug 'iamcco/markdown-preview.vim'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 
 " Roku Brightscript
-Bundle "chooh/brightscript.vim"
+Plug 'chooh/brightscript.vim'
 
 " Go
-Bundle "fatih/vim-go"
+Plug 'fatih/vim-go'
+Plug 'nsf/gocode', {'rtp': 'nvim/'}
 
 " fzf
-Bundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Bundle 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 
-filetype plugin indent on
+" zeal
+Plug 'KabbAmine/zeavim.vim'
+
+if has('nvim') 
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'zchee/deoplete-go', {'build': {'unix': 'make'}}
+else
+    Plug 'Shougo/neocomplete.vim' 
+end
+
+call plug#end()

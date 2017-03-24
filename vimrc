@@ -1,10 +1,12 @@
 set nocompatible " vi improved
+set encoding=utf-8
 
 " Bootstrap this vimrc
 source ~/.vim/bootstrap.vim
 
 " Load vundle plugins
 source ~/.vim/bundles.vim
+source ~/.vim/autoload/pathogen.vim
 
 " Colors
 syntax enable " source system syntax file
@@ -71,7 +73,7 @@ set ignorecase " Ignore case when searching...
 set smartcase " ...unless we type a capital
 
 " Other settings
-set mouse=a " use the mouse
+set mouse=c " set to 'a' to use the mouse
 set exrc " enable per-directory .vimrc files
 set secure " disable unsafe commands in local .vimrc files
 set backspace=2 " help cygwin out with backspace
@@ -80,13 +82,17 @@ set formatoptions-=o " dont add comment prefix on o/O
 set formatoptions-=r " dont add comment prefix on <cr>
 
 " Non-leader mappings
-nnoremap ; :
+map ; :
+noremap ;; ,
+noremap , ;
 nnoremap q; q: " much easier to hit
 command! Q q
 nnoremap <F5> :e %<CR> " reload file
 set pastetoggle=<F12>
 " find selection in visual mode
 vnoremap // y/<C-R>"<CR>
+" add newline in normal mode
+nnoremap <C-m> i<CR><esc>k:s/\s\+$//<CR><esc>$j
 
 " Saving and Exiting
 inoremap jk <esc>
@@ -96,6 +102,13 @@ inoremap <C-d> <esc>:w<CR>:e %:p:h<CR>
 inoremap <C-c> <esc>:x<CR>
 nnoremap <C-c> :x<CR>
 nnoremap <C-d> :w<CR>:e %:p:h<CR>
+
+" navigate with alt keys
+nmap <silent> <A-k> <C-w>j
+nmap <silent> <A-j> <C-w>k
+nmap <silent> <A-h> <C-w>h
+nmap <silent> <A-l> <C-w>l
+
 
 " Leader mappings (use :map <leader> to see all mappings in order)
 let mapleader=" "
@@ -114,15 +127,6 @@ nnoremap <leader>sv :vs<CR>
 nnoremap <leader>sh :sp<CR>
 nnoremap <leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 nnoremap <leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
-nnoremap <leader>j <C-w>j
-nnoremap <leader>k <C-w>k
-nnoremap <leader>h <C-w>h
-nnoremap <leader>l <C-w>l
-" or with control keys
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
 
 " Tab mgmt
 nnoremap <leader>[ :tabN<CR>
@@ -201,6 +205,9 @@ nnoremap <leader>c :ccl <bar> lcl<cr>
 " Run current file
 nnoremap <leader>x :!./%<cr>
 
+" Linters
+nnoremap <leader>l :TagbarToggle<CR>
+
 " Reads and writes file as hexadump
 nnoremap <leader>br :%!xxd<CR>
 nnoremap <leader>bw :%!xxd -r<CR>
@@ -235,11 +242,37 @@ let g:deoplete#enable_at_startup = 1
 
 " pandoc
 let g:pandoc#command#latex_engine = 'pdflatex'
-let g:pandoc#command#autoexec_command = 'Pandoc pdf'
-:command PandocWatch let g:pandoc#command#autoexec_on_writes = 1
+let g:pandoc#command#autoexec_command = 'Pandoc pdf --variable urlcolor=cyan'
+command PandocWatch let g:pandoc#command#autoexec_on_writes = 1
+
+" powerline
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 
 " neomake
 autocmd! BufWritePost * Neomake
+
+" javascript
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_ruby_enabled_makers = ['reek', 'rubylint']
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1
+
+" nerdcommenter
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDCommentEmptyLines = 1
+
+" govim
+let g:go_bin_path = expand("~/.go/bin")
+
+" silver searcher
+
+let g:ackprg = 'ag --vimgrep --smart-case'
+cnoreabbrev ag Ack
+cnoreabbrev aG Ack
+cnoreabbrev Ag Ack
+cnoreabbrev AG Ack
 
 " read jsrender templates as html
 au BufReadPost *.jsr set syntax=html
@@ -248,4 +281,5 @@ au BufReadPost *.jsr set syntax=html
 nnoremap <F3> :set hlsearch!<CR>
 
 " Extra config files " note: deprecate: move to .vim/autoload/
-runtime! '~/.vimrc.*'
+execute pathogen#infect()
+call pathogen#helptags()

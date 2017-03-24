@@ -3,36 +3,69 @@
 	name = Julian Popescu
 	signingkey = 1A7B7846
 [core]
-    text = auto
-    excludesfile = ~/.gitignore
-    whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
-    autocrlf = input
+	text = auto
+	excludesfile = ~/.gitignore
+	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
+	autocrlf = input
+	editor = nvim
 [color]
-    ui = always
-    status = always
-    branch = always
-    diff = always
-    interactive = always
+	ui = true
+	status = always
+	branch = always
+	diff = always
+	interactive = always
 [color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
+	current = yellow reverse
+	local = yellow
+	remote = green
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red
-    whitespace = red reverse
+	meta = yellow bold
+	frag = magenta bold
+	old = red
+	whitespace = red reverse
 [color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
+	added = yellow
+	changed = green
+	untracked = cyan
 [push]
-    default = simple
+	default = current
 [branch]
-    autosetupmerge = true
+	autosetupmerge = true
 [merge]
-    tool = vimdiff
+	tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d -u ~/.vimrc \"$LOCAL\" \"$REMOTE\""
 [fetch]
-    prune = true
+	prune = true
 [commit]
 	gpgsign = true
+[alias]
+	please = push --force-with-lease
+	commend = commit --amend --no-edit
+	it = !git init && git commit -m “root” --allow-empty
+	stsh = stash --keep-index
+	staash = stash --include-untracked
+	staaash = stash --all
+	shorty = status --short --branch
+	st = status --short --branch
+	merc = merge --no-ff
+    merj = merge --squash
+	grog = log --graph --abbrev-commit --decorate --all --format=format:\"%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)\"
+	hub = repo hub
+	alias = config --get-regexp ^alias\\.
+	dif = diff --staged
+	difff = diff HEAD
+    df = diff
+	dt = difftool
+	subup = submodule update --remote
+	ch = checkout
+	br = branch
+	cm = commit
+	po = pull origin
+	last = log -1 HEAD -p
+[gitrepo "github"]
+	token = 6ef3b883f73ebfd2f2d2762dbdb88633146a4708
+[diff]
+	tool = nvimdiff
+[difftool]
+	prompt = false

@@ -2,21 +2,17 @@
 " installs dependencies.
 
 fun! FirstRunOnEnter()
-    PluginInstall
+    PlugInstall
     source $MYVIMRC
     let oldpath = getcwd()
-    execute "cd " . $HOME . "/.vim/bundle/YouCompleteMe"
-    " NOTE this need cmake to be installed
-    silent !./install.sh
     execute "cd ../tern_for_vim"
     silent !npm install
     execute "cd " . oldpath
 endf
 
-let vdir = $HOME . '/.vim/bundle/vundle'
+let plug = $HOME . '/.vim/autoload/plug.vim'
 
-if !isdirectory(vdir)
-    call system('mkdir -p ' . vdir)
-    call system('git clone https://github.com/gmarik/Vundle.vim.git ' . vdir)
+if !filereadable(plug)
+    call system('curl -fLo ' . plug . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
     autocmd VimEnter * :call FirstRunOnEnter()
 endif
