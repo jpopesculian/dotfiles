@@ -45,6 +45,14 @@ set shiftwidth=4
 set shiftround
 set softtabstop=4
 
+" Whitespace higlighting
+highlight ExtraWhitespace ctermbg=darkred guibg=darkred
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
 " Windows
 set splitright " Open new split panes to right
 set splitbelow " and bottom, which feels more natural
@@ -116,6 +124,12 @@ let mapleader=" "
 " White space
 nnoremap <leader>S :%s/\s\+$//<CR>
 nnoremap <leader><tab> :retab<CR>
+nnoremap <Leader>wn :match ExtraWhitespace /^\s* \s*\<Bar>\s\+$/<CR>
+nnoremap <Leader>wf :match<CR>
+
+" quick comment
+nnoremap <leader>cc :Commentary<CR>
+vnoremap <leader>c :Commentary<CR>
 
 " Organizing
 vnoremap <leader>s :sort<CR>
@@ -200,7 +214,7 @@ nnoremap <leader><esc> :qall<CR>
 noremap <leader><leader>q :q!<CR>
 
 " Close the quickfix list and loc list
-nnoremap <leader>c :ccl <bar> lcl<cr>
+nnoremap <leader>cl :ccl <bar> lcl<cr>
 
 " Run current file
 nnoremap <leader>x :!./%<cr>
@@ -239,6 +253,25 @@ command! English call TxtMode()
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#omni#functions = {}
+let g:deoplete#omni#functions.javascript = [
+  \ 'tern#Complete',
+  \ 'jspc#omni'
+\]
+set completeopt=longest,menuone,preview
+let g:deoplete#sources = {}
+let g:deoplete#sources['javascript.jsx'] = ['file', 'ultisnips', 'ternjs']
+let g:tern#command = ['tern']
+let g:tern#arguments = ['--persistent']
+
+autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+let g:UltiSnipsExpandTrigger="<C-j>"
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" close the preview window when you're not using it
+let g:SuperTabClosePreviewOnPopupClose = 1
+" or just disable the preview entirely
+set completeopt-=preview
 
 " pandoc
 let g:pandoc#command#latex_engine = 'pdflatex'
@@ -250,11 +283,12 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " neomake
-autocmd! BufWritePost * Neomake
+let blacklisted_files = ['schema.rb', 'routes.rb', 'visit.rb', 'job.rb']
+autocmd! BufWritePost * if index(blacklisted_files, expand('%:t')) < 0 | Neomake
 
 " javascript
 let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_ruby_enabled_makers = ['reek', 'rubylint']
+let g:neomake_ruby_enabled_makers = ['reek', 'rubocop']
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_flow = 1
 
@@ -262,6 +296,9 @@ let g:javascript_plugin_flow = 1
 let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
+
+" autoformat
+autocmd BufWritePre *.js if matchend(fnameescape(expand('%:p')), 'single-ops') < 0 | Neoformat
 
 " govim
 let g:go_bin_path = expand("~/.go/bin")

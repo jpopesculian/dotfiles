@@ -10,6 +10,7 @@ Plug 'gmarik/vundle'
 " General
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'sbdchd/neoformat'
 " Plug 'Valloric/YouCompleteMe'
 Plug 'flazz/vim-colorschemes'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
@@ -18,8 +19,7 @@ Plug 'mileszs/ack.vim'
 " Plug 'scrooloose/syntastic'
 Plug 'neomake/neomake'
 Plug 'skwp/greplace.vim'
-" Plug 'tomtom/tcomment_vim'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
 Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -29,20 +29,25 @@ Plug 'tpope/vim-unimpaired'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-scripts/loremipsum'
 " Snippets
-Plug 'sirver/ultisnips'
+Plug 'SirVer/ultisnips'
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'ervandew/supertab'
+Plug 'honza/vim-snippets'
+Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 
 " Javascript
-Plug 'marijnh/tern_for_vim'
 Plug 'pangloss/vim-javascript'
 " Plug 'jelera/vim-javascript-syntax'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'posva/vim-vue'
+Plug 'mxw/vim-jsx'
 " Plug 'othree/yajs.vim'
 Plug 'othree/es.next.syntax.vim'
 " JSON
 Plug 'elzr/vim-json'
+Plug 'jparise/vim-graphql'
 
 " HTML
 Plug 'othree/html5.vim'
@@ -104,13 +109,14 @@ Plug 'junegunn/fzf.vim'
 " zeal
 Plug 'KabbAmine/zeavim.vim'
 
-if has('nvim') 
+if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'zchee/deoplete-go', {'build': {'unix': 'make'}}
+    Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
 else
-    Plug 'Shougo/neocomplete.vim' 
+    Plug 'Shougo/neocomplete.vim'
 end
 
 call plug#end()

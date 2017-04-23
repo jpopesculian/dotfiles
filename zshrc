@@ -128,6 +128,7 @@ dong() {
 }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+FZF_TMUX=1
 alias fzf=fzf-tmux
 alias fzg='ag --nobreak --nonumbers --noheading . | fzf'
 alias fzh='ag --hidden --ignore .git -l -g "" . | fzf'
@@ -145,5 +146,9 @@ function pet-select() {
 }
 zle -N pet-select
 bindkey '^s' pet-select
+
+alias please='sudo $(fc -ln -1)'
+alias cl='clear'
+alias cll='clear && $(fc -ln -1 -1)'
 
 eval "$POST_RC_EXEC"
