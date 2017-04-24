@@ -1,0 +1,14 @@
+authtoken: AUTHTOKEN_HERE
+tunnels:
+  singleops:
+    proto: http
+    addr: 3000
+    subdomain: singleops
+  browsersync:
+    proto: http
+    addr: 3001
+    subdomain: singleops
+  tantan:
+    proto: http
+    addr: 3000
+    subdomain: jpopesculian

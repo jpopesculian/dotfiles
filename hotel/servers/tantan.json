@@ -1,0 +1,8 @@
+{
+  "cwd": "/home/julian/Development/western-atlantic/tantan",
+  "cmd": "nodemon server.js $PORT",
+  "env": {
+    "PATH": "/home/julian/.rvm/gems/ruby-2.1.2/bin:/home/julian/.rvm/gems/ruby-2.1.2@global/bin:/home/julian/.rvm/rubies/ruby-2.1.2/bin:/home/julian/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:/home/julian/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/julian/.rvm/bin:/home/julian/.rvm/bin:/home/julian/.go/bin:/home/julian/.rvm/bin:/home/julian/.fzf/bin",
+    "SLACK_VERIFY_TOKEN": "h6PS94FO0d6zEbta3ZnS35Iq"
+  }
+}

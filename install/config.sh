@@ -8,26 +8,34 @@
 
 cd $HOME
 
+sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
+sudo apt-add-repository -y ppa:rael-gc/rvm
+
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+
+curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+
+sudo apt-get update
+
+sudo apt-get install -y \
+    rcm \
+    git \
+    nodejs \
+    build-essential \
+    rvm \
+    neovim \
+    google-chrome-stable
+
+sudo npm install -g yarn
+sudo yarn global add hotel
+
 git clone git@github.com:jpopesculian/dotfiles.git .dotfiles
-
 git clone git@github.com:robbyrussell/oh-my-zsh.git .oh-my-zsh
-
-# Note: version encoded here will become stale!
-curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.2.3.tar.gz && \
-
-    sha=$(sha256 rcm-1.2.3.tar.gz | cut -f1 -d' ') && \
-    [ "$sha" = "502fd44e567ed0cfd00fb89ccc257dac8d6eb5d003f121299b5294c01665973f" ] && \
-
-    tar -xvf rcm-1.2.3.tar.gz && \
-    cd rcm-1.2.3 && \
-
-    ./configure && \
-    make && \
-    sudo make install
 
 cd $HOME
 ln -s .dotfiles/rcrc .rcrc
 rcup -v
 
-cd $HOME/config
+cd $HOME/.config
 ln -s $HOME/.vim nvim

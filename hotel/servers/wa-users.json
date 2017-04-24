@@ -1,0 +1,11 @@
+{
+  "cwd": "/home/julian/Development/western-atlantic/user-service/src/github.com/jpopesculian/wa-user-service",
+  "cmd": "gin -p $PORT -a 4001 run",
+  "out": "dev.log",
+  "env": {
+    "PATH": "/home/julian/.rvm/gems/ruby-2.1.2/bin:/home/julian/.rvm/gems/ruby-2.1.2@global/bin:/home/julian/.rvm/rubies/ruby-2.1.2/bin:/home/julian/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:/home/julian/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/julian/.go/bin:/home/julian/.fzf/bin:/home/julian/.rvm/bin:/home/julian/Development/western-atlantic/user-service/bin",
+    "GOPATH": "/home/julian/Development/western-atlantic/user-service",
+    "SLACK_CLIENT_ID": "100819731605.100734040706",
+    "SLACK_CLIENT_SECRET": "c2cd2987ad7069a2c71851662e3c2000"
+  }
+}
