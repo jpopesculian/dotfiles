@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/julian/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -52,21 +52,21 @@ export DISABLE_AUTO_TITLE=true
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmuxinator bundler tmux history bundler)
+plugins=(git tmuxinator tmux history)
 
 # User configuration
 
-export PATH="/home/julian/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:/home/julian/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/julian/.rvm/bin:/home/julian/.rvm/bin:/home/julian/.go/bin:/home/julian/.vimpkg/bin:/home/julian/.local/bin"
+export PATH="$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.rvm/bin:$HOME/.rvm/bin:$HOME/.go/bin:$HOME/.vimpkg/bin:$HOME/.local/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
-export GOPATH="/home/julian/.go"
+export GOPATH="$HOME/.go"
 export GOBIN="$GOPATH/bin"
 export GOROOT="/usr/lib/go-1.7"
 
-export ANDROID_HOME="/home/julian/Android/Sdk"
+export ANDROID_HOME="$HOME/Android/Sdk"
 export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
-export RUST_HOME="/home/julian/.cargo/bin"
+export RUST_HOME="$HOME/.cargo/bin"
 export PATH="$PATH:$RUST_HOME"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
@@ -102,7 +102,7 @@ source $ZSH/oh-my-zsh.sh
 
 # powerline
 powerline-daemon -q
-powerline_installation='/home/julian/.local/lib/python3.5/site-packages/powerline'
+powerline_installation="$HOME/.local/lib/python3.5/site-packages/powerline"
 . "$powerline_installation/bindings/zsh/powerline.zsh"
 
 alias pbcopy='xsel --clipboard --input'
@@ -122,30 +122,11 @@ fi
 # git sync
 git() { if [[ $@ == 'sync' ]]; then command git-umatm; else command git "$@"; fi }
 
-dong() { 
-    notification="notify-send 'Ding [$@]: Timer is up!'"
-    ding $@ -c $notification --no-timer&
-}
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 FZF_TMUX=1
 alias fzf=fzf-tmux
 alias fzg='ag --nobreak --nonumbers --noheading . | fzf'
 alias fzh='ag --hidden --ignore .git -l -g "" . | fzf'
-
-# github#knqyf263/pet
-function pet-last() {
-  PREV=$(fc -lrn | head -n 1)
-  sh -c "pet new `printf %q "$PREV"`"
-}
-
-function pet-select() {
-  BUFFER=$(pet search --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle redisplay
-}
-zle -N pet-select
-bindkey '^s' pet-select
 
 alias please='sudo $(fc -ln -1)'
 alias cl='clear'

@@ -57,6 +57,9 @@ sudo apt-get install -y \
 
 sudo npm install -g yarn
 sudo yarn global add hotel
+sudo yarn global add browser-sync
+sudo yarn global add prettier
+sudo yarn global add eslint
 
 git clone git@github.com:robbyrussell/oh-my-zsh.git .oh-my-zsh
 
