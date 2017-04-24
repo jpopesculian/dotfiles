@@ -25,6 +25,8 @@ sudo apt-get install -y \
     build-essential \
     rvm \
     neovim \
+    zsh \
+    tmux \
     google-chrome-stable
 
 sudo npm install -g yarn
