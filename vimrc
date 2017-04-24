@@ -6,7 +6,7 @@ source ~/.vim/bootstrap.vim
 
 " Load vundle plugins
 source ~/.vim/bundles.vim
-source ~/.vim/autoload/pathogen.vim
+" source ~/.vim/autoload/pathogen.vim
 
 " Colors
 syntax enable " source system syntax file
@@ -318,5 +318,5 @@ au BufReadPost *.jsr set syntax=html
 nnoremap <F3> :set hlsearch!<CR>
 
 " Extra config files " note: deprecate: move to .vim/autoload/
-execute pathogen#infect()
-call pathogen#helptags()
+" execute pathogen#infect()
+" call pathogen#helptags()

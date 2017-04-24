@@ -56,7 +56,7 @@ plugins=(git tmuxinator bundler tmux history bundler)
 
 # User configuration
 
-export PATH="/home/julian/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:/home/julian/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/julian/.rvm/bin:/home/julian/.rvm/bin:/home/julian/.go/bin:/home/julian/.vimpkg/bin"
+export PATH="/home/julian/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:/home/julian/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/julian/.rvm/bin:/home/julian/.rvm/bin:/home/julian/.go/bin:/home/julian/.vimpkg/bin:/home/julian/.local/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 export GOPATH="/home/julian/.go"
@@ -102,7 +102,7 @@ source $ZSH/oh-my-zsh.sh
 
 # powerline
 powerline-daemon -q
-powerline_installation='/usr/local/lib/python3.5/dist-packages/powerline'
+powerline_installation='/home/julian/.local/lib/python3.5/site-packages/powerline'
 . "$powerline_installation/bindings/zsh/powerline.zsh"
 
 alias pbcopy='xsel --clipboard --input'

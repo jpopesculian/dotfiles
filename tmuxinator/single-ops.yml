@@ -29,12 +29,12 @@ startup_window: editor
 
 windows:
   - editor: 'nvim'
-  - tasks:
-      root: '~/Development/project-management'
-      layout: 'main-vertical'
-      panes:
-        - 'pomo'
-        - 'todo l by p'
+  # - tasks:
+  #     root: '~/Development/project-management'
+  #     layout: 'main-vertical'
+  #     panes:
+  #       - 'pomo'
+  #       - 'todo l by p'
   - console: 'spring rails c'
   - server: 'bundle exec rails s'
   - sync: 
