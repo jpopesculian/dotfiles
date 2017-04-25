@@ -56,7 +56,7 @@ plugins=(git tmuxinator tmux history)
 
 # User configuration
 
-export PATH="$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.rvm/bin:$HOME/.rvm/bin:$HOME/.go/bin:$HOME/.vimpkg/bin:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.rvm/bin:$HOME/.rvm/bin:$HOME/.go/bin:$HOME/.vimpkg/bin:$HOME/.local/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 export GOPATH="$HOME/.go"
@@ -64,6 +64,7 @@ export GOBIN="$GOPATH/bin"
 export GOROOT="/usr/lib/go-1.7"
 
 export ANDROID_HOME="$HOME/Android/Sdk"
+export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
 export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
 export RUST_HOME="$HOME/.cargo/bin"
@@ -112,6 +113,7 @@ alias lah='ls --color -lah --group-directories-first'
 alias et=$EDITOR
 NOTES_PATH="$HOME/Documents/notes"
 alias notes="mkdir -p $NOTES_PATH/$(date +%Y/%m/%d) && $EDITOR $NOTES_PATH/$(date +%Y/%m/%d)/notes.md"
+alias todo=todolist
 
 alias mux=tmuxinator
 

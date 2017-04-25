@@ -9,7 +9,6 @@
 cd $HOME
 
 sudo apt-add-repository -y ppa:martin-frost/thoughtbot-rcm
-sudo apt-add-repository -y ppa:rael-gc/rvm
 sudo apt-add-repository -y ppa:tista/adapta
 sudo add-apt-repository -y ppa:snwh/pulp
 sudo add-apt-repository -y ppa:ricotz/docky
@@ -30,7 +29,6 @@ sudo apt-get install -y \
     git \
     nodejs \
     build-essential \
-    rvm \
     neovim \
     zsh \
     tmux \
@@ -53,6 +51,7 @@ sudo apt-get install -y \
     golang-go \
     htop \
     network-manager-openvpn-gnome \
+    silversearcher-ag \
     google-chrome-stable
 
 sudo npm install -g yarn
@@ -61,27 +60,36 @@ sudo yarn global add browser-sync
 sudo yarn global add prettier
 sudo yarn global add eslint
 
+# oh-my-zsh
 git clone git@github.com:robbyrussell/oh-my-zsh.git .oh-my-zsh
 
-cd $HOME
+# rvm
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+curl -sSL https://get.rvm.io | sudo bash -s stable
 
-ln -s .dotfiles/rcrc .rcrc
-rcup -v
-
-rvm install ruby
-
+# powerline
 pip2 install --user git+git://github.com/powerline/powerline
 pip3 install --user git+git://github.com/powerline/powerline
 
-mkdir -p ~/.fonts
-mkdir -p ~/.config/fontconfig/conf.d
+mkdir -p $HOME/.fonts
+mkdir -p $HOME/.config/fontconfig/conf.d
 wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
 wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
-mv PowerlineSymbols.otf ~/.fonts/
-mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
-fc-cache -vf ~/.fonts/
+mv PowerlineSymbols.otf $HOME/.fonts/
+mv 10-powerline-symbols.conf $HOME/.config/fontconfig/conf.d/
+fc-cache -vf $HOME/.fonts/
 
+# dotfiles syncing
+cd $HOME
+ln -s .dotfiles/rcrc .rcrc
+rcup -v
+
+# neovim
 cd $HOME/.config
 ln -s $HOME/.vim nvim
 
+# Development folder
+mkdir -p $HOME/Development
+
+# zsh shell
 chsh -s $(which zsh)
