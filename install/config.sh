@@ -49,6 +49,9 @@ sudo apt-get install -y \
     redis-server \
     ruby \
     golang-go \
+    gnupg-agent \
+    pinentry-curses \
+    direnv \
     htop \
     network-manager-openvpn-gnome \
     silversearcher-ag \

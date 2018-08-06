@@ -59,10 +59,18 @@
 	dt = difftool
 	subup = submodule update --remote
 	ch = checkout
+	cb = checkout -b
 	br = branch
 	cm = commit
 	po = pull origin
+	pur = pull --rebase
 	last = log -1 HEAD -p
+    sshow = "!f() { git stash show stash^{/$*} -p; }; f"
+    sapply = "!f() { git stash apply stash^{/$*}; }; f"
+    undo = reset HEAD~ --soft
+    recent = recently-checked-out
+	git = !exec git
+    fatch = fetch --all
 [gitrepo "github"]
 	token = 6ef3b883f73ebfd2f2d2762dbdb88633146a4708
 [diff]

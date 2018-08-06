@@ -1,0 +1,109 @@
+19:18:43 - Watching /home/julian/.hotel/servers
+19:18:43 - /home/julian/.hotel/servers/eventstore.json added
+19:18:43 - Add target eventstore
+19:18:43 - /home/julian/.hotel/servers/ngrok.json added
+19:18:43 - Add target ngrok
+19:18:43 - /home/julian/.hotel/servers/podcast.json added
+19:18:43 - Add target podcast
+19:18:43 - /home/julian/.hotel/servers/podql.json added
+19:18:43 - Add target podql
+19:18:43 - /home/julian/.hotel/servers/redux.json added
+19:18:43 - Add target redux
+19:18:43 - /home/julian/.hotel/servers/rethinkdb.json added
+19:18:43 - Add target rethinkdb
+19:18:43 - /home/julian/.hotel/servers/singleops-prod.json added
+19:18:43 - Add target singleops-prod
+19:18:43 - /home/julian/.hotel/servers/singleops-sync.json added
+19:18:43 - Add target singleops-sync
+19:18:43 - /home/julian/.hotel/servers/singleops.json added
+19:18:43 - Add target singleops
+19:18:43 - /home/julian/.hotel/servers/tantan.json added
+19:18:43 - Add server tantan
+19:18:43 - /home/julian/.hotel/servers/testing.json added
+19:18:43 - Add target testing
+19:18:43 - /home/julian/.hotel/servers/wa-client.json added
+19:18:43 - Add server wa-client
+19:18:43 - /home/julian/.hotel/servers/wa-server.json added
+19:18:43 - Add server wa-server
+19:18:43 - /home/julian/.hotel/servers/wa-square.json added
+19:18:43 - Add server wa-square
+19:18:43 - /home/julian/.hotel/servers/wa-users.json added
+19:18:43 - Add server wa-users
+create /home/julian/.hotel/daemon.pid 31626
+19:18:43 - Server listening on port 127.0.0.1:2000
+19:18:43 - /home/julian/.hotel/servers/eventstore.json added
+19:18:43 - Add target eventstore
+19:18:43 - /home/julian/.hotel/servers/ngrok.json added
+19:18:43 - Add target ngrok
+19:18:43 - /home/julian/.hotel/servers/podcast.json added
+19:18:43 - Add target podcast
+19:18:43 - /home/julian/.hotel/servers/podql.json added
+19:18:43 - Add target podql
+19:18:43 - /home/julian/.hotel/servers/redux.json added
+19:18:43 - Add target redux
+19:18:43 - /home/julian/.hotel/servers/rethinkdb.json added
+19:18:43 - Add target rethinkdb
+19:18:43 - /home/julian/.hotel/servers/singleops-prod.json added
+19:18:43 - Add target singleops-prod
+19:18:43 - /home/julian/.hotel/servers/singleops-sync.json added
+19:18:43 - Add target singleops-sync
+19:18:43 - /home/julian/.hotel/servers/singleops.json added
+19:18:43 - Add target singleops
+19:18:43 - /home/julian/.hotel/servers/tantan.json added
+19:18:43 - Add server tantan
+19:18:43 - /home/julian/.hotel/servers/testing.json added
+19:18:43 - Add target testing
+19:18:43 - /home/julian/.hotel/servers/wa-server.json added
+19:18:43 - Add server wa-server
+19:18:43 - /home/julian/.hotel/servers/wa-client.json added
+19:18:43 - Add server wa-client
+19:18:43 - /home/julian/.hotel/servers/wa-square.json added
+19:18:43 - Add server wa-square
+19:18:43 - /home/julian/.hotel/servers/wa-users.json added
+19:18:43 - Add server wa-users
+19:18:47 - hotel.dev
+19:18:47 - hotel.dev
+19:18:47 - hotel.dev
+19:18:47 - hotel.dev
+19:18:49 - hotel.dev
+19:18:49 - hotel.dev
+19:18:53 - hotel.dev
+19:18:53 - Resolve eventstore
+19:18:53 - Proxy - http://eventstore.dev → http://localhost:2113
+19:18:55 - Resolve eventstore
+19:18:55 - Proxy - http://eventstore.dev → http://localhost:2113
+19:18:59 - Resolve eventstore
+19:18:59 - Proxy - http://eventstore.dev → http://localhost:2113
+20:22:58 - Resolve singleops
+20:22:58 - Proxy - http://singleops.dev → http://localhost:3000
+20:22:59 - Resolve singleops
+20:22:59 - Proxy - http://singleops.dev → http://localhost:3000
+20:22:59 - Resolve singleops
+20:22:59 - Proxy - http://singleops.dev → http://localhost:3000
+20:22:59 - Resolve singleops
+20:22:59 - Proxy - http://singleops.dev → http://localhost:3000
+20:22:59 - Resolve singleops
+20:22:59 - Proxy - http://singleops.dev → http://localhost:3000
+20:22:59 - Resolve singleops
+20:22:59 - Proxy - http://singleops.dev → http://localhost:3000
+20:23:00 - Resolve singleops
+20:23:00 - Proxy - http://singleops.dev → http://localhost:3000
+20:23:00 - Resolve singleops
+20:23:00 - Proxy - http://singleops.dev → http://localhost:3000
+20:25:12 - Resolve singleops
+20:25:12 - Proxy - http://singleops.dev → http://localhost:3000
+20:25:12 - Resolve singleops
+20:25:12 - Proxy - http://singleops.dev → http://localhost:3000
+20:25:12 - Resolve singleops
+20:25:12 - Proxy - http://singleops.dev → http://localhost:3000
+20:25:12 - Resolve singleops
+20:25:12 - Proxy - http://singleops.dev → http://localhost:3000
+20:25:12 - Resolve singleops
+20:25:12 - Proxy - http://singleops.dev → http://localhost:3000
+20:25:12 - Resolve singleops
+20:25:12 - Proxy - http://singleops.dev → http://localhost:3000
+20:25:13 - Resolve singleops
+20:25:13 - Proxy - http://singleops.dev → http://localhost:3000
+Exiting
+Stop daemon
+Remove pid file

@@ -67,13 +67,13 @@ autocmd FocusLost * silent! wa " write all on lost focus
 autocmd TabLeave * silent! wa " autowriteall doesn't capture tab changing
 
 " Undo
-set undofile
-set undolevels=1000 " max changes
-set undoreload=10000 " max lines saved on buffer reload
-set undodir=~/.vim/undodir
-if empty(glob(&undodir))
-    call system('mkdir ' . &undodir)
-endif
+" set undofile
+" set undolevels=1000 " max changes
+" set undoreload=10000 " max lines saved on buffer reload
+" set undodir=~/.vim/undodir
+" if empty(glob(&undodir))
+"     call system('mkdir ' . &undodir)
+" endif
 
 " Searching
 set incsearch " Find the next match as we type the search
@@ -139,8 +139,10 @@ nnoremap <leader>s {jV}k:sort<CR>
 nnoremap <leader>t :tab split<CR>
 nnoremap <leader>sv :vs<CR>
 nnoremap <leader>sh :sp<CR>
-nnoremap <leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
-nnoremap <leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <leader>- :exe "resize " . (winheight(0) * 4/5)<CR>
+nnoremap <leader>_ :exe "resize " . (winheight(0) * 5/4)<CR>
+nnoremap <leader>= :exe "vertical resize " . (winwidth(0) * 4/5)<CR>
+nnoremap <leader>+ :exe "vertical resize " . (winwidth(0) * 5/4)<CR>
 
 " Tab mgmt
 nnoremap <leader>[ :tabN<CR>
@@ -148,6 +150,7 @@ nnoremap <leader>] :tabn<CR>
 nnoremap <leader>{ :tabm -1<CR>
 nnoremap <leader>} :tabm +1<CR>
 nnoremap <leader>T :tabc<CR>
+nnoremap <leader>Q :tabo<CR>
 
 " File nav
 nnoremap <leader>f :NERDTreeToggle<CR>
@@ -158,12 +161,12 @@ nnoremap <leader>D :e .<CR>
 " File search
 set grepprg=ag " note using rking/ag.vim
 nnoremap <leader>gc :Ag <c-r>=expand('<cword>'><cr>
-nnoremap <leader>gg :Ag 
-nnoremap <leader>gh :Ag --html 
-nnoremap <leader>gj :Ag --js 
-nnoremap <leader>gp :Ag --python 
-nnoremap <leader>gr :Ag --ruby 
-nnoremap <leader>gs :Ag --sass 
+nnoremap <leader>gg :Ag
+nnoremap <leader>gh :Ag --html
+nnoremap <leader>gj :Ag --js
+nnoremap <leader>gp :Ag --python
+nnoremap <leader>gr :Ag --ruby
+nnoremap <leader>gs :Ag --sass
 
 " Quick FZF
 nnoremap <leader>o :GFiles<CR>
@@ -174,11 +177,11 @@ nnoremap <leader>H :History:<CR>
 nnoremap <leader>/ :History/<CR>
 
 " Replace all
-nnoremap <leader>r :%s/<c-r>=expand("<cword>")<cr>/
-vnoremap <leader>r "sy:%s/<c-r>s/
+nnoremap <leader>r :%S/<c-r>=expand("<cword>")<cr>/
+vnoremap <leader>r "sy:%S/<c-r>s/
 
 " Replace in line
-nnoremap <leader>lr :s/<c-r>=expand("<cword>")<cr>/
+nnoremap <leader>lr :S/<c-r>=expand("<cword>")<cr>/
 
 " Using fugitive
 nnoremap <leader>cf :Gwrite<cr>:Gcommit<cr>
@@ -207,10 +210,13 @@ nnoremap <leader>vw :w<CR>:so $MYVIMRC<CR>
 " Using vundle
 nnoremap <leader>vi :PluginClean<CR>:PluginInstall<CR>
 
+" Task List
+nnoremap <leader>v <Plug>TaskList
+
 " Saving and Exiting
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
-nnoremap <leader><esc> :qall<CR>
+nnoremap <leader><leader><leader>q :qall<CR>
 noremap <leader><leader>q :q!<CR>
 
 " Close the quickfix list and loc list
@@ -219,12 +225,16 @@ nnoremap <leader>cl :ccl <bar> lcl<cr>
 " Run current file
 nnoremap <leader>x :!./%<cr>
 
-" Linters
+" Tagbar
 nnoremap <leader>l :TagbarToggle<CR>
 
 " Reads and writes file as hexadump
 nnoremap <leader>br :%!xxd<CR>
 nnoremap <leader>bw :%!xxd -r<CR>
+
+" Format with pencil
+nnoremap <silent> b gqap
+xnoremap <silent> b gq
 
 "Run a python file
 autocmd FileType python nnoremap <buffer>x :exec '!python' shellescape(@%, 1)<cr>
@@ -273,24 +283,45 @@ let g:SuperTabClosePreviewOnPopupClose = 1
 " or just disable the preview entirely
 set completeopt-=preview
 
+" Markdown Syntax Support
+augroup markdown
+    au!
+    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup END
+
 " pandoc
 let g:pandoc#command#latex_engine = 'pdflatex'
 let g:pandoc#command#autoexec_command = 'Pandoc pdf --variable urlcolor=cyan'
 command PandocWatch let g:pandoc#command#autoexec_on_writes = 1
+
+" pencil
+let g:pencil#wrapModeDefault = 'soft'
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType text         call pencil#init()
+augroup END
 
 " powerline
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " neomake
-let blacklisted_files = ['schema.rb', 'routes.rb', 'visit.rb', 'job.rb']
-autocmd! BufWritePost * if index(blacklisted_files, expand('%:t')) < 0 | Neomake
+" let blacklisted_files = ['schema.rb', 'routes.rb', 'visit.rb', 'job.rb']
+" autocmd! BufWritePost * if index(blacklisted_files, expand('%:t')) < 0 | Neomake
+" let g:neomake_javascript_enabled_makers = ['eslint']
+" let g:neomake_ruby_enabled_makers = ['reek', 'rubocop']
+
+" ale
+let g:airline#extensions#ale#enabled = 1
+let g:ale_set_highlights = 0
+let g:ale_sign_warning = ''
+let g:ale_sign_error = ''
 
 " javascript
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_ruby_enabled_makers = ['reek', 'rubocop']
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_flow = 1
+let g:flow#autoclose = 1
 
 " nerdcommenter
 let g:NERDSpaceDelims = 1
@@ -298,10 +329,22 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 
 " autoformat
+autocmd FileType javascript set formatprg=prettier\ --stdin\ --single-quote\ --semi\ false
+let g:neoformat_try_formatprg = 1
 autocmd BufWritePre *.js if matchend(fnameescape(expand('%:p')), 'single-ops') < 0 | Neoformat
+
+"easytags
+let g:easytags_async = 1
+let g:easytags_auto_highlight = 0
+let g:easytags_autorecurse = 0
 
 " govim
 let g:go_bin_path = expand("~/.go/bin")
+
+"ruby
+let g:rubycomplete_rails = 1
+let g:rubycomplete_load_gemfile = 1
+let g:rubycomplete_use_bundler = 1
 
 " silver searcher
 
@@ -310,6 +353,9 @@ cnoreabbrev ag Ack
 cnoreabbrev aG Ack
 cnoreabbrev Ag Ack
 cnoreabbrev AG Ack
+
+" devicons
+let g:WebDevIconsUnicodeGlyphDoubleWidth = 0
 
 " read jsrender templates as html
 au BufReadPost *.jsr set syntax=html

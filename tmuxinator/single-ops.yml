@@ -29,19 +29,13 @@ startup_window: editor
 
 windows:
   - editor: 'nvim'
-  # - tasks:
-  #     root: '~/Development/project-management'
-  #     layout: 'main-vertical'
-  #     panes:
-  #       - 'pomo'
-  #       - 'todo l by p'
   - console: 'spring rails c'
   - server: 'bundle exec rails s'
-  - sync: 
+  - sync:
       layout: 'main-horizontal'
-      panes: 
+      panes:
         - 'bundle exec sidekiq'
-        - 'browser-sync start --proxy localhost:3000 --files app --port 3001 --ui-port 3002 --open singleops-sync.dev'
         - 'ngrok start singleops'
+        - 'browser-sync start --proxy localhost:3000 --files app --port 3001 --ui-port 3002 --open singleops-sync.dev'
   - monitor: 'htop'
   - notes: 'notes'

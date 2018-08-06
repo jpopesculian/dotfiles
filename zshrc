@@ -52,20 +52,24 @@ export DISABLE_AUTO_TITLE=true
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmuxinator tmux history)
+plugins=(git tmuxinator tmux history zsh-autosuggestions)
+fpath=(~/.zsh/completion $fpath)
+autoload -Uz compinit && compinit -i
 
 # User configuration
 
-export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.rvm/bin:$HOME/.rvm/bin:$HOME/.go/bin:$HOME/.vimpkg/bin:$HOME/.local/bin"
+GO_VERSION="1.9"
+
+export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.rvm/bin:$HOME/.rvm/bin:$HOME/.go/bin:$HOME/.vimpkg/bin:$HOME/.local/bin:/usr/lib/go-$GO_VERSION/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 export GOPATH="$HOME/.go"
 export GOBIN="$GOPATH/bin"
-export GOROOT="/usr/lib/go-1.7"
+export GOROOT="/usr/lib/go-$GO_VERSION"
 
 export ANDROID_HOME="$HOME/Android/Sdk"
 export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
-export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
 export RUST_HOME="$HOME/.cargo/bin"
 export PATH="$PATH:$RUST_HOME"
@@ -73,6 +77,11 @@ export PATH="$PATH:$RUST_HOME"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 export EDITOR=nvim
+export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
+export NODE_ENV='development'
+
+export JAVA_HOME='/usr/lib/jvm/default-java'
 
 source $ZSH/oh-my-zsh.sh
 
@@ -106,6 +115,10 @@ powerline-daemon -q
 powerline_installation="$HOME/.local/lib/python3.5/site-packages/powerline"
 . "$powerline_installation/bindings/zsh/powerline.zsh"
 
+# autosuggestions
+bindkey '^@' autosuggest-execute
+bindkey '^[[Z' autosuggest-accept
+
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 alias lah='ls --color -lah --group-directories-first'
@@ -117,12 +130,15 @@ alias todo=todolist
 
 alias mux=tmuxinator
 
-if hash direnv 2>/dev/null; then
-    eval "$(direnv hook zsh)"
+_direnv_hook() {
+  eval "$(direnv export zsh)";
+}
+typeset -ag precmd_functions;
+if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
+  precmd_functions+=_direnv_hook;
 fi
 
-# git sync
-git() { if [[ $@ == 'sync' ]]; then command git-umatm; else command git "$@"; fi }
+eval "$(hub alias -s)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 FZF_TMUX=1
@@ -133,5 +149,21 @@ alias fzh='ag --hidden --ignore .git -l -g "" . | fzf'
 alias please='sudo $(fc -ln -1)'
 alias cl='clear'
 alias cll='clear && $(fc -ln -1 -1)'
+alias codereview='git pull-request -pl "code review"'
+alias glorp='ruby -ane '
+alias cds='cd $(pwd -P)'
+alias goreflex='reflex -r "\.go$" make'
+
+alias vpn-on='sudo protonvpn-cli -connect'
+alias vpn-off='sudo protonvpn-cli -disconnect'
+
+export EOS_DOCKER_COMPOSE="/home/julian/Development/eos/Docker/docker-compose-latest.yml"
+alias eosio-up='docker-compose -f $EOS_DOCKER_COMPOSE up -d'
+alias cleos='docker-compose -f $EOS_DOCKER_COMPOSE exec keosd /opt/eosio/bin/cleos -u http://nodeosd:8888 --wallet-url http://localhost:8900'
+alias eosiocpp='docker-compose -f $EOS_DOCKER_COMPOSE exec keosd /opt/eosio/bin/eosiocpp'
+
+alias internet-connected='wget --spider --quiet http://google.com'
+
+eval $(thefuck --alias)
 
 eval "$POST_RC_EXEC"
