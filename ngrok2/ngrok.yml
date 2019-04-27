@@ -1,14 +1,22 @@
-authtoken: AUTHTOKEN_HERE
+authtoken: 4mCy25EjEwCeQm2gtTjPp_84hFE2D75wwqKeDi8MvQ4
 tunnels:
-  singleops:
-    proto: http
-    addr: 3000
-    subdomain: singleops
   browsersync:
-    proto: http
     addr: 3001
+    proto: http
+    subdomain: singleops
+  messagebird:
+    addr: 3000
+    proto: http
+    subdomain: jpopesculian
+  singleops:
+    addr: 3000
+    proto: http
     subdomain: singleops
   tantan:
-    proto: http
     addr: 3000
+    proto: http
+    subdomain: jpopesculian
+  jpopesculian:
+    addr: 3000
+    proto: http
     subdomain: jpopesculian

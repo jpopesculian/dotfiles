@@ -8,6 +8,7 @@
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
 	autocrlf = input
 	editor = nvim
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [color]
 	ui = true
 	status = always
@@ -19,10 +20,12 @@
 	local = yellow
 	remote = green
 [color "diff"]
-	meta = yellow bold
+	meta = yellow
 	frag = magenta bold
-	old = red
+	old = red bold
 	whitespace = red reverse
+	commit = yellow bold
+	new = green bold
 [color "status"]
 	added = yellow
 	changed = green
@@ -77,3 +80,11 @@
 	tool = nvimdiff
 [difftool]
 	prompt = false
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[merge "npm-merge-driver"]
+	name = automatically merge npm lockfiles
+	driver = npx npm-merge-driver merge %A %O %B %P

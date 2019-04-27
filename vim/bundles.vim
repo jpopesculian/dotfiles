@@ -37,7 +37,7 @@ Plug 'blindFS/vim-taskwarrior'
 
 " linter
 Plug 'sbdchd/neoformat'
-" Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe'
 " Plug 'scrooloose/syntastic'
 " Plug 'neomake/neomake'
 Plug 'w0rp/ale'
@@ -47,8 +47,8 @@ Plug 'SirVer/ultisnips'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
-Plug 'ternjs/tern_for_vim'
-Plug 'othree/tern_for_vim_coffee'
+" Plug 'ternjs/tern_for_vim'
+" Plug 'othree/tern_for_vim_coffee'
 Plug 'othree/jspc.vim'
 
 " Javascript
@@ -58,13 +58,20 @@ Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'kchmck/vim-coffee-script'
 " Plug 'posva/vim-vue'
 Plug 'mxw/vim-jsx'
-Plug 'flowtype/vim-flow'
+" Plug 'flowtype/vim-flow'
 " Plug 'othree/yajs.vim'
 Plug 'othree/yajs.vim'
 Plug 'othree/es.next.syntax.vim'
+Plug 'Quramy/vim-js-pretty-template'
 " JSON
 Plug 'elzr/vim-json'
 Plug 'jparise/vim-graphql'
+" Typescript
+" Plug 'Quramy/tsuquyomi'
+Plug 'leafgarland/typescript-vim'
+
+" Dart
+Plug 'dart-lang/dart-vim-plugin'
 
 " HTML
 Plug 'othree/html5.vim'
@@ -72,6 +79,7 @@ Plug 'mattn/emmet-vim'
 
 " CSS
 Plug 'hail2u/vim-css3-syntax'
+Plug 'hhsnopek/vim-sugarss'
 " Less
 Plug 'groenewege/vim-less'
 
@@ -92,13 +100,14 @@ Plug 'ingydotnet/yaml-vim'
 Plug 'chase/vim-ansible-yaml'
 
 " Clojure
-" Plug 'guns/vim-sexp'
-" Plug 'tpope/vim-sexp-mappings-for-regular-people'
-" Plug 'guns/vim-clojure-static'
-" Plug 'tpope/vim-leiningen'
-" Plug 'tpope/vim-fireplace'
-" Plug 'guns/vim-clojure-highlight'
-" Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'guns/vim-sexp'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'guns/vim-clojure-static'
+Plug 'tpope/vim-leiningen'
+Plug 'tpope/vim-fireplace'
+Plug 'guns/vim-clojure-highlight'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'venantius/vim-cljfmt'
 
 " Haskell
 " Plug 'haskell.vim'
@@ -128,15 +137,34 @@ Plug 'junegunn/fzf.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'
 
+" Solidity
+Plug 'tomlion/vim-solidity'
+
 " zeal
-Plug 'KabbAmine/zeavim.vim'
+" Plug 'KabbAmine/zeavim.vim'
+
+" nim
+" Plug 'zah/nim.vim'
+
+" rust
+Plug 'rust-lang/rust.vim'
+Plug 'timonv/vim-cargo'
+Plug 'rhysd/vim-wasm'
+
+" capnp
+Plug 'cstrahan/vim-capnp'
 
 if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'zchee/deoplete-go', {'build': {'unix': 'make'}}
-    Plug 'carlitux/deoplete-ternjs'
+    " Plug 'carlitux/deoplete-ternjs'
+    Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+    Plug 'autozimu/LanguageClient-neovim', {
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
+        \ }
 else
     Plug 'Shougo/neocomplete.vim'
 end

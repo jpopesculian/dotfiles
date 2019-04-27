@@ -76,6 +76,11 @@ export PATH="$PATH:$RUST_HOME"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
+export PATH="$PATH:/opt/flutter/bin"
+
+export PATH=/home/julian/.nimble/bin:$PATH
+alias nimrun="nim c -r --verbosity:0"
+
 export EDITOR=nvim
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
@@ -83,7 +88,15 @@ export NODE_ENV='development'
 
 export JAVA_HOME='/usr/lib/jvm/default-java'
 
+export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"
+
+export PATH="$PATH:/opt/wabt"
+
 source $ZSH/oh-my-zsh.sh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -121,7 +134,7 @@ bindkey '^[[Z' autosuggest-accept
 
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
-alias lah='ls --color -lah --group-directories-first'
+alias lah='exa -lah -a --git --group-directories-first'
 
 alias et=$EDITOR
 NOTES_PATH="$HOME/Documents/notes"
@@ -154,16 +167,53 @@ alias glorp='ruby -ane '
 alias cds='cd $(pwd -P)'
 alias goreflex='reflex -r "\.go$" make'
 
-alias vpn-on='sudo protonvpn-cli -connect'
+alias vpn-on='sudo protonvpn-cli -update && sudo protonvpn-cli -cc'
 alias vpn-off='sudo protonvpn-cli -disconnect'
 
-export EOS_DOCKER_COMPOSE="/home/julian/Development/eos/Docker/docker-compose-latest.yml"
-alias eosio-up='docker-compose -f $EOS_DOCKER_COMPOSE up -d'
-alias cleos='docker-compose -f $EOS_DOCKER_COMPOSE exec keosd /opt/eosio/bin/cleos -u http://nodeosd:8888 --wallet-url http://localhost:8900'
-alias eosiocpp='docker-compose -f $EOS_DOCKER_COMPOSE exec keosd /opt/eosio/bin/eosiocpp'
+# eos
+# export EOS_HOME="/home/julian/Development/eos-dev"
+# export EOS_ACCOUNT="julian"
+
+# export EOS_DOCKER_COMPOSE="$EOS_HOME/docker-compose.yml"
+# alias eosio-exec='docker-compose -f $EOS_DOCKER_COMPOSE exec'
+# alias eosio-up='docker-compose -f $EOS_DOCKER_COMPOSE up -d'
+# alias cleos='docker-compose -f $EOS_DOCKER_COMPOSE exec keosd /opt/eosio/bin/cleos -u http://nodeosd:8888 --wallet-url http://localhost:8900'
+# alias eosio-set-keys='source $EOS_HOME/set_keys'
+# alias eosio-unlock='eosio-set-keys && cleos wallet open && cleos wallet unlock --password $private_key'
+# alias eosio-init='eosio-up && eosio-unlock'
+# eosio-compile() { d=/contracts/usr; docker exec eos-dev_nodeosd_1 eosiocpp -o $d/$1.wast $d/$1.cpp; }
+# eosio-abi() { d=/contracts/usr; docker exec eos-dev_nodeosd_1 eosiocpp -g $d/$1.abi $d/$1.cpp; }
+# eosio-build() { eosio-compile $1 && eosio-abi $1 }
+# eosio-load() { d=/contracts/usr/$(dirname $1); f=$(basename $1); cleos set contract ${2:-$EOS_ACCOUNT} $d $f.wasm $f.abi; }
+# eosio-install() { eosio-build $1 && eosio-load $1 $2 }
+
+# EOS_MAIN_COMPOSE="/home/julian/Development/eos-main/docker-compose.yml"
+# alias eosio-main-up='docker-compose -f $EOS_MAIN_COMPOSE up -d'
+# alias cleos-main='docker-compose -f $EOS_MAIN_COMPOSE exec keosd-main /opt/eosio/bin/cleos -u https://api.eosnewyork.io:443 --wallet-url http://localhost:8900'
+
+# export PATH="/usr/local/eosio/bin:$PATH"
+
+nvm-sudo() { sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"; sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm" }
+
 
 alias internet-connected='wget --spider --quiet http://google.com'
 
 eval $(thefuck --alias)
 
+# alias loadenv() { f=${1:-".env"}; export $(grep -v '^#' $f | xargs -d '\n'); }
+# alias unloadenv() { f=${1:-".env"}; unset $(grep -v '^#' $f | sed -E 's/(.*)=.*/\1/' | xargs -d '\n'); }
+
+# BETTER CLI
+alias cat="bat"
+alias ls="exa"
+alias ping="prettyping --nolegend"
+alias preview="fzf --preview 'bat --color \"always\" {}'"
+alias help="tldr"
+copy() { \cat $1 | pbcopy }
+
 eval "$POST_RC_EXEC"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# opam configuration
+# test -r /home/julian/.opam/opam-init/init.zsh && . /home/julian/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true

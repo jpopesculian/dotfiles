@@ -1,4 +1,5 @@
 set nocompatible " vi improved
+set hidden
 set encoding=utf-8
 
 " Bootstrap this vimrc
@@ -161,12 +162,12 @@ nnoremap <leader>D :e .<CR>
 " File search
 set grepprg=ag " note using rking/ag.vim
 nnoremap <leader>gc :Ag <c-r>=expand('<cword>'><cr>
-nnoremap <leader>gg :Ag
-nnoremap <leader>gh :Ag --html
-nnoremap <leader>gj :Ag --js
-nnoremap <leader>gp :Ag --python
-nnoremap <leader>gr :Ag --ruby
-nnoremap <leader>gs :Ag --sass
+nnoremap <leader>gg :Ag 
+nnoremap <leader>gh :Ag --html 
+nnoremap <leader>gj :Ag --js 
+nnoremap <leader>gp :Ag --python 
+nnoremap <leader>gr :Ag --ruby 
+nnoremap <leader>gs :Ag --sass 
 
 " Quick FZF
 nnoremap <leader>o :GFiles<CR>
@@ -224,6 +225,7 @@ nnoremap <leader>cl :ccl <bar> lcl<cr>
 
 " Run current file
 nnoremap <leader>x :!./%<cr>
+autocmd FileType clojure nnoremap <leader>x :%Eval<cr>
 
 " Tagbar
 nnoremap <leader>l :TagbarToggle<CR>
@@ -236,8 +238,12 @@ nnoremap <leader>bw :%!xxd -r<CR>
 nnoremap <silent> b gqap
 xnoremap <silent> b gq
 
+" Run ALEFix
+nnoremap <leader>, :ALEFix<CR>
+
 "Run a python file
-autocmd FileType python nnoremap <buffer>x :exec '!python' shellescape(@%, 1)<cr>
+autocmd FileType python nnoremap <leader>! :exec '!python' shellescape(@%, 1)<cr>
+autocmd FileType rust nnoremap <leader>! :CargoRun<CR>
 
 " Word wrapping
 function! ToggleWrap()
@@ -261,21 +267,25 @@ function! TxtMode()
 endfunction
 command! English call TxtMode()
 
-" deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#omni#functions = {}
-let g:deoplete#omni#functions.javascript = [
-  \ 'tern#Complete',
-  \ 'jspc#omni'
-\]
 set completeopt=longest,menuone,preview
-let g:deoplete#sources = {}
-let g:deoplete#sources['javascript.jsx'] = ['file', 'ultisnips', 'ternjs']
-let g:tern#command = ['tern']
-let g:tern#arguments = ['--persistent']
+
+" deoplete
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#omni#functions = {}
+" let g:deoplete#omni#functions.javascript = [
+"   \ 'tern#Complete',
+"   \ 'jspc#omni'
+" \]
+" let g:deoplete#sources = {}
+" let g:deoplete#sources['javascript.jsx'] = ['file', 'ultisnips', 'ternjs']
+" let g:tern#command = ['tern']
+" let g:tern#arguments = ['--persistent']
 
 autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-let g:UltiSnipsExpandTrigger="<C-j>"
+autocmd FileType typescript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " close the preview window when you're not using it
@@ -317,6 +327,19 @@ let g:airline#extensions#ale#enabled = 1
 let g:ale_set_highlights = 0
 let g:ale_sign_warning = ''
 let g:ale_sign_error = ''
+let g:ale_linters = {
+\   'typescript': ['tsserver', 'tslint'],
+\   'javascript': ['eslint']
+\}
+let g:ale_fixers = {
+\   'typescript': ['prettier'],
+\   'json': [],
+\   'javascript': ['prettier'],
+\   'css': ['prettier'],
+\   'rust': ['rustfmt']
+\}
+let g:ale_fix_on_save = 1
+" let g:ale_rust_cargo_include_features = 'clippy'
 
 " javascript
 let g:javascript_plugin_jsdoc = 1
@@ -329,7 +352,7 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 
 " autoformat
-autocmd FileType javascript set formatprg=prettier\ --stdin\ --single-quote\ --semi\ false
+autocmd FileType javascript set formatprg=prettier\ --stdin\ --single-quote\
 let g:neoformat_try_formatprg = 1
 autocmd BufWritePre *.js if matchend(fnameescape(expand('%:p')), 'single-ops') < 0 | Neoformat
 
@@ -349,13 +372,49 @@ let g:rubycomplete_use_bundler = 1
 " silver searcher
 
 let g:ackprg = 'ag --vimgrep --smart-case'
-cnoreabbrev ag Ack
-cnoreabbrev aG Ack
-cnoreabbrev Ag Ack
-cnoreabbrev AG Ack
+" cnoreabbrev ag Ack
+" cnoreabbrev aG Ack
+" cnoreabbrev Ag Ack
+" cnoreabbrev AG Ack
 
 " devicons
 let g:WebDevIconsUnicodeGlyphDoubleWidth = 0
+
+" tagbar
+let g:tagbar_type_snippets = {
+    \ 'ctagstype' : 'snippets',
+    \ 'kinds' : [
+        \ 's:snippets',
+    \ ]
+\ }
+let g:tagbar_type_typescript = {
+  \ 'ctagstype': 'typescript',
+  \ 'kinds': [
+    \ 'c:classes',
+    \ 'n:modules',
+    \ 'f:functions',
+    \ 'v:variables',
+    \ 'v:varlambdas',
+    \ 'm:members',
+    \ 'i:interfaces',
+    \ 'e:enums',
+  \ ]
+  \ }
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    \ 'python': ['python3', '-m', 'pyls'],
+    \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+
+
+" js templates
+" call jspretmpl#register_tag('gql', 'graphql')
+" call jspretmpl#register_tag('md', 'markdown')
+" autocmd FileType typescript JsPreTmpl html
 
 " read jsrender templates as html
 au BufReadPost *.jsr set syntax=html
