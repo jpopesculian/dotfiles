@@ -36,8 +36,8 @@ Plug 'tpope/vim-abolish'
 Plug 'blindFS/vim-taskwarrior'
 
 " linter
-Plug 'sbdchd/neoformat'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'sbdchd/neoformat'
+" Plug 'Valloric/YouCompleteMe'
 " Plug 'scrooloose/syntastic'
 " Plug 'neomake/neomake'
 Plug 'w0rp/ale'
@@ -150,23 +150,24 @@ Plug 'tomlion/vim-solidity'
 Plug 'rust-lang/rust.vim'
 Plug 'timonv/vim-cargo'
 Plug 'rhysd/vim-wasm'
+Plug 'racer-rust/vim-racer'
 
 " capnp
 Plug 'cstrahan/vim-capnp'
 
 if has('nvim')
-    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-    Plug 'zchee/deoplete-go', {'build': {'unix': 'make'}}
-    " Plug 'carlitux/deoplete-ternjs'
     Plug 'Shougo/vimproc.vim', {'do' : 'make'}
     Plug 'autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',
         \ 'do': 'bash install.sh',
         \ }
 else
-    Plug 'Shougo/neocomplete.vim'
+    Plug 'Shougo/deoplete.vim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
 end
 
 " fancy

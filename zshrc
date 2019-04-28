@@ -5,7 +5,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -124,9 +124,9 @@ export NVM_DIR="$HOME/.nvm"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # powerline
-powerline-daemon -q
-powerline_installation="$HOME/.local/lib/python3.5/site-packages/powerline"
-. "$powerline_installation/bindings/zsh/powerline.zsh"
+# powerline-daemon -q
+# powerline_installation="$HOME/.local/lib/python3.5/site-packages/powerline"
+# . "$powerline_installation/bindings/zsh/powerline.zsh"
 
 # autosuggestions
 bindkey '^@' autosuggest-execute

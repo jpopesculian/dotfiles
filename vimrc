@@ -9,7 +9,14 @@ source ~/.vim/bootstrap.vim
 source ~/.vim/bundles.vim
 " source ~/.vim/autoload/pathogen.vim
 
+let g:deoplete#enable_at_startup = 1
+
 " Colors
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 syntax enable " source system syntax file
 syntax on " use background setting for highlight
 set t_Co=256 " always use 256 colors (FIXME doesnt degrade well)
@@ -22,6 +29,7 @@ fun! ToggleColor()
         colorscheme hybrid
     endif
 endf
+set background=light
 call ToggleColor() " set default to dark
 
 " UI Config
@@ -328,6 +336,7 @@ let g:ale_set_highlights = 0
 let g:ale_sign_warning = ''
 let g:ale_sign_error = ''
 let g:ale_linters = {
+\   'rust': ['cargo'],
 \   'typescript': ['tsserver', 'tslint'],
 \   'javascript': ['eslint']
 \}
@@ -339,7 +348,26 @@ let g:ale_fixers = {
 \   'rust': ['rustfmt']
 \}
 let g:ale_fix_on_save = 1
-" let g:ale_rust_cargo_include_features = 'clippy'
+
+" rust
+let g:ale_rust_cargo_check_all_targets = 1
+let g:ale_rust_cargo_check_tests = 1
+let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
+" let g:ale_rust_rls_config = {
+"       \   'rust': {
+"       \     'clippy_preference': 'on'
+"       \   }
+"       \ }
+let g:ale_rust_rustfmt_options = '--unstable-features --edition 2018'
+
+let g:racer_cmd = "/home/user/.cargo/bin/racer"
+let g:racer_experimental_completer = 1
+let g:racer_insert_paren = 1
+
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
 " javascript
 let g:javascript_plugin_jsdoc = 1
@@ -402,11 +430,12 @@ let g:tagbar_type_typescript = {
   \ }
 
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
     \ 'python': ['python3', '-m', 'pyls'],
     \ }
+
+" \ 'rust': ['~/.cargo/bin/rustup', 'run', 'nightly', 'rls'],
 
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 
