@@ -6,6 +6,8 @@ export ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 ZSH_THEME="powerlevel9k/powerlevel9k"
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir virtualenv vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs)
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -60,7 +62,7 @@ autoload -Uz compinit && compinit -i
 
 GO_VERSION="1.9"
 
-export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.rvm/bin:$HOME/.rvm/bin:$HOME/.go/bin:$HOME/.vimpkg/bin:$HOME/.local/bin:/usr/lib/go-$GO_VERSION/bin"
+export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.go/bin:$HOME/.vimpkg/bin:$HOME/.local/bin:/usr/lib/go-$GO_VERSION/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 export GOPATH="$HOME/.go"
@@ -74,7 +76,7 @@ export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/plat
 export RUST_HOME="$HOME/.cargo/bin"
 export PATH="$PATH:$RUST_HOME"
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+source /usr/local/rvm/scripts/rvm
 
 export PATH="$PATH:/opt/flutter/bin"
 
@@ -82,7 +84,6 @@ export PATH=/home/julian/.nimble/bin:$PATH
 alias nimrun="nim c -r --verbosity:0"
 
 export EDITOR=nvim
-export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 export NODE_ENV='development'
 
@@ -149,6 +150,10 @@ _direnv_hook() {
 typeset -ag precmd_functions;
 if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
   precmd_functions+=_direnv_hook;
+fi
+
+if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
+  source "${VIRTUAL_ENV}/bin/activate"
 fi
 
 eval "$(hub alias -s)"

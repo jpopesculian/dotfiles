@@ -249,7 +249,7 @@ xnoremap <silent> b gq
 " Run ALEFix
 nnoremap <leader>, :ALEFix<CR>
 
-"Run a python file
+"Run a file
 autocmd FileType python nnoremap <leader>! :exec '!python' shellescape(@%, 1)<cr>
 autocmd FileType rust nnoremap <leader>! :CargoRun<CR>
 
@@ -336,6 +336,7 @@ let g:ale_set_highlights = 0
 let g:ale_sign_warning = ''
 let g:ale_sign_error = ''
 let g:ale_linters = {
+\   'python': ['flake8'],
 \   'rust': ['cargo'],
 \   'typescript': ['tsserver', 'tslint'],
 \   'javascript': ['eslint']
@@ -360,14 +361,14 @@ let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 "       \ }
 let g:ale_rust_rustfmt_options = '--unstable-features --edition 2018'
 
-let g:racer_cmd = "/home/user/.cargo/bin/racer"
+let g:racer_cmd = "/home/julian/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
-let g:racer_insert_paren = 1
 
 au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
 
 " javascript
 let g:javascript_plugin_jsdoc = 1
@@ -396,6 +397,14 @@ let g:go_bin_path = expand("~/.go/bin")
 let g:rubycomplete_rails = 1
 let g:rubycomplete_load_gemfile = 1
 let g:rubycomplete_use_bundler = 1
+
+" python
+let g:python_host_prog = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3'
+
+let g:ale_python_auto_pipenv = 1
+let g:ale_python_flake8_use_global = 1
+let g:ale_python_flake8_auto_pipenv = 1
 
 " silver searcher
 
@@ -432,13 +441,12 @@ let g:tagbar_type_typescript = {
 let g:LanguageClient_serverCommands = {
     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['python3', '-m', 'pyls'],
     \ }
 
+" \ 'python': ['python3', '-m', 'pyls'],
 " \ 'rust': ['~/.cargo/bin/rustup', 'run', 'nightly', 'rls'],
 
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-
 
 " js templates
 " call jspretmpl#register_tag('gql', 'graphql')

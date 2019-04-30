@@ -84,8 +84,8 @@ Plug 'hhsnopek/vim-sugarss'
 Plug 'groenewege/vim-less'
 
 " Python
-" Plug 'davidhalter/jedi-vim' ' trying out ycm instead
-" Plug 'klen/python-mode'
+" Plug 'plytophogy/vim-virtualenv'
+Plug 'deoplete-plugins/deoplete-jedi'
 
 " Ruby
 Plug 'vim-ruby/vim-ruby'
