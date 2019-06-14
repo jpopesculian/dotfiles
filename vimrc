@@ -129,6 +129,7 @@ nmap <silent> <A-l> <C-w>l
 
 " Leader mappings (use :map <leader> to see all mappings in order)
 let mapleader=" "
+let maplocalleader="\\"
 
 " White space
 nnoremap <leader>S :%s/\s\+$//<CR>
@@ -234,6 +235,7 @@ nnoremap <leader>cl :ccl <bar> lcl<cr>
 " Run current file
 nnoremap <leader>x :!./%<cr>
 autocmd FileType clojure nnoremap <leader>x :%Eval<cr>
+autocmd FileType lua nnoremap <leader>x :!lua5.3 %<cr>
 
 " Tagbar
 nnoremap <leader>l :TagbarToggle<CR>
@@ -246,8 +248,9 @@ nnoremap <leader>bw :%!xxd -r<CR>
 nnoremap <silent> b gqap
 xnoremap <silent> b gq
 
-" Run ALEFix
+" Run ALE commands
 nnoremap <leader>, :ALEFix<CR>
+nnoremap <leader>? :ALEDetail<CR>
 
 "Run a file
 autocmd FileType python nnoremap <leader>! :exec '!python' shellescape(@%, 1)<cr>
@@ -289,8 +292,8 @@ set completeopt=longest,menuone,preview
 " let g:tern#command = ['tern']
 " let g:tern#arguments = ['--persistent']
 
-autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-autocmd FileType typescript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+" autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+" autocmd FileType typescript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
@@ -336,16 +339,22 @@ let g:ale_set_highlights = 0
 let g:ale_sign_warning = ''
 let g:ale_sign_error = ''
 let g:ale_linters = {
+\   'c': ['clang', 'gcc'],
+\   'go': ['gofmt', 'gobuild', 'golangserver'],
 \   'python': ['flake8'],
 \   'rust': ['cargo'],
 \   'typescript': ['tsserver', 'tslint'],
-\   'javascript': ['eslint']
+\   'solidity': ['solhint', 'solium'],
+\   'javascript': [],
+\   'kotlin': ['kotlinc', 'ktlint', 'languageserver'],
+\   'lua': ['luac', 'luacheck']
 \}
 let g:ale_fixers = {
 \   'typescript': ['prettier'],
 \   'json': [],
 \   'javascript': ['prettier'],
 \   'css': ['prettier'],
+\   'java': ['google_java_format'],
 \   'rust': ['rustfmt']
 \}
 let g:ale_fix_on_save = 1
@@ -354,11 +363,7 @@ let g:ale_fix_on_save = 1
 let g:ale_rust_cargo_check_all_targets = 1
 let g:ale_rust_cargo_check_tests = 1
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
-" let g:ale_rust_rls_config = {
-"       \   'rust': {
-"       \     'clippy_preference': 'on'
-"       \   }
-"       \ }
+" let g:ale_rust_cargo_clippy_options = '--warn clippy::pedantic'
 let g:ale_rust_rustfmt_options = '--unstable-features --edition 2018'
 
 let g:racer_cmd = "/home/julian/.cargo/bin/racer"
@@ -369,11 +374,20 @@ au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
+" lua
+let g:ale_lua_luac_executable = "/usr/bin/luac5.3"
+
+" c
+let g:ale_c_parse_makefile = 1
 
 " javascript
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_flow = 1
-let g:flow#autoclose = 1
+let g:javascript_plugin_jsdoc = 0
+let g:javascript_plugin_flow = 0
+let g:flow#autoclose = 0
+
+" java
+let g:ale_java_google_java_format_options = '--skip-removing-unused-imports'
+let g:ale_kotlin_languageserver_executable = '/home/julian/opt/KotlinLanguageServer/server/build/install/server/bin/server'
 
 " nerdcommenter
 let g:NERDSpaceDelims = 1
@@ -381,9 +395,9 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 
 " autoformat
-autocmd FileType javascript set formatprg=prettier\ --stdin\ --single-quote\
-let g:neoformat_try_formatprg = 1
-autocmd BufWritePre *.js if matchend(fnameescape(expand('%:p')), 'single-ops') < 0 | Neoformat
+" autocmd FileType javascript set formatprg=prettier\ --stdin\ --single-quote\
+" let g:neoformat_try_formatprg = 1
+" autocmd BufWritePre *.js if matchend(fnameescape(expand('%:p')), 'single-ops') < 0 | Neoformat
 
 "easytags
 let g:easytags_async = 1
@@ -441,6 +455,7 @@ let g:tagbar_type_typescript = {
 let g:LanguageClient_serverCommands = {
     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    \ 'go': ['/home/julian/.go/bin/go-langserver'],
     \ }
 
 " \ 'python': ['python3', '-m', 'pyls'],

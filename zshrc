@@ -54,20 +54,22 @@ export DISABLE_AUTO_TITLE=true
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmuxinator tmux history zsh-autosuggestions)
+plugins=(git tmuxinator tmux history zsh-autosuggestions vi-mode)
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
 # User configuration
 
-GO_VERSION="1.9"
 
-export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.go/bin:$HOME/.vimpkg/bin:$HOME/.local/bin:/usr/lib/go-$GO_VERSION/bin"
+export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.vimpkg/bin:$HOME/.local/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
+export GO_VERSION="1.12"
 export GOPATH="$HOME/.go"
 export GOBIN="$GOPATH/bin"
 export GOROOT="/usr/lib/go-$GO_VERSION"
+export GO111MODULE=on
+export PATH="$GOROOT/bin:$GOBIN:$PATH"
 
 export ANDROID_HOME="$HOME/Android/Sdk"
 export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
@@ -135,12 +137,11 @@ bindkey '^[[Z' autosuggest-accept
 
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
-alias lah='exa -lah -a --git --group-directories-first'
+alias lah='exa -lagh -a --git --group-directories-first'
 
 alias et=$EDITOR
-NOTES_PATH="$HOME/Documents/notes"
+NOTES_PATH="$HOME/Dropbox/notes"
 alias notes="mkdir -p $NOTES_PATH/$(date +%Y/%m/%d) && $EDITOR $NOTES_PATH/$(date +%Y/%m/%d)/notes.md"
-alias todo=todolist
 
 alias mux=tmuxinator
 
@@ -175,6 +176,8 @@ alias goreflex='reflex -r "\.go$" make'
 alias vpn-on='sudo protonvpn-cli -update && sudo protonvpn-cli -cc'
 alias vpn-off='sudo protonvpn-cli -disconnect'
 
+alias inds="gnome-shell-extension-tool -r appindicatorsupport@rgcjonas.gmail.com"
+
 # eos
 # export EOS_HOME="/home/julian/Development/eos-dev"
 # export EOS_ACCOUNT="julian"
@@ -200,10 +203,64 @@ alias vpn-off='sudo protonvpn-cli -disconnect'
 
 nvm-sudo() { sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"; sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm" }
 
-
 alias internet-connected='wget --spider --quiet http://google.com'
 
 eval $(thefuck --alias)
+
+# gdrive
+GDRIVE_DIR=/mnt/gcsf
+alias gdrive-mnt="sudo systemctl start gdrive"
+alias gdrive="ranger $GDRIVE_DIR"
+
+# todo
+TODO_DIR=/opt/todo.txt_cli-2.11.0
+alias t=$TODO_DIR/todo.sh
+source $TODO_DIR/todo_completion complete -F _todo t
+
+# kubectl
+source <(kubectl completion zsh)
+
+# lua
+alias lua=lua5.3
+alias luac=luac5.3
+
+# emsdk (emscripten)
+emsdk-env() { source /opt/emsdk/emsdk_env.sh }
+
+# swig
+export SWIG_PATH=/home/julian/opt/swigtool/bin
+export PATH=$SWIG_PATH:$PATH
+
+# LD LIBRARY
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig
+
+# sgx
+export SGX_HOME=/usr/local/sgx/sgxsdk
+source $SGX_HOME/environment
+export SGXSDK_INCLUDE_DIRS=$SGX_HOME/include
+# export GRAPHENE_HOME="/opt/graphene"
+# export PATH="$GRAPHENE_HOME/Runtime:$GRAPHENE_HOME/Tools:$GRAPHENE_HOME/Scripts:$PATH"
+# export PATH="$GRAPHENE_HOME/Pal/src/host/Linux-SGX/signer:$PATH"
+# load-graphene() {
+#     pushd $GRAPHENE_HOME/Pal/src/host/Linux-SGX/sgx-driver
+#     make
+#     sudo ./load.sh
+#     popd
+# }
+
+# pyenv
+export PYENV_ROOT="$HOME/opt/pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1;then
+    eval "$(pyenv init -)"
+fi
+
+# Primus
+export PRIMUS_HOME=/usr/local/primus
+export PATH=$PRIMUS_HOME/bin:$PRIMUS_HOME/openssl/1.0.2m/bin:$PRIMUS_HOME/apache/2.4.29/bin:$PATH
+export LD_LIBRARY_PATH=$PRIMUS_HOME/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=$PRIMUS_HOME/include:$C_INCLUDE_PATH
 
 # alias loadenv() { f=${1:-".env"}; export $(grep -v '^#' $f | xargs -d '\n'); }
 # alias unloadenv() { f=${1:-".env"}; unset $(grep -v '^#' $f | sed -E 's/(.*)=.*/\1/' | xargs -d '\n'); }
@@ -222,3 +279,7 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # opam configuration
 # test -r /home/julian/.opam/opam-init/init.zsh && . /home/julian/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/julian/.sdkman"
+[[ -s "/home/julian/.sdkman/bin/sdkman-init.sh" ]] && source "/home/julian/.sdkman/bin/sdkman-init.sh"

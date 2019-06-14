@@ -34,6 +34,7 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-db'
 Plug 'tpope/vim-abolish'
 Plug 'blindFS/vim-taskwarrior'
+Plug 'airblade/vim-rooter'
 
 " linter
 " Plug 'sbdchd/neoformat'
@@ -54,15 +55,16 @@ Plug 'othree/jspc.vim'
 " Javascript
 " Plug 'pangloss/vim-javascript'
 " Plug 'jelera/vim-javascript-syntax'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'kchmck/vim-coffee-script'
+" Plug 'othree/javascript-libraries-syntax.vim'
+" Plug 'kchmck/vim-coffee-script'
 " Plug 'posva/vim-vue'
-Plug 'mxw/vim-jsx'
+" Plug 'mxw/vim-jsx'
 " Plug 'flowtype/vim-flow'
 " Plug 'othree/yajs.vim'
-Plug 'othree/yajs.vim'
-Plug 'othree/es.next.syntax.vim'
-Plug 'Quramy/vim-js-pretty-template'
+" Plug 'othree/yajs.vim'
+" Plug 'othree/es.next.syntax.vim'
+" Plug 'Quramy/vim-js-pretty-template'
+
 " JSON
 Plug 'elzr/vim-json'
 Plug 'jparise/vim-graphql'
@@ -121,13 +123,15 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'reedes/vim-pencil'
 Plug 'jceb/vim-orgmode'
+Plug 'freitass/todo.txt-vim'
 
 " Roku Brightscript
 " Plug 'chooh/brightscript.vim'
 
 " Go
-Plug 'fatih/vim-go'
-Plug 'nsf/gocode', {'rtp': 'nvim/'}
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
 
 " fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -146,11 +150,18 @@ Plug 'tomlion/vim-solidity'
 " nim
 " Plug 'zah/nim.vim'
 
+" lua
+Plug 'tbastos/vim-lua'
+
 " rust
 Plug 'rust-lang/rust.vim'
 Plug 'timonv/vim-cargo'
 Plug 'rhysd/vim-wasm'
 Plug 'racer-rust/vim-racer'
+
+" JVM
+Plug 'udalov/kotlin-vim'
+Plug 'artur-shaik/vim-javacomplete2'
 
 " capnp
 Plug 'cstrahan/vim-capnp'
