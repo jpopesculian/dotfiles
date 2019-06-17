@@ -33,7 +33,7 @@ Plug 'floobits/floobits-neovim'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-db'
 Plug 'tpope/vim-abolish'
-Plug 'blindFS/vim-taskwarrior'
+" Plug 'blindFS/vim-taskwarrior'
 Plug 'airblade/vim-rooter'
 
 " linter

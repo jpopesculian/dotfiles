@@ -78,7 +78,7 @@ export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/plat
 export RUST_HOME="$HOME/.cargo/bin"
 export PATH="$PATH:$RUST_HOME"
 
-source /usr/local/rvm/scripts/rvm
+# source /usr/local/rvm/scripts/rvm
 
 export PATH="$PATH:/opt/flutter/bin"
 
@@ -145,9 +145,9 @@ alias notes="mkdir -p $NOTES_PATH/$(date +%Y/%m/%d) && $EDITOR $NOTES_PATH/$(dat
 
 alias mux=tmuxinator
 
-_direnv_hook() {
-  eval "$(direnv export zsh)";
-}
+# _direnv_hook() {
+#   eval "$(direnv export zsh)";
+# }
 typeset -ag precmd_functions;
 if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
   precmd_functions+=_direnv_hook;
@@ -205,7 +205,7 @@ nvm-sudo() { sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/l
 
 alias internet-connected='wget --spider --quiet http://google.com'
 
-eval $(thefuck --alias)
+# eval $(thefuck --alias)
 
 # gdrive
 GDRIVE_DIR=/mnt/gcsf
@@ -213,12 +213,12 @@ alias gdrive-mnt="sudo systemctl start gdrive"
 alias gdrive="ranger $GDRIVE_DIR"
 
 # todo
-TODO_DIR=/opt/todo.txt_cli-2.11.0
-alias t=$TODO_DIR/todo.sh
-source $TODO_DIR/todo_completion complete -F _todo t
+# TODO_DIR=/opt/todo.txt_cli-2.11.0
+# alias t=$TODO_DIR/todo.sh
+# source $TODO_DIR/todo_completion complete -F _todo t
 
 # kubectl
-source <(kubectl completion zsh)
+# source <(kubectl completion zsh)
 
 # lua
 alias lua=lua5.3
@@ -236,18 +236,9 @@ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig
 
 # sgx
-export SGX_HOME=/usr/local/sgx/sgxsdk
-source $SGX_HOME/environment
-export SGXSDK_INCLUDE_DIRS=$SGX_HOME/include
-# export GRAPHENE_HOME="/opt/graphene"
-# export PATH="$GRAPHENE_HOME/Runtime:$GRAPHENE_HOME/Tools:$GRAPHENE_HOME/Scripts:$PATH"
-# export PATH="$GRAPHENE_HOME/Pal/src/host/Linux-SGX/signer:$PATH"
-# load-graphene() {
-#     pushd $GRAPHENE_HOME/Pal/src/host/Linux-SGX/sgx-driver
-#     make
-#     sudo ./load.sh
-#     popd
-# }
+# export SGX_HOME=/usr/local/sgx/sgxsdk
+# source $SGX_HOME/environment
+# export SGXSDK_INCLUDE_DIRS=$SGX_HOME/include
 
 # pyenv
 export PYENV_ROOT="$HOME/opt/pyenv"
