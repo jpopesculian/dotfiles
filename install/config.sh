@@ -10,6 +10,10 @@ set -e
 
 pushd $HOME
 
+pushd $HOME/.dotfiles
+git submodule update --init --recursive
+popd
+
 sudo apt-get update
 sudo apt-get install -y curl gnupg
 
@@ -18,6 +22,8 @@ sudo apt-key fingerprint 0EBFCD88
 
 sudo apt-add-repository -y ppa:martin-frost/thoughtbot-rcm
 sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
+sudo apt-add-repository -y ppa:neovim-ppa/stable
 
 sudo apt-get update
 
@@ -32,6 +38,8 @@ sudo apt-get install -y \
     neovim \
     python-pip \
     python3-pip \
+    exuberant-ctags \
+    python-fontforge \
     rcm \
     redis-server \
     silversearcher-ag \
@@ -43,23 +51,48 @@ sudo apt-get install -y \
     docker-ce-cli \
     containerd.io \
     unzip \
+    xsel \
     kitty \
     zsh
 
 sudo usermod -aG docker julian
 
+pip2 install configparser
+pip3 install --user git+git://github.com/powerline/powerline
+pip2 install pynvim
+pip3 install pynvim
+
+mkdir -p ~/.oh-my-zsh/custom/themes/
+git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+pushd $HOME/Downloads
+
+wget https://github.com/ogham/exa/releases/download/v0.8.0/exa-linux-x86_64-0.8.0.zip
+unzip exa-linux-x86_64-0.8.0.zip
+sudo mv exa-linux-x86_64 /usr/bin/exa
+
+wget https://github.com/sharkdp/bat/releases/download/v0.11.0/bat_0.11.0_amd64.deb
+sudo dpkg -i bat_0.11.0_amd64.deb
+
+https://github.com/github/hub/releases/download/v2.12.0/hub-linux-amd64-2.12.0.tgz
+tar -xvf hub-linux-amd64-2.12.0.tgz
+sudo mv hub-linux-amd64-2.12.0/bin/hub /usr/bin
+
+wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
+sudo chmod +x diff-so-fancy
+sudo mv diff-so-fancy /usr/bin
+
+popd
+
 # node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 export NVM_DIR="${XDG_CONFIG_HOME/:-$HOME/.}nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-nvm install node
-nvm use node
-npm install -g yarn
 
-# oh-my-zsh
-git clone git@github.com:robbyrussell/oh-my-zsh.git .oh-my-zsh
-mkdir -p ~/.oh-my-zsh/custom/themes/
-git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+# nvm install node
+# nvm use node
+# npm install -g yarn neovim
 
 # rvm
 # gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
@@ -74,6 +107,9 @@ mv 10-powerline-symbols.conf $HOME/.config/fontconfig/conf.d/
 
 pushd $HOME/Downloads
 git clone git@github.com:ryanoasis/nerd-fonts.git
+pushd nerd-fonts
+./install.sh
+popd
 wget https://github.com/tonsky/FiraCode/releases/download/1.206/FiraCode_1.206.zip
 mkdir $HOME/.fonts/FiraCode
 unzip -d $HOME/.fonts/FiraCode FiraCode_1.206.zip

@@ -61,7 +61,7 @@ autoload -Uz compinit && compinit -i
 # User configuration
 
 
-export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.vimpkg/bin:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.vimpkg/bin:$HOME/.local/bin:$HOME/.local/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 export GO_VERSION="1.12"
