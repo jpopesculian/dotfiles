@@ -54,7 +54,7 @@ export DISABLE_AUTO_TITLE=true
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmuxinator tmux history zsh-autosuggestions vi-mode)
+plugins=(git tmuxinator tmux history zsh-autosuggestions vi-mode emoji)
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
@@ -67,7 +67,7 @@ export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/
 export GO_VERSION="1.12"
 export GOPATH="$HOME/.go"
 export GOBIN="$GOPATH/bin"
-export GOROOT="/usr/lib/go-$GO_VERSION"
+export GOROOT="/usr/local/go-$GO_VERSION"
 export GO111MODULE=on
 export PATH="$GOROOT/bin:$GOBIN:$PATH"
 
@@ -236,9 +236,9 @@ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig
 
 # sgx
-# export SGX_HOME=/usr/local/sgx/sgxsdk
-# source $SGX_HOME/environment
-# export SGXSDK_INCLUDE_DIRS=$SGX_HOME/include
+export SGX_HOME=/opt/intel/sgxsdk
+source $SGX_HOME/environment
+export SGXSDK_INCLUDE_DIRS=$SGX_HOME/include
 
 # pyenv
 export PYENV_ROOT="$HOME/opt/pyenv"
@@ -262,7 +262,9 @@ alias ls="exa"
 alias ping="prettyping --nolegend"
 alias preview="fzf --preview 'bat --color \"always\" {}'"
 alias help="tldr"
+alias m="make"
 copy() { \cat $1 | pbcopy }
+emopy() { echo -n "$emoji[$1]" | pbcopy }
 
 eval "$POST_RC_EXEC"
 

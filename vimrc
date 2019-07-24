@@ -346,7 +346,7 @@ let g:ale_linters = {
 \   'typescript': ['tsserver', 'tslint'],
 \   'solidity': ['solhint', 'solium'],
 \   'javascript': [],
-\   'kotlin': ['kotlinc', 'ktlint', 'languageserver'],
+\   'kotlin': [],
 \   'lua': ['luac', 'luacheck']
 \}
 let g:ale_fixers = {
@@ -358,6 +358,7 @@ let g:ale_fixers = {
 \   'rust': ['rustfmt']
 \}
 let g:ale_fix_on_save = 1
+" \   'kotlin': ['kotlinc', 'ktlint', 'languageserver'],
 
 " rust
 let g:ale_rust_cargo_check_all_targets = 1
@@ -457,6 +458,8 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
     \ 'go': ['/home/julian/.go/bin/go-langserver'],
     \ }
+
+let g:rooter_patterns = ['build.gradle', '.git/', 'package.json', 'Cargo.toml']
 
 " \ 'python': ['python3', '-m', 'pyls'],
 " \ 'rust': ['~/.cargo/bin/rustup', 'run', 'nightly', 'rls'],
