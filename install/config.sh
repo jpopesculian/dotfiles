@@ -81,9 +81,9 @@ sudo mv exa-linux-x86_64 /usr/bin/exa
 wget https://github.com/sharkdp/bat/releases/download/v0.11.0/bat_0.11.0_amd64.deb
 sudo dpkg -i bat_0.11.0_amd64.deb
 
-https://github.com/github/hub/releases/download/v2.12.0/hub-linux-amd64-2.12.0.tgz
-tar -xvf hub-linux-amd64-2.12.0.tgz
-sudo mv hub-linux-amd64-2.12.0/bin/hub /usr/bin
+wget https://github.com/github/hub/releases/download/v2.12.3/hub-linux-amd64-2.12.3.tgz
+tar -xvf hub-linux-amd64-2.12.3.tgz
+sudo mv hub-linux-amd64-2.12.3/bin/hub /usr/bin
 
 wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
 sudo chmod +x diff-so-fancy
