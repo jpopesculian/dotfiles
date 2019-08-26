@@ -221,8 +221,8 @@ alias gdrive="ranger $GDRIVE_DIR"
 # source <(kubectl completion zsh)
 
 # lua
-alias lua=lua5.3
-alias luac=luac5.3
+# alias lua=lua5.3
+# alias luac=luac5.3
 
 # emsdk (emscripten)
 emsdk-env() { source /opt/emsdk/emsdk_env.sh }
@@ -264,7 +264,8 @@ alias preview="fzf --preview 'bat --color \"always\" {}'"
 alias help="tldr"
 alias m="make"
 copy() { \cat $1 | pbcopy }
-emopy() { echo -n "$emoji[$1]" | pbcopy }
+emopy() { echo -n "$emoji[$1]" | pbcopy && echo "$emoji[$1]" }
+alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm laniksj/dfimage"
 
 eval "$POST_RC_EXEC"
 
