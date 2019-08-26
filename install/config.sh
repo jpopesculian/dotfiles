@@ -89,6 +89,10 @@ wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party
 sudo chmod +x diff-so-fancy
 sudo mv diff-so-fancy /usr/bin
 
+wget -O prettyping https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettyping
+sudo chmod +x prettyping
+sudo mv prettyping /usr/bin
+
 popd
 
 # node
