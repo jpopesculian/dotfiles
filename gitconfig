@@ -1,7 +1,9 @@
 [user]
 	email = jpopesculian@gmail.com
 	name = Julian Popescu
-	signingkey = 6D744D37
+	; signingkey = 6D744D37
+[commit]
+	; gpgsign = true
 [core]
 	text = auto
 	excludesfile = ~/.gitignore
@@ -40,8 +42,6 @@
     cmd = "nvim -d -u ~/.vimrc \"$LOCAL\" \"$REMOTE\""
 [fetch]
 	prune = true
-[commit]
-	gpgsign = true
 [alias]
 	please = push --force-with-lease
 	commend = commit --amend --no-edit

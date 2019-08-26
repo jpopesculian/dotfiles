@@ -236,9 +236,11 @@ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig
 
 # sgx
-export SGX_HOME=/opt/intel/sgxsdk
-source $SGX_HOME/environment
-export SGXSDK_INCLUDE_DIRS=$SGX_HOME/include
+if [[ -d /opt/intel ]]; then
+    export SGX_HOME=/opt/intel/sgxsdk
+    source $SGX_HOME/environment
+    export SGXSDK_INCLUDE_DIRS=$SGX_HOME/include
+fi
 
 # pyenv
 export PYENV_ROOT="$HOME/opt/pyenv"
