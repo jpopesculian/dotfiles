@@ -59,6 +59,7 @@ sudo apt-get install -y \
     unzip \
     xsel \
     kitty \
+    jq \
     zsh
 
 sudo usermod -aG docker julian
@@ -71,6 +72,10 @@ pip3 install pynvim
 mkdir -p ~/.oh-my-zsh/custom/themes/
 git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+mkdir -p ~/.local
+git clone https://github.com/b4b4r07/emoji-cli.git ~/.local/emoji-cli
+
 
 pushd $HOME/Downloads
 

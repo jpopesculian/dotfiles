@@ -217,8 +217,8 @@ nnoremap <leader>vb :tabe ~/.dotfiles/vim/bundles.vim<CR>
 nnoremap <leader>vs :so $MYVIMRC<CR>
 nnoremap <leader>vw :w<CR>:so $MYVIMRC<CR>
 
-" Using vundle
-nnoremap <leader>vi :PluginClean<CR>:PluginInstall<CR>
+" Using Plug
+nnoremap <leader>vi :PlugClean<CR>:PlugInstall<CR>
 
 " Task List
 nnoremap <leader>v <Plug>TaskList
@@ -245,8 +245,7 @@ nnoremap <leader>br :%!xxd<CR>
 nnoremap <leader>bw :%!xxd -r<CR>
 
 " Format with pencil
-nnoremap <silent> b gqap
-xnoremap <silent> b gq
+nnoremap <leader>b :Goyo<CR>
 
 " Run ALE commands
 nnoremap <leader>, :ALEFix<CR>

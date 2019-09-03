@@ -124,6 +124,7 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'reedes/vim-pencil'
 Plug 'jceb/vim-orgmode'
 Plug 'freitass/todo.txt-vim'
+Plug 'junegunn/goyo.vim'
 
 " Roku Brightscript
 " Plug 'chooh/brightscript.vim'

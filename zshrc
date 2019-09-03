@@ -54,7 +54,7 @@ export DISABLE_AUTO_TITLE=true
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmuxinator tmux history zsh-autosuggestions vi-mode emoji)
+plugins=(git tmuxinator tmux history zsh-autosuggestions vi-mode)
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
@@ -249,6 +249,12 @@ if command -v pyenv 1>/dev/null 2>&1;then
     eval "$(pyenv init -)"
 fi
 
+# emoji cli
+if [[ -d /opt/intel ]]; then
+    source $HOME/.local/emoji-cli/emoji-cli.zsh
+fi
+export EMOJI_CLI_USE_EMOJI=1
+
 # Primus
 export PRIMUS_HOME=/usr/local/primus
 export PATH=$PRIMUS_HOME/bin:$PRIMUS_HOME/openssl/1.0.2m/bin:$PRIMUS_HOME/apache/2.4.29/bin:$PATH
@@ -266,7 +272,6 @@ alias preview="fzf --preview 'bat --color \"always\" {}'"
 alias help="tldr"
 alias m="make"
 copy() { \cat $1 | pbcopy }
-emopy() { echo -n "$emoji[$1]" | pbcopy && echo "$emoji[$1]" }
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm laniksj/dfimage"
 
 eval "$POST_RC_EXEC"
