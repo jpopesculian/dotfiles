@@ -1,6 +1,10 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
+export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.vimpkg/bin:$HOME/.local/bin:$HOME/.local/bin"
+
+export PYTHON_USER_SITE=$(python3 -m site --user-site)
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -61,7 +65,6 @@ autoload -Uz compinit && compinit -i
 # User configuration
 
 
-export PATH="$PATH:$HOME/.dnx/runtimes/dnx-mono.1.0.0-beta5/bin:$HOME/.dnx/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.vimpkg/bin:$HOME/.local/bin:$HOME/.local/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 export GO_VERSION="1.12"
@@ -120,10 +123,6 @@ alias gpgkill="gpg-connect-agent learn /bye"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# powerline
-# powerline-daemon -q
-# powerline_installation="$HOME/.local/lib/python3.5/site-packages/powerline"
-# . "$powerline_installation/bindings/zsh/powerline.zsh"
 
 # autosuggestions
 bindkey '^@' autosuggest-execute

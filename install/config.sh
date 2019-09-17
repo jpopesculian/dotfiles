@@ -35,7 +35,9 @@ sudo apt-get install -y \
     apt-transport-https \
     build-essential \
     ca-certificates \
+    scdaemon \
     curl \
+    jq \
     gnome-tweak-tool \
     gnupg-agent \
     htop \
