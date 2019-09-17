@@ -35,6 +35,7 @@ Plug 'tpope/vim-db'
 Plug 'tpope/vim-abolish'
 " Plug 'blindFS/vim-taskwarrior'
 Plug 'airblade/vim-rooter'
+Plug 'metakirby5/codi.vim'
 
 " linter
 " Plug 'sbdchd/neoformat'

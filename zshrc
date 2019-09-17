@@ -104,18 +104,12 @@ export NVM_DIR="$HOME/.nvm"
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+alias gpgkill="gpg-connect-agent learn /bye"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -273,10 +267,28 @@ alias help="tldr"
 alias m="make"
 copy() { \cat $1 | pbcopy }
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm laniksj/dfimage"
+alias lnmap="nmap -sP $( hostname -I | awk '/(192|10)\./{print $1}' | sed -E 's/([0-9]*\.[0-9]*\.[0-9]*)(\.[0-9]*)/\1.1\/24/')"
+alias kb="keybase"
+rwifi() { sudo modprobe -r iwlwifi; sudo modprobe iwlwifi }
+alias v="nvim"
+alias vf='nvim $(fzf)'
 
 eval "$POST_RC_EXEC"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# codi
+codi() {
+  local syntax="${1:-javascript}"
+  shift
+  nvim -c \
+    "let g:startify_disable_at_vimenter = 1 |\
+    set bt=nofile ls=0 noru nonu nornu |\
+    hi ColorColumn ctermbg=NONE |\
+    hi VertSplit ctermbg=NONE |\
+    hi NonText ctermfg=0 |\
+    Codi $syntax" "$@"
+}
 
 # opam configuration
 # test -r /home/julian/.opam/opam-init/init.zsh && . /home/julian/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
