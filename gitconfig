@@ -1,7 +1,7 @@
 [user]
-	email = julian@riddleandcode.com
+	email = jpopesculian@gmail.com
 	name = Julian Popescu
-	signingkey = 99CD3351
+	signingkey = A99F1339
 [commit]
 	gpgsign = true
 [core]

@@ -271,6 +271,7 @@ alias kb="keybase"
 rwifi() { sudo modprobe -r iwlwifi; sudo modprobe iwlwifi }
 alias v="nvim"
 alias vf='nvim $(fzf)'
+alias yubifind='sudo bash -c "echo 0 > /sys/bus/usb/devices/usb1/1-5/power/autosuspend"'
 
 eval "$POST_RC_EXEC"
 
