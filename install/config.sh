@@ -17,17 +17,18 @@ popd
 sudo apt-get update
 sudo apt-get install -y curl gnupg
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-
-sudo apt-add-repository -y ppa:martin-frost/thoughtbot-rcm
-sudo apt-add-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-
-sudo apt-add-repository -y ppa:neovim-ppa/stable
-sudo apt-add-repository -y ppa:yubico/stable
-sudo apt-add-repository -y ppa:ubuntu-mozilla-daily/ppa
+gpg --import ./install/pubkey.asc
 
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+
+sudo apt-add-repository -y -n ppa:martin-frost/thoughtbot-rcm
+sudo apt-add-repository -y -n "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+sudo apt-add-repository -y -n ppa:neovim-ppa/stable
+sudo apt-add-repository -y -n ppa:yubico/stable
+sudo apt-add-repository -y -n ppa:ubuntu-mozilla-daily/ppa
 echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
 
 sudo apt-get update
@@ -36,6 +37,7 @@ sudo apt-get install -y \
     apt-transport-https \
     build-essential \
     ca-certificates \
+    chrome-gnome-shell \
     scdaemon \
     curl \
     jq \
@@ -43,6 +45,7 @@ sudo apt-get install -y \
     gnome-tweak-tool \
     gnupg-agent \
     htop \
+    httpie \
     neovim \
     python-pip \
     python3-pip \
@@ -62,12 +65,11 @@ sudo apt-get install -y \
     spotify-client \
     unzip \
     xsel \
-    kitty \
     libpam-u2f \
     jq \
     zsh
 
-sudo usermod -aG docker julian
+sudo usermod -aG docker $(whoami)
 
 pip2 install configparser
 pip3 install --user git+git://github.com/powerline/powerline
@@ -105,6 +107,19 @@ sudo mv prettyping /usr/bin
 
 popd
 
+# kitty
+# sudo apt-get install kitty
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+# Create a symbolic link to add kitty to PATH (assuming ~/.local/bin is in
+# your PATH)
+ln -s ~/.local/kitty.app/bin/kitty ~/.local/bin/
+# Place the kitty.desktop file somewhere it can be found by the OS
+cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications
+# Update the path to the kitty icon in the kitty.desktop file
+sed -i "s/Icon\=kitty/Icon\=\/home\/$USER\/.local\/kitty.app\/share\/icons\/hicolor\/256x256\/apps\/kitty.png/g" ~/.local/share/applications/kitty.desktop
+gsettings set org.gnome.desktop.default-applications.terminal exec "$HOME/.local/kitty.app/bin/kitty"
+
+
 # node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 export NVM_DIR="${XDG_CONFIG_HOME/:-$HOME/.}nvm"
@@ -126,7 +141,7 @@ mv PowerlineSymbols.otf $HOME/.fonts/
 mv 10-powerline-symbols.conf $HOME/.config/fontconfig/conf.d/
 
 pushd $HOME/Downloads
-git clone git@github.com:ryanoasis/nerd-fonts.git
+git clone https://github.com/ryanoasis/nerd-fonts.git
 pushd nerd-fonts
 ./install.sh
 popd

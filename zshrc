@@ -85,7 +85,7 @@ export PATH="$PATH:$RUST_HOME"
 
 export PATH="$PATH:/opt/flutter/bin"
 
-export PATH=/home/julian/.nimble/bin:$PATH
+export PATH="$HOME/.nimble/bin:$PATH"
 alias nimrun="nim c -r --verbosity:0"
 
 export EDITOR=nvim
@@ -202,7 +202,7 @@ alias gdrive="ranger $GDRIVE_DIR"
 emsdk-env() { source /opt/emsdk/emsdk_env.sh }
 
 # swig
-export SWIG_PATH=/home/julian/opt/swigtool/bin
+export SWIG_PATH="$HOME/opt/swigtool/bin"
 export PATH=$SWIG_PATH:$PATH
 
 # LD LIBRARY
@@ -270,9 +270,7 @@ codi() {
     Codi $syntax" "$@"
 }
 
-# opam configuration
-# test -r /home/julian/.opam/opam-init/init.zsh && . /home/julian/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/julian/.sdkman"
-[[ -s "/home/julian/.sdkman/bin/sdkman-init.sh" ]] && source "/home/julian/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/.sdkman/bin/sdkman-init.sh"
+

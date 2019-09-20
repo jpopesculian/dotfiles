@@ -1,7 +1,7 @@
 [submodule "config/kitty/kitty-themes"]
 	path = config/kitty/kitty-themes
-	url = git@github.com:dexpota/kitty-themes.git
+	url = https://github.com/dexpota/kitty-themes.git
 
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
-	url = git@github.com:robbyrussell/oh-my-zsh.git
+	url = https://github.com/robbyrussell/oh-my-zsh.git
