@@ -61,6 +61,7 @@ sudo apt-get install -y \
     unzip \
     xsel \
     kitty \
+    libpam-u2f \
     jq \
     zsh
 

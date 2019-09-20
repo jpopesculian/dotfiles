@@ -171,26 +171,7 @@ alias vpn-off='sudo protonvpn-cli -disconnect'
 
 alias inds="gnome-shell-extension-tool -r appindicatorsupport@rgcjonas.gmail.com"
 
-# eos
-# export EOS_HOME="/home/julian/Development/eos-dev"
-# export EOS_ACCOUNT="julian"
-
-# export EOS_DOCKER_COMPOSE="$EOS_HOME/docker-compose.yml"
-# alias eosio-exec='docker-compose -f $EOS_DOCKER_COMPOSE exec'
-# alias eosio-up='docker-compose -f $EOS_DOCKER_COMPOSE up -d'
-# alias cleos='docker-compose -f $EOS_DOCKER_COMPOSE exec keosd /opt/eosio/bin/cleos -u http://nodeosd:8888 --wallet-url http://localhost:8900'
-# alias eosio-set-keys='source $EOS_HOME/set_keys'
-# alias eosio-unlock='eosio-set-keys && cleos wallet open && cleos wallet unlock --password $private_key'
-# alias eosio-init='eosio-up && eosio-unlock'
-# eosio-compile() { d=/contracts/usr; docker exec eos-dev_nodeosd_1 eosiocpp -o $d/$1.wast $d/$1.cpp; }
-# eosio-abi() { d=/contracts/usr; docker exec eos-dev_nodeosd_1 eosiocpp -g $d/$1.abi $d/$1.cpp; }
-# eosio-build() { eosio-compile $1 && eosio-abi $1 }
-# eosio-load() { d=/contracts/usr/$(dirname $1); f=$(basename $1); cleos set contract ${2:-$EOS_ACCOUNT} $d $f.wasm $f.abi; }
-# eosio-install() { eosio-build $1 && eosio-load $1 $2 }
-
-# EOS_MAIN_COMPOSE="/home/julian/Development/eos-main/docker-compose.yml"
-# alias eosio-main-up='docker-compose -f $EOS_MAIN_COMPOSE up -d'
-# alias cleos-main='docker-compose -f $EOS_MAIN_COMPOSE exec keosd-main /opt/eosio/bin/cleos -u https://api.eosnewyork.io:443 --wallet-url http://localhost:8900'
+export DOCKER_BUILDKIT=1
 
 # export PATH="/usr/local/eosio/bin:$PATH"
 
@@ -271,7 +252,6 @@ alias kb="keybase"
 rwifi() { sudo modprobe -r iwlwifi; sudo modprobe iwlwifi }
 alias v="nvim"
 alias vf='nvim $(fzf)'
-alias yubifind='sudo bash -c "echo 0 > /sys/bus/usb/devices/usb1/1-5/power/autosuspend"'
 
 eval "$POST_RC_EXEC"
 

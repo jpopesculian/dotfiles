@@ -4,6 +4,7 @@
 	signingkey = A99F1339
 [commit]
 	gpgsign = true
+	signoff = true
 [core]
 	text = auto
 	excludesfile = ~/.gitignore
