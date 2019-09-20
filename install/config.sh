@@ -174,4 +174,9 @@ mkdir -p $HOME/Development
 # zsh shell
 chsh -s $(which zsh)
 
+pushd $HOME/.dotfiles
+git remote rm origin
+git remote add origin git@github.com:jpopesculian/dotfiles.git
+popd
+
 popd
