@@ -21,10 +21,11 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
 
 sudo apt-add-repository -y ppa:martin-frost/thoughtbot-rcm
-sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+sudo apt-add-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 
 sudo apt-add-repository -y ppa:neovim-ppa/stable
 sudo apt-add-repository -y ppa:yubico/stable
+sudo apt-add-repository -y ppa:ubuntu-mozilla-daily/ppa
 
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
 echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
@@ -38,6 +39,7 @@ sudo apt-get install -y \
     scdaemon \
     curl \
     jq \
+    firefox-trunk \
     gnome-tweak-tool \
     gnupg-agent \
     htop \
