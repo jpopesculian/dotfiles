@@ -52,6 +52,7 @@ sudo apt-get install -y \
     libpam-u2f \
     libssl-dev \
     neovim \
+    nmap \
     pkg-config \
     python-fontforge \
     python-pip \
