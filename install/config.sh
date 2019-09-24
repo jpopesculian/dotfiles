@@ -38,35 +38,36 @@ sudo apt-get install -y \
     build-essential \
     ca-certificates \
     chrome-gnome-shell \
-    scdaemon \
+    containerd.io \
     curl \
-    jq \
+    docker-ce \
+    docker-ce-cli \
+    exuberant-ctags \
     firefox-trunk \
     gnome-tweak-tool \
     gnupg-agent \
     htop \
     httpie \
+    jq \
+    libpam-u2f \
+    libssl-dev \
     neovim \
+    pkg-config \
+    python-fontforge \
     python-pip \
     python3-pip \
-    exuberant-ctags \
-    python-fontforge \
-    yubioath-desktop \
     rcm \
     redis-server \
+    scdaemon \
     silversearcher-ag \
     software-properties-common \
+    spotify-client \
     tmux \
     tmuxinator \
     unity-tweak-tool \
-    docker-ce \
-    docker-ce-cli \
-    containerd.io \
-    spotify-client \
     unzip \
     xsel \
-    libpam-u2f \
-    jq \
+    yubioath-desktop \
     zsh
 
 sudo usermod -aG docker $(whoami)
@@ -76,9 +77,13 @@ pip3 install --user git+git://github.com/powerline/powerline
 pip2 install pynvim
 pip3 install pynvim
 
+# POWERLINE
+
 mkdir -p ~/.oh-my-zsh/custom/themes/
 git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+# EMOJIs
 
 mkdir -p ~/.local
 git clone https://github.com/b4b4r07/emoji-cli.git ~/.local/emoji-cli
@@ -86,35 +91,59 @@ git clone https://github.com/b4b4r07/emoji-cli.git ~/.local/emoji-cli
 
 pushd $HOME/Downloads
 
+# === EXA (ls)
+
 wget https://github.com/ogham/exa/releases/download/v0.8.0/exa-linux-x86_64-0.8.0.zip
 unzip exa-linux-x86_64-0.8.0.zip
 sudo mv exa-linux-x86_64 /usr/bin/exa
 
+# === BAT (cat)
+
 wget https://github.com/sharkdp/bat/releases/download/v0.11.0/bat_0.11.0_amd64.deb
 sudo dpkg -i bat_0.11.0_amd64.deb
+
+# === GIT HUB
 
 wget https://github.com/github/hub/releases/download/v2.12.3/hub-linux-amd64-2.12.3.tgz
 tar -xvf hub-linux-amd64-2.12.3.tgz
 sudo mv hub-linux-amd64-2.12.3/bin/hub /usr/bin
 
+# === DIFF-SO-FANCY
+
 wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
 sudo chmod +x diff-so-fancy
 sudo mv diff-so-fancy /usr/bin
+
+# === PRETTYPING (ping)
 
 wget -O prettyping https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettyping
 sudo chmod +x prettyping
 sudo mv prettyping /usr/bin
 
+# === DOCKER-COMPOSE
+
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+
+# === CTOP
 
 CTOP_VERSION=0.7.2
 sudo wget https://github.com/bcicen/ctop/releases/download/v$CTOP_VERSION/ctop-$CTOP_VERSION-linux-amd64 -O /usr/local/bin/ctop
 sudo chmod +x /usr/local/bin/ctop
 
+# === RUST
+
+curl https://sh.rustup.rs -o rustup-init
+sudo chmod +x rustup-init
+./rustup-init -y --default-toolchain nightly
+source $HOME/.cargo/env
+rustup component add rls rust-analysis rust-src clippy rustfmt
+cargo install cargo-edit
+
 popd
 
-# kitty
+# === Kitty
+
 # sudo apt-get install kitty
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 # Create a symbolic link to add kitty to PATH (assuming ~/.local/bin is in
@@ -127,7 +156,8 @@ sed -i "s/Icon\=kitty/Icon\=\/home\/$USER\/.local\/kitty.app\/share\/icons\/hico
 gsettings set org.gnome.desktop.default-applications.terminal exec "$HOME/.local/kitty.app/bin/kitty"
 
 
-# node
+# === NODE
+
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 export NVM_DIR="${XDG_CONFIG_HOME/:-$HOME/.}nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -140,6 +170,8 @@ export NVM_DIR="${XDG_CONFIG_HOME/:-$HOME/.}nvm"
 # gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 # curl -sSL https://get.rvm.io | sudo bash -s stable
 
+# === POWERLINE FONTS
+
 mkdir -p $HOME/.fonts
 mkdir -p $HOME/.config/fontconfig/conf.d
 wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
@@ -147,14 +179,18 @@ wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbol
 mv PowerlineSymbols.otf $HOME/.fonts/
 mv 10-powerline-symbols.conf $HOME/.config/fontconfig/conf.d/
 
+# === NERD FONTS
+
 pushd $HOME/Downloads
 git clone https://github.com/ryanoasis/nerd-fonts.git
 pushd nerd-fonts
 ./install.sh
 popd
+
 wget https://github.com/tonsky/FiraCode/releases/download/1.206/FiraCode_1.206.zip
 mkdir $HOME/.fonts/FiraCode
 unzip -d $HOME/.fonts/FiraCode FiraCode_1.206.zip
+
 pushd $HOME/.fonts/FiraCode/otf
 $HOME/Downloads/nerd-fonts/font-patcher --mono --careful FiraCode-Bold.otf
 $HOME/Downloads/nerd-fonts/font-patcher --mono --careful FiraCode-Regular.otf
