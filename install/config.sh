@@ -139,7 +139,7 @@ sudo chmod +x rustup-init
 ./rustup-init -y --default-toolchain nightly
 source $HOME/.cargo/env
 rustup component add rls rust-analysis rust-src clippy rustfmt
-cargo install cargo-edit
+cargo install cargo-edit cargo-watch
 
 popd
 

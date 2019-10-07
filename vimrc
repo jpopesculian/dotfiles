@@ -221,7 +221,8 @@ nnoremap <leader>vw :w<CR>:so $MYVIMRC<CR>
 nnoremap <leader>vi :PlugClean<CR>:PlugInstall<CR>
 
 " Task List
-nnoremap <leader>v <Plug>TaskList
+" nnoremap <leader>v <Plug>TaskList
+nnoremap <leader>v :GrammarousCheck<CR>
 
 " Saving and Exiting
 nnoremap <leader>w :w<CR>
@@ -427,6 +428,20 @@ let g:ackprg = 'ag --vimgrep --smart-case'
 " cnoreabbrev aG Ack
 " cnoreabbrev Ag Ack
 " cnoreabbrev AG Ack
+
+let g:grammarous#default_comments_only_filetypes = {
+            \ '*' : 1, 'help' : 0, 'markdown' : 0,
+            \ }
+let g:grammarous#hooks = {}
+function! g:grammarous#hooks.on_check(errs) abort
+    nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
+    nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
+endfunction
+
+function! g:grammarous#hooks.on_reset(errs) abort
+    nunmap <buffer><C-n>
+    nunmap <buffer><C-p>
+endfunction
 
 " devicons
 let g:WebDevIconsUnicodeGlyphDoubleWidth = 0

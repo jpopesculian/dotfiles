@@ -224,7 +224,7 @@ if command -v pyenv 1>/dev/null 2>&1;then
 fi
 
 # emoji cli
-if [[ -d /opt/intel ]]; then
+if [[ -d $HOME/.local/emoji-cli ]]; then
     source $HOME/.local/emoji-cli/emoji-cli.zsh
 fi
 export EMOJI_CLI_USE_EMOJI=1
@@ -250,8 +250,10 @@ alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm lani
 alias lnmap="nmap -sP $( hostname -I | awk '/(192|10)\./{print $1}' | sed -E 's/([0-9]*\.[0-9]*\.[0-9]*)(\.[0-9]*)/\1.1\/24/')"
 alias kb="keybase"
 rwifi() { sudo modprobe -r iwlwifi; sudo modprobe iwlwifi }
+
 alias v="nvim"
 alias vf='nvim $(fzf)'
+bindkey -s '^e' "vf\n"
 
 eval "$POST_RC_EXEC"
 
