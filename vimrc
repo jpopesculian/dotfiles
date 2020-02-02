@@ -9,8 +9,6 @@ source ~/.vim/bootstrap.vim
 source ~/.vim/bundles.vim
 " source ~/.vim/autoload/pathogen.vim
 
-let g:deoplete#enable_at_startup = 1
-
 " Colors
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -76,13 +74,13 @@ autocmd FocusLost * silent! wa " write all on lost focus
 autocmd TabLeave * silent! wa " autowriteall doesn't capture tab changing
 
 " Undo
-" set undofile
-" set undolevels=1000 " max changes
-" set undoreload=10000 " max lines saved on buffer reload
-" set undodir=~/.vim/undodir
-" if empty(glob(&undodir))
-"     call system('mkdir ' . &undodir)
-" endif
+set undofile
+set undolevels=1000 " max changes
+set undoreload=10000 " max lines saved on buffer reload
+set undodir=~/.vim/undodir
+if empty(glob(&undodir))
+    call system('mkdir ' . &undodir)
+endif
 
 " Searching
 set incsearch " Find the next match as we type the search
@@ -202,9 +200,6 @@ nnoremap <leader>1 :diffget LOCAL<cr>
 nnoremap <leader>2 :diffget BASE<cr>
 nnoremap <leader>3 :diffget REMOTE<cr>
 
-" Copy/pasting from system registers
-noremap <leader>p "+
-
 " Open file in browser
 nnoremap <leader>co :!google-chrome '%'<CR>
 " on macosx
@@ -248,9 +243,6 @@ nnoremap <leader>bw :%!xxd -r<CR>
 " Format with pencil
 nnoremap <leader>b :Goyo<CR>
 
-" Run ALE commands
-nnoremap <leader>, :ALEFix<CR>
-nnoremap <leader>? :ALEDetail<CR>
 
 "Run a file
 autocmd FileType python nnoremap <leader>! :exec '!python' shellescape(@%, 1)<cr>
@@ -278,31 +270,76 @@ function! TxtMode()
 endfunction
 command! English call TxtMode()
 
-set completeopt=longest,menuone,preview
+" COC settings
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
 
-" deoplete
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#omni#functions = {}
-" let g:deoplete#omni#functions.javascript = [
-"   \ 'tern#Complete',
-"   \ 'jspc#omni'
-" \]
-" let g:deoplete#sources = {}
-" let g:deoplete#sources['javascript.jsx'] = ['file', 'ultisnips', 'ternjs']
-" let g:tern#command = ['tern']
-" let g:tern#arguments = ['--persistent']
+" Use tab for trigger completion with characters ahead and navigate." Use
+" command ':verbose imap <tab>' to make sure tab is not mapped by other
+" plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"<Paste>
 
-" autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-" autocmd FileType typescript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-let g:UltiSnipsExpandTrigger="<c-l>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-" close the preview window when you're not using it
-let g:SuperTabClosePreviewOnPopupClose = 1
-" or just disable the preview entirely
-set completeopt-=preview
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+nnoremap <silent> <leader>a :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <leader>j :<C-u>CocNext<cr>
+nnoremap <silent> <leader>k :<C-u>CocPrev<cr>
+nnoremap <silent> <leader>h :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <leader>p :<C-u>CocListResume<CR>
+
+" Add status line support, for integration with other plugin, checkout `:h
+" coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+let g:airline#extensions#coc#enabled = 1
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
+
+" Run ALE commands
+nnoremap <leader>, :ALEFix<CR>
+nnoremap <leader>? :ALEDetail<CR>
+
+autocmd FileType rust nnoremap <leader>. :CocFix<CR>
+autocmd BufWinEnter :call coc#refresh()<CR>
 
 " Markdown Syntax Support
 augroup markdown
@@ -315,23 +352,9 @@ let g:pandoc#command#latex_engine = 'pdflatex'
 let g:pandoc#command#autoexec_command = 'Pandoc pdf --variable urlcolor=cyan'
 command PandocWatch let g:pandoc#command#autoexec_on_writes = 1
 
-" pencil
-let g:pencil#wrapModeDefault = 'soft'
-augroup pencil
-  autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
-  autocmd FileType text         call pencil#init()
-augroup END
-
 " powerline
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-
-" neomake
-" let blacklisted_files = ['schema.rb', 'routes.rb', 'visit.rb', 'job.rb']
-" autocmd! BufWritePost * if index(blacklisted_files, expand('%:t')) < 0 | Neomake
-" let g:neomake_javascript_enabled_makers = ['eslint']
-" let g:neomake_ruby_enabled_makers = ['reek', 'rubocop']
 
 " ale
 let g:airline#extensions#ale#enabled = 1
@@ -342,8 +365,8 @@ let g:ale_linters = {
 \   'c': ['clang', 'gcc'],
 \   'go': ['gofmt', 'gobuild', 'golangserver'],
 \   'python': ['flake8'],
-\   'rust': ['cargo'],
 \   'typescript': ['tsserver', 'tslint'],
+\   'rust': ['cargo'],
 \   'solidity': ['solhint', 'solium'],
 \   'javascript': [],
 \   'kotlin': [],
@@ -357,23 +380,13 @@ let g:ale_fixers = {
 \   'java': ['google_java_format'],
 \   'rust': ['rustfmt']
 \}
-let g:ale_fix_on_save = 1
 " \   'kotlin': ['kotlinc', 'ktlint', 'languageserver'],
+
+let g:ale_fix_on_save = 1
 
 " rust
 let g:ale_rust_cargo_check_all_targets = 1
 let g:ale_rust_cargo_check_tests = 1
-let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
-" let g:ale_rust_cargo_clippy_options = '--warn clippy::pedantic'
-let g:ale_rust_rustfmt_options = '--unstable-features --edition 2018'
-
-let g:racer_cmd = "/home/julian/.cargo/bin/racer"
-let g:racer_experimental_completer = 1
-
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
 " lua
 let g:ale_lua_luac_executable = "/usr/bin/luac5.3"
@@ -467,23 +480,7 @@ let g:tagbar_type_typescript = {
   \ ]
   \ }
 
-let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'go': ['/home/julian/.go/bin/go-langserver'],
-    \ }
-
 let g:rooter_patterns = ['build.gradle', '.git/', 'package.json', 'Cargo.toml']
-
-" \ 'python': ['python3', '-m', 'pyls'],
-" \ 'rust': ['~/.cargo/bin/rustup', 'run', 'nightly', 'rls'],
-
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-
-" js templates
-" call jspretmpl#register_tag('gql', 'graphql')
-" call jspretmpl#register_tag('md', 'markdown')
-" autocmd FileType typescript JsPreTmpl html
 
 " read jsrender templates as html
 au BufReadPost *.jsr set syntax=html

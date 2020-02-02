@@ -38,16 +38,13 @@ Plug 'airblade/vim-rooter'
 Plug 'metakirby5/codi.vim'
 
 " linter
-" Plug 'sbdchd/neoformat'
-" Plug 'Valloric/YouCompleteMe'
-" Plug 'scrooloose/syntastic'
-" Plug 'neomake/neomake'
 Plug 'w0rp/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Snippets
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'ervandew/supertab'
+" Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 " Plug 'ternjs/tern_for_vim'
 " Plug 'othree/tern_for_vim_coffee'
@@ -88,7 +85,7 @@ Plug 'groenewege/vim-less'
 
 " Python
 " Plug 'plytophogy/vim-virtualenv'
-Plug 'deoplete-plugins/deoplete-jedi'
+" Plug 'deoplete-plugins/deoplete-jedi'
 
 " Ruby
 Plug 'vim-ruby/vim-ruby'
@@ -122,9 +119,6 @@ Plug 'godlygeek/tabular'
 Plug 'iamcco/markdown-preview.vim'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'reedes/vim-pencil'
-Plug 'jceb/vim-orgmode'
-Plug 'freitass/todo.txt-vim'
 Plug 'junegunn/goyo.vim'
 Plug 'rhysd/vim-grammarous'
 
@@ -134,7 +128,7 @@ Plug 'rhysd/vim-grammarous'
 " Go
 " Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+" Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
 
 " fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -170,16 +164,10 @@ Plug 'artur-shaik/vim-javacomplete2'
 Plug 'cstrahan/vim-capnp'
 
 if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-    Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
 else
-    Plug 'Shougo/deoplete.vim'
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
 end

@@ -67,7 +67,7 @@ autoload -Uz compinit && compinit -i
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-export GO_VERSION="1.12"
+export GO_VERSION="1.13"
 export GOPATH="$HOME/.go"
 export GOBIN="$GOPATH/bin"
 export GOROOT="/usr/local/go-$GO_VERSION"
@@ -253,6 +253,7 @@ rwifi() { sudo modprobe -r iwlwifi; sudo modprobe iwlwifi }
 
 alias v="nvim"
 alias vf='nvim $(fzf)'
+alias br='broot'
 bindkey -s '^e' "vf\n"
 
 eval "$POST_RC_EXEC"
@@ -272,7 +273,17 @@ codi() {
     Codi $syntax" "$@"
 }
 
+export WASMTIME_HOME="$HOME/.wasmtime"
+export PATH="$WASMTIME_HOME/bin:$PATH"
+
+source /home/julian/.config/broot/launcher/bash/br
+
+if [[ -f "$GOPATH/src/github.com/sachaos/todoist/todoist_functions_fzf.sh" ]]; then
+    alias td="todoist --color --indent"
+    source "$GOPATH/src/github.com/sachaos/todoist/todoist_functions_fzf.sh"
+fi
+
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/.sdkman/bin/sdkman-init.sh"
-
