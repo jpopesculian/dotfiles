@@ -17,7 +17,10 @@ popd
 sudo apt-get update
 sudo apt-get install -y curl gnupg
 
+pushd $HOME/.dotfiles
 gpg --import ./install/assets/pubkey.asc
+tic -x ./install/assets/tmux.terminfo
+popd
 
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -139,7 +142,7 @@ sudo chmod +x rustup-init
 ./rustup-init -y --default-toolchain nightly
 source $HOME/.cargo/env
 rustup component add rls rust-analysis rust-src clippy rustfmt
-cargo install cargo-edit cargo-watch
+cargo install cargo-edit cargo-watch lsd
 
 popd
 

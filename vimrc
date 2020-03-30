@@ -60,6 +60,9 @@ autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
 
+" italics
+highlight Comment term=italic cterm=italic gui=italic
+
 " Windows
 set splitright " Open new split panes to right
 set splitbelow " and bottom, which feels more natural

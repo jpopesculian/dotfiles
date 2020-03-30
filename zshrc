@@ -54,11 +54,13 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs)
 ZSH_TMUX_AUTOSTART=true
 export DISABLE_AUTO_TITLE=true
 
+ZSH_DOTENV_PROMPT=false
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmuxinator tmux history zsh-autosuggestions vi-mode)
+plugins=(git tmuxinator tmux history zsh-autosuggestions vi-mode dotenv)
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
@@ -240,7 +242,7 @@ export C_INCLUDE_PATH=$PRIMUS_HOME/include:$C_INCLUDE_PATH
 
 # BETTER CLI
 alias cat="bat"
-alias ls="exa"
+alias ls="lsd --group-dirs first --classify"
 alias ping="prettyping --nolegend"
 alias preview="fzf --preview 'bat --color \"always\" {}'"
 alias help="tldr"
@@ -253,7 +255,6 @@ rwifi() { sudo modprobe -r iwlwifi; sudo modprobe iwlwifi }
 
 alias v="nvim"
 alias vf='nvim $(fzf)'
-alias br='broot'
 bindkey -s '^e' "vf\n"
 
 eval "$POST_RC_EXEC"
@@ -276,12 +277,12 @@ codi() {
 export WASMTIME_HOME="$HOME/.wasmtime"
 export PATH="$WASMTIME_HOME/bin:$PATH"
 
-source /home/julian/.config/broot/launcher/bash/br
-
 if [[ -f "$GOPATH/src/github.com/sachaos/todoist/todoist_functions_fzf.sh" ]]; then
     alias td="todoist --color --indent"
     source "$GOPATH/src/github.com/sachaos/todoist/todoist_functions_fzf.sh"
 fi
+
+export RNC_TRUSTED_NODE_PATH_TO_SETTINGS="$HOME/.config/rnc/trusted-node"
 
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
