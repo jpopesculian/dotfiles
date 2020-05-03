@@ -60,7 +60,7 @@ ZSH_DOTENV_PROMPT=false
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmuxinator tmux history zsh-autosuggestions vi-mode dotenv)
+plugins=(tmuxinator tmux history zsh-autosuggestions vi-mode dotenv)
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 

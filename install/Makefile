@@ -2,7 +2,6 @@ SHELL := /bin/bash
 .ONESHELL:
 .SHELLFLAGS: -ec
 
-HUB_VERSION := 2.14.2
 CTOP_VERSION=0.7.3
 NVM_VERSION := 0.35.3
 FIRACODE_VERSION := 3.1
@@ -20,7 +19,6 @@ FONTS_LOC := $(HOME)/.fonts
 FONTCONFIG_LOC := $(HOME)/.config/fontconfig/conf.d
 NERDFONTS_LOC := $(DOWNLOADS_LOC)/nerd-fonts
 
-HUB_DL_LINK := https://github.com/github/hub/releases/download/v$(HUB_VERSION)/hub-linux-amd64-$(HUB_VERSION).tgz
 DIFF_SO_FANCY_DL_LINK := https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
 PRETTYPING_DL_LINK := https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettyping
 DOCKER_COMPOSE_DL_LINK := https://github.com/docker/compose/releases/latest/download/docker-compose-$(shell uname -s)-$(shell uname -m)
@@ -31,18 +29,21 @@ all: apt-deps install-assets misc dl-releases node rust fonts zsh file-linking
 
 # MISC
 
-misc: pip-deps add-user-groups
+misc: python-alternative pip-deps add-user-groups
 
 pip-deps:
-	pip2 install configparser
 	pip3 install --user git+git://github.com/powerline/powerline
-	pip2 install pynvim
 	pip3 install pynvim
 .PHONY: pip-deps
 
 add-user-groups:
 	sudo usermod -aG docker $(shell whoami)
 .PHONY: add-user-groups
+
+python-alternative:
+	export PYTHONPATH=$$(readlink -f `which python3`)
+	sudo update-alternatives --install /usr/bin/python python $$PYTHONPATH 1
+.PHONY: python-alternative
 
 # ZSH
 
@@ -135,13 +136,15 @@ fc-cache:
 rust: rustup-components cargo-deps
 
 $(CARGO_HOME)/env:
+	pushd $(DOWNLOADS_LOC)
 	curl https://sh.rustup.rs -o rustup-init
 	sudo chmod +x rustup-init
 	./rustup-init -y --default-toolchain nightly
+	popd
 
 rustup-components: $(CARGO_HOME)/env
 	source $(CARGO_HOME)/env
-	rustup component add rls rust-analysis rust-src clippy rustfmt
+	rustup component add rust-analysis rust-src clippy rustfmt
 .PHONY: rustup-components
 
 cargo-deps: $(CARGO_HOME)/env
@@ -163,21 +166,15 @@ nvm: $(NVM_DIR)/nvm.sh
 	nvm alias default $(NODE_VERSION)
 .PHONY: nvm
 
-npm-deps:
+npm-deps: $(NVM_DIR)/nvm.sh
+	. $(NVM_DIR)/nvm.sh
+	nvm use $(NODE_VERSION)
 	npm install -g yarn neovim
 .PHONY: npm-deps
 
 # RELEASE DOWNLOADS
 
-dl-releases: dl-hub dl-diff-so-fancy dl-prettyping dl-docker-compose dl-ctop
-
-dl-hub:
-	pushd $(DOWNLOADS_LOC)
-	wget $(HUB_DL_LINK)
-	tar -xvf hub-linux-amd64-$(HUB_VERSION).tgz
-	sudo mv hub-linux-amd64-$(HUB_VERSION)/bin/hub /usr/bin
-	popd
-.PHONY: dl-hub
+dl-releases: dl-diff-so-fancy dl-prettyping dl-docker-compose dl-ctop
 
 dl-diff-so-fancy:
 	pushd $(DOWNLOADS_LOC)
@@ -235,6 +232,8 @@ apt-repos:
 	sudo apt-add-repository -y -n "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(DOCKER_DISTRO) stable"
 	curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
 	echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+	curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
+	echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 .PHONY: apt-repo
 
 apt-get:
@@ -242,6 +241,7 @@ apt-get:
 	sudo apt-get install -y \
 		apt-transport-https \
 		build-essential \
+		brave-browser \
 		ca-certificates \
 		chrome-gnome-shell \
 		containerd.io \
@@ -249,21 +249,23 @@ apt-get:
 		docker-ce \
 		docker-ce-cli \
 		exuberant-ctags \
-		firefox-trunk \
+		fzf \
 		gnome-tweak-tool \
 		gnupg \
 		gnupg-agent \
 		htop \
 		httpie \
+		hub \
 		jq \
 		kitty \
+		libclang-dev \
 		libpam-u2f \
 		libssl-dev \
 		neovim \
 		nmap \
 		pkg-config \
-		python-fontforge \
-		python-pip \
+		python3 \
+		python3-fontforge \
 		python3-pip \
 		rcm \
 		redis-server \
