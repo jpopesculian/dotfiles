@@ -34,7 +34,7 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-db'
 Plug 'tpope/vim-abolish'
 " Plug 'blindFS/vim-taskwarrior'
-Plug 'airblade/vim-rooter'
+" Plug 'airblade/vim-rooter'
 Plug 'metakirby5/codi.vim'
 
 " linter

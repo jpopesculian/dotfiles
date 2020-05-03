@@ -174,6 +174,7 @@ alias vpn-off='sudo protonvpn-cli -disconnect'
 alias inds="gnome-shell-extension-tool -r appindicatorsupport@rgcjonas.gmail.com"
 
 export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
 
 # export PATH="/usr/local/eosio/bin:$PATH"
 
@@ -216,6 +217,7 @@ if [[ -d /opt/intel ]]; then
     export SGX_HOME=/opt/intel/sgxsdk
     source $SGX_HOME/environment
     export SGXSDK_INCLUDE_DIRS=$SGX_HOME/include
+    export SGX_DEVICE=/dev/isgx
 fi
 
 # pyenv
