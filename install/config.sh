@@ -25,7 +25,6 @@ popd
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
 
 sudo apt-add-repository -y -n ppa:martin-frost/thoughtbot-rcm
 sudo apt-add-repository -y -n "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
@@ -35,7 +34,6 @@ sudo apt-add-repository -y -n ppa:ubuntu-mozilla-daily/ppa
 echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
 
 sudo apt-get update
-
 sudo apt-get install -y \
     apt-transport-https \
     build-essential \
@@ -142,7 +140,7 @@ sudo chmod +x rustup-init
 ./rustup-init -y --default-toolchain nightly
 source $HOME/.cargo/env
 rustup component add rls rust-analysis rust-src clippy rustfmt
-cargo install cargo-edit cargo-watch lsd
+cargo install cargo-edit cargo-watch lsd bat
 
 popd
 
