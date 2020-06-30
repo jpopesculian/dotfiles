@@ -173,11 +173,6 @@ nnoremap <leader>D :e .<CR>
 set grepprg=ag " note using rking/ag.vim
 nnoremap <leader>gc :Ag <c-r>=expand('<cword>'><cr>
 nnoremap <leader>gg :Ag 
-nnoremap <leader>gh :Ag --html 
-nnoremap <leader>gj :Ag --js 
-nnoremap <leader>gp :Ag --python 
-nnoremap <leader>gr :Ag --ruby 
-nnoremap <leader>gs :Ag --sass 
 
 " Quick FZF
 nnoremap <leader>o :GFiles<CR>
@@ -483,7 +478,15 @@ let g:tagbar_type_typescript = {
   \ ]
   \ }
 
+let g:vimwiki_list = [
+\ {'path': '~/Dropbox/work/', 'syntax': 'markdown', 'ext': '.md'},
+\ {'path': '~/Dropbox/zettln/', 'syntax': 'markdown', 'ext': '.md'},
+\ {'path': '~/Dropbox/pad/', 'syntax': 'markdown', 'ext': '.md'}
+\]
+
 let g:rooter_patterns = ['build.gradle', '.git/', 'package.json', 'Cargo.toml']
+
+let g:slumlord_separate_win=1
 
 " read jsrender templates as html
 au BufReadPost *.jsr set syntax=html

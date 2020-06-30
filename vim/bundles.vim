@@ -36,6 +36,11 @@ Plug 'tpope/vim-abolish'
 " Plug 'blindFS/vim-taskwarrior'
 " Plug 'airblade/vim-rooter'
 Plug 'metakirby5/codi.vim'
+Plug 'vimwiki/vimwiki'
+
+" Plant UML
+Plug 'scrooloose/vim-slumlord'
+Plug 'aklt/plantuml-syntax'
 
 " linter
 Plug 'w0rp/ale'

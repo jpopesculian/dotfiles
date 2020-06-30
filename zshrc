@@ -135,8 +135,23 @@ alias pbpaste='xsel --clipboard --output'
 alias lah='exa -lagh -a --git --group-directories-first'
 
 alias et=$EDITOR
-NOTES_PATH="$HOME/Dropbox/notes"
-alias notes="mkdir -p $NOTES_PATH/$(date +%Y/%m/%d) && $EDITOR $NOTES_PATH/$(date +%Y/%m/%d)/notes.md"
+NOTES_PATH="$HOME/Dropbox"
+
+cn() {
+    if [ $# -eq 0 ]; then
+        cat "$NOTES_PATH/.current"
+    else
+        echo $@ > "$NOTES_PATH/.current"
+    fi
+}
+
+n() {
+    if [ $# -eq 0 ]; then
+        cd "$NOTES_PATH/$(cn)"
+    else
+        et "$NOTES_PATH/$(cn)/$(date +%Y%m%d%H%M) $@.md"
+    fi
+}
 
 alias mux=tmuxinator
 
@@ -217,8 +232,8 @@ if [[ -d /opt/intel ]]; then
     export SGX_HOME=/opt/intel/sgxsdk
     source $SGX_HOME/environment
     export SGXSDK_INCLUDE_DIRS=$SGX_HOME/include
-    export SGX_DEVICE=/dev/isgx
 fi
+export SGX_DEVICE=/dev/$(ls /dev | grep -m 1 sgx)
 
 # pyenv
 export PYENV_ROOT="$HOME/opt/pyenv"
@@ -246,17 +261,16 @@ export C_INCLUDE_PATH=$PRIMUS_HOME/include:$C_INCLUDE_PATH
 alias cat="bat"
 alias ls="lsd --group-dirs first --classify"
 alias ping="prettyping --nolegend"
-alias preview="fzf --preview 'bat --color \"always\" {}'"
-alias help="tldr"
+alias fzfp="fzf --preview 'bat --color \"always\" {}'"
+alias wttr="curl v2.wttr.in"
 alias m="make"
 copy() { \cat $1 | pbcopy }
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm laniksj/dfimage"
 alias lnmap="nmap -sP $( hostname -I | awk '/(192|10)\./{print $1}' | sed -E 's/([0-9]*\.[0-9]*\.[0-9]*)(\.[0-9]*)/\1.1\/24/')"
-alias kb="keybase"
 rwifi() { sudo modprobe -r iwlwifi; sudo modprobe iwlwifi }
 
 alias v="nvim"
-alias vf='nvim $(fzf)'
+alias vf='nvim "$(fzfp)"'
 bindkey -s '^e' "vf\n"
 
 eval "$POST_RC_EXEC"
@@ -286,7 +300,5 @@ fi
 
 export RNC_TRUSTED_NODE_PATH_TO_SETTINGS="$HOME/.config/rnc/trusted-node"
 
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/.sdkman/bin/sdkman-init.sh"
+[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
