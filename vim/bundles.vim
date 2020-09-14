@@ -132,7 +132,7 @@ Plug 'rhysd/vim-grammarous'
 
 " Go
 " Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+" Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 " Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
 
 " fzf
@@ -159,7 +159,7 @@ Plug 'tbastos/vim-lua'
 Plug 'rust-lang/rust.vim'
 Plug 'timonv/vim-cargo'
 Plug 'rhysd/vim-wasm'
-Plug 'racer-rust/vim-racer'
+" Plug 'racer-rust/vim-racer'
 
 " JVM
 Plug 'udalov/kotlin-vim'

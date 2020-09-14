@@ -364,7 +364,7 @@ let g:ale_linters = {
 \   'go': ['gofmt', 'gobuild', 'golangserver'],
 \   'python': ['flake8'],
 \   'typescript': ['tsserver', 'tslint'],
-\   'rust': ['cargo'],
+\   'rust': [],
 \   'solidity': ['solhint', 'solium'],
 \   'javascript': [],
 \   'kotlin': [],
