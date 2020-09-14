@@ -4,10 +4,7 @@
 fun! FirstRunOnEnter()
     PlugInstall
     source $MYVIMRC
-    let oldpath = getcwd()
-    execute "cd ../tern_for_vim"
-    silent !npm install
-    execute "cd " . oldpath
+    CocInstall coc-rust-analyzer
 endf
 
 let plug = $HOME . '/.vim/autoload/plug.vim'

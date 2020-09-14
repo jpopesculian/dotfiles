@@ -234,6 +234,8 @@ apt-repos:
 	echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
 	curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
 	echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+	sudo apt-add-repository -u https://cli.github.com/packages
 .PHONY: apt-repo
 
 apt-get:
@@ -250,6 +252,7 @@ apt-get:
 		docker-ce-cli \
 		exuberant-ctags \
 		fzf \
+		gh \
 		gnome-tweak-tool \
 		gnupg \
 		gnupg-agent \
