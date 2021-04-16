@@ -82,6 +82,7 @@ export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/plat
 
 export RUST_HOME="$HOME/.cargo/bin"
 export PATH="$PATH:$RUST_HOME"
+export RUSTFLAGS="-C link-arg=-fuse-ld=lld"
 
 # source /usr/local/rvm/scripts/rvm
 
@@ -132,7 +133,7 @@ bindkey '^[[Z' autosuggest-accept
 
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
-alias lah='exa -lagh -a --git --group-directories-first'
+alias lah='ls -lah'
 
 alias et=$EDITOR
 NOTES_PATH="$HOME/Dropbox"
@@ -228,7 +229,7 @@ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig
 
 # sgx
-if [[ -d /opt/intel ]]; then
+if [[ -d /opt/intel/sgxsdk ]]; then
     export SGX_HOME=/opt/intel/sgxsdk
     source $SGX_HOME/environment
     export SGXSDK_INCLUDE_DIRS=$SGX_HOME/include
@@ -264,6 +265,9 @@ alias ping="prettyping --nolegend"
 alias fzfp="fzf --preview 'bat --color \"always\" {}'"
 alias wttr="curl v2.wttr.in"
 alias m="make"
+alias mls="make -qp | awk -F':' '/^[a-zA-Z0-9][^\$#\/\t=]*:([^=]|$)/ {split(\$1,A,/ /);for(i in A)print A[i]}' | sort -u"
+alias dk="docker"
+alias dkc="docker-compose"
 copy() { \cat $1 | pbcopy }
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm laniksj/dfimage"
 alias lnmap="nmap -sP $( hostname -I | awk '/(192|10)\./{print $1}' | sed -E 's/([0-9]*\.[0-9]*\.[0-9]*)(\.[0-9]*)/\1.1\/24/')"

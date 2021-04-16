@@ -37,13 +37,14 @@ Plug 'tpope/vim-abolish'
 " Plug 'airblade/vim-rooter'
 Plug 'metakirby5/codi.vim'
 Plug 'vimwiki/vimwiki'
+Plug 'tpope/vim-cucumber'
 
 " Plant UML
 Plug 'scrooloose/vim-slumlord'
 Plug 'aklt/plantuml-syntax'
 
 " linter
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Snippets

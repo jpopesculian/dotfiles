@@ -264,6 +264,7 @@ apt-get:
 		libclang-dev \
 		libpam-u2f \
 		libssl-dev \
+		lld \
 		neovim \
 		nmap \
 		pkg-config \

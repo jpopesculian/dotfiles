@@ -362,7 +362,7 @@ let g:ale_sign_error = ''
 let g:ale_linters = {
 \   'c': ['clang', 'gcc'],
 \   'go': ['gofmt', 'gobuild', 'golangserver'],
-\   'python': ['flake8'],
+\   'python': ['flake8', 'pylint'],
 \   'typescript': ['tsserver', 'tslint'],
 \   'rust': [],
 \   'solidity': ['solhint', 'solium'],
