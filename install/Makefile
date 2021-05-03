@@ -214,6 +214,32 @@ import-yubikey-pubkey:
 	gpg --import $(ASSETS_LOC)/pubkey.asc
 .PHONY: import-yubikey-pubkey
 
+# SGX
+
+sgx-driver: install-sgx-driver sign-sgx-driver
+
+install-sgx-driver:
+	curl -s https://download.01.org/intel-sgx/latest/linux-latest/distro/ubuntu20.04-server/driver_readme.txt | awk '{ print $$3 }' |  grep -v "^#\|^$$" | head -n 1 | awk '{print "https://download.01.org/intel-sgx/latest/linux-latest/distro/ubuntu20.04-server/"$$1}' | xargs curl -o /tmp/install-sgx-driver
+	sudo chmod +x /tmp/install-sgx-driver
+	sudo /tmp/install-sgx-driver
+.PHONY: install-sgx-driver
+
+sign-sgx-driver:
+	sudo /usr/src/linux-headers-$$(uname -r)/scripts/sign-file sha256 /usr/modules/MOK.priv /usr/modules/MOK.der $$(modinfo -n isgx)
+	sudo modprobe isgx
+.PHONY: sign-sgx-driver
+
+create-mok-key: /usr/modules/MOK.der
+	sudo mokutil --import /usr/modules/MOK.der
+.PHONY: create-mok-key
+
+/usr/modules/MOK.der:
+	openssl req -new -x509 -newkey rsa:4096 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=Driver Signer/"
+	sudo mkdir -p /usr/modules
+	sudo mv MOK.der /usr/modules
+	sudo mv MOK.priv /usr/modules
+	sudo chown -R root:root /usr/modules
+
 # APT-DEPS
 
 apt-deps: base-apt-get apt-repos apt-get
@@ -229,6 +255,8 @@ apt-repos:
 	sudo apt-add-repository -y -n ppa:ubuntu-mozilla-daily/ppa
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 	sudo apt-add-repository -y -n "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(DOCKER_DISTRO) stable"
+	curl -s https://repo.protonvpn.com/debian/public_key.asc | sudo apt-key add -
+	sudo apt-add-repository -y -n 'deb https://repo.protonvpn.com/debian unstable main'
 	curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add -
 	echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
 	curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
@@ -237,6 +265,8 @@ apt-repos:
 	echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo apt-key add -
 	echo 'deb [arch=amd64] https://downloads.1password.com/linux/debian edge main' | sudo tee /etc/apt/sources.list.d/1password.list
+	curl -s https://download.01.org/intel-sgx/sgx_repo/ubuntu/intel-sgx-deb.key | sudo apt-key add -
+	echo 'deb [arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu focal main' | sudo tee /etc/apt/sources.list.d/intel-sgx.list
 	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
 	sudo apt-add-repository -u https://cli.github.com/packages
 .PHONY: apt-repo
@@ -267,6 +297,7 @@ apt-get:
 		kitty \
 		libclang-dev \
 		libpam-u2f \
+		libsgx-headers \
 		libssl-dev \
 		lld \
 		neovim \
@@ -275,9 +306,11 @@ apt-get:
 		python3 \
 		python3-fontforge \
 		python3-pip \
+		protonvpn \
 		rcm \
 		redis-server \
 		scdaemon \
+		sgx-aesm-service \
 		silversearcher-ag \
 		software-properties-common \
 		spotify-client \
