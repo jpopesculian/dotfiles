@@ -69,7 +69,7 @@ autoload -Uz compinit && compinit -i
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-export GO_VERSION="1.13"
+export GO_VERSION="1.16"
 export GOPATH="$HOME/.go"
 export GOBIN="$GOPATH/bin"
 export GOROOT="/usr/local/go-$GO_VERSION"
@@ -82,7 +82,6 @@ export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/plat
 
 export RUST_HOME="$HOME/.cargo/bin"
 export PATH="$PATH:$RUST_HOME"
-export RUSTFLAGS="-C link-arg=-fuse-ld=lld"
 
 # source /usr/local/rvm/scripts/rvm
 
@@ -148,7 +147,7 @@ cn() {
 
 n() {
     if [ $# -eq 0 ]; then
-        cd "$NOTES_PATH/$(cn)"
+        vf "$NOTES_PATH/$(cn)"
     else
         et "$NOTES_PATH/$(cn)/$(date +%Y%m%d%H%M) $@.md"
     fi
@@ -263,6 +262,7 @@ alias cat="bat"
 alias ls="lsd --group-dirs first --classify"
 alias ping="prettyping --nolegend"
 alias fzfp="fzf --preview 'bat --color \"always\" {}'"
+fzfl() { ls ${1:-.} | fzf --preview "bat --color \"always\" ${1:-.}/{}" | awk "{print \"${1:-.}/\" \$0}" }
 alias wttr="curl v2.wttr.in"
 alias m="make"
 alias mls="make -qp | awk -F':' '/^[a-zA-Z0-9][^\$#\/\t=]*:([^=]|$)/ {split(\$1,A,/ /);for(i in A)print A[i]}' | sort -u"
@@ -274,7 +274,7 @@ alias lnmap="nmap -sP $( hostname -I | awk '/(192|10)\./{print $1}' | sed -E 's/
 rwifi() { sudo modprobe -r iwlwifi; sudo modprobe iwlwifi }
 
 alias v="nvim"
-alias vf='nvim "$(fzfp)"'
+vf() { fn=$(fzfl $1); if [ ! -z $fn ]; then; nvim $fn; fi  }
 bindkey -s '^e' "vf\n"
 
 eval "$POST_RC_EXEC"

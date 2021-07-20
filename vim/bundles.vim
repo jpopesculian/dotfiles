@@ -43,6 +43,9 @@ Plug 'tpope/vim-cucumber'
 Plug 'scrooloose/vim-slumlord'
 Plug 'aklt/plantuml-syntax'
 
+" Sonic Pi
+Plug 'lilyinstarlight/vim-sonic-pi'
+
 " linter
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}

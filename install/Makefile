@@ -25,7 +25,7 @@ DOCKER_COMPOSE_DL_LINK := https://github.com/docker/compose/releases/latest/down
 CTOP_DL_LINK := https://github.com/bcicen/ctop/releases/download/v$(CTOP_VERSION)/ctop-$(CTOP_VERSION)-linux-amd64
 
 
-all: apt-deps install-assets misc dl-releases node rust fonts zsh file-linking
+all: apt-deps install-assets misc dl-releases node rust fonts zsh file-linking flatpak
 
 # MISC
 
@@ -149,7 +149,7 @@ rustup-components: $(CARGO_HOME)/env
 
 cargo-deps: $(CARGO_HOME)/env
 	source $(CARGO_HOME)/env
-	cargo install cargo-edit cargo-watch lsd bat
+	cargo install cargo-edit cargo-watch cargo-expand cargo-tree lsd bat
 .PHONY: cargo-deps
 
 # NODE
@@ -253,6 +253,7 @@ apt-repos:
 	sudo apt-add-repository -y -n ppa:neovim-ppa/stable
 	sudo apt-add-repository -y -n ppa:yubico/stable
 	sudo apt-add-repository -y -n ppa:ubuntu-mozilla-daily/ppa
+	sudo add-apt-repository ppa:serge-rider/dbeaver-ce
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 	sudo apt-add-repository -y -n "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(DOCKER_DISTRO) stable"
 	curl -s https://repo.protonvpn.com/debian/public_key.asc | sudo apt-key add -
@@ -266,7 +267,9 @@ apt-repos:
 	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo apt-key add -
 	echo 'deb [arch=amd64] https://downloads.1password.com/linux/debian edge main' | sudo tee /etc/apt/sources.list.d/1password.list
 	curl -s https://download.01.org/intel-sgx/sgx_repo/ubuntu/intel-sgx-deb.key | sudo apt-key add -
-	echo 'deb [arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu focal main' | sudo tee /etc/apt/sources.list.d/intel-sgx.list
+	echo 'deb [arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu $(shell lsb_release -cs) main' | sudo tee /etc/apt/sources.list.d/intel-sgx.list
+	curl -s https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
+	sudo add-apt-repository "deb https://dl.winehq.org/wine-builds/ubuntu/ $(shell lsb_release -cs) main"
 	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
 	sudo apt-add-repository -u https://cli.github.com/packages
 .PHONY: apt-repo
@@ -282,9 +285,11 @@ apt-get:
 		chrome-gnome-shell \
 		containerd.io \
 		curl \
+		dbeaver-ce \
 		docker-ce \
 		docker-ce-cli \
 		exuberant-ctags \
+		flatpak \
 		fzf \
 		gh \
 		gnome-tweak-tool \
@@ -297,6 +302,7 @@ apt-get:
 		kitty \
 		libclang-dev \
 		libpam-u2f \
+		libsgx-enclave-common-dev \
 		libsgx-headers \
 		libssl-dev \
 		lld \
@@ -322,3 +328,15 @@ apt-get:
 		yubioath-desktop \
 		zsh
 .PHONY: apt-deps
+
+# FLATPACK
+
+flatpak: flatpak-repo flatpak-install
+
+flatpak-repo:
+	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+.PHONY: flatpak-repo
+
+flatpak-install:
+	flatpak install -y flathub md.obsidian.Obsidian
+.PHONY: flatpak-install
