@@ -25,6 +25,11 @@ fun! ToggleColor()
     else
         set background=dark
         colorscheme hybrid
+
+        " custom colors
+        hi! link Conceal NonText
+        hi! link CocHintSign Comment
+        hi CocFadeOut gui=underline
     endif
 endf
 set background=light
@@ -190,8 +195,7 @@ vnoremap <leader>r "sy:%S/<c-r>s/
 nnoremap <leader>lr :S/<c-r>=expand("<cword>")<cr>/
 
 " Using fugitive
-nnoremap <leader>cf :Gwrite<cr>:Gcommit<cr>
-nnoremap <leader>cp :Gpush<cr>
+nnoremap <leader>cs :Git<cr>
 
 " For vimdiff
 nnoremap <leader>1 :diffget LOCAL<cr>

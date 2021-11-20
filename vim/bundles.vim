@@ -39,6 +39,9 @@ Plug 'metakirby5/codi.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-cucumber'
 
+" Assembly
+Plug 'wsdjeg/vim-assembly'
+
 " Plant UML
 Plug 'scrooloose/vim-slumlord'
 Plug 'aklt/plantuml-syntax'
@@ -80,7 +83,7 @@ Plug 'jparise/vim-graphql'
 Plug 'leafgarland/typescript-vim'
 
 " Dart
-Plug 'dart-lang/dart-vim-plugin'
+" Plug 'dart-lang/dart-vim-plugin'
 
 " HTML
 Plug 'othree/html5.vim'
@@ -97,13 +100,13 @@ Plug 'groenewege/vim-less'
 " Plug 'deoplete-plugins/deoplete-jedi'
 
 " Ruby
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-rails'
-Plug 'rhysd/vim-crystal'
+" Plug 'vim-ruby/vim-ruby'
+" Plug 'tpope/vim-rails'
+" Plug 'rhysd/vim-crystal'
 
 " HAML
 " (also contains sass)
-Plug 'tpope/vim-haml'
+" Plug 'tpope/vim-haml'
 " YAML
 Plug 'ingydotnet/yaml-vim'
 Plug 'chase/vim-ansible-yaml'

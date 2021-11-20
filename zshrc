@@ -82,6 +82,7 @@ export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/plat
 
 export RUST_HOME="$HOME/.cargo/bin"
 export PATH="$PATH:$RUST_HOME"
+export RUST_LOG="info"
 
 # source /usr/local/rvm/scripts/rvm
 
@@ -139,17 +140,17 @@ NOTES_PATH="$HOME/Dropbox"
 
 cn() {
     if [ $# -eq 0 ]; then
-        cat "$NOTES_PATH/.current"
+        echo "$NOTES_PATH/$(cat $NOTES_PATH/.current)"
     else
-        echo $@ > "$NOTES_PATH/.current"
+        echo $@ > "$NOTES_PATH/.current" && cn
     fi
 }
 
 n() {
     if [ $# -eq 0 ]; then
-        vf "$NOTES_PATH/$(cn)"
+        vf "$(cn)"
     else
-        et "$NOTES_PATH/$(cn)/$(date +%Y%m%d%H%M) $@.md"
+        et "$(cn)/$(date +%Y%m%d%H%M) $@.md"
     fi
 }
 
@@ -181,12 +182,8 @@ alias cll='clear && $(fc -ln -1 -1)'
 alias codereview='git pull-request -pl "code review"'
 alias glorp='ruby -ane '
 alias cds='cd $(pwd -P)'
-alias goreflex='reflex -r "\.go$" make'
 
-alias vpn-on='sudo protonvpn-cli -update && sudo protonvpn-cli -cc'
-alias vpn-off='sudo protonvpn-cli -disconnect'
-
-alias inds="gnome-shell-extension-tool -r appindicatorsupport@rgcjonas.gmail.com"
+alias rustd='rustup docs --path | xargs dirname | xargs http-server -p 1337 &; xdg-open http://localhost:1337/std; fg'
 
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
@@ -217,7 +214,9 @@ alias gdrive="ranger $GDRIVE_DIR"
 # alias luac=luac5.3
 
 # emsdk (emscripten)
-emsdk-env() { source /opt/emsdk/emsdk_env.sh }
+EMSDK_HOME="/home/julian/Development/riddleandcode/emsdk"
+EMSCRIPTEN="$EMSDK_HOME/upstream/emscripten"
+alias emsdk-env="source $EMSDK_HOME/emsdk_env.sh"
 
 # swig
 export SWIG_PATH="$HOME/opt/swigtool/bin"
