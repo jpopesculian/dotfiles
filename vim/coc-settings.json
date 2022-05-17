@@ -1,6 +1,6 @@
 {
     "diagnostic.checkCurrentLine": true,
     "diagnostic.signOffset": 9999999,
-    "rust-analyzer.cargo.allFeatures": false,
-    "rust-analyzer.cargo-watch.command": "clippy"
+    "rust-analyzer.checkOnSave.command": "clippy",
+    "rust-analyzer.updates.channel": "nightly"
 }

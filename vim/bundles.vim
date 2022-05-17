@@ -96,7 +96,7 @@ Plug 'hhsnopek/vim-sugarss'
 Plug 'groenewege/vim-less'
 
 " Python
-" Plug 'plytophogy/vim-virtualenv'
+" Plug 'petobens/poet-v'
 " Plug 'deoplete-plugins/deoplete-jedi'
 
 " Ruby

@@ -366,10 +366,10 @@ let g:ale_sign_error = ''
 let g:ale_linters = {
 \   'c': ['clang', 'gcc'],
 \   'go': ['gofmt', 'gobuild', 'golangserver'],
-\   'python': ['flake8', 'pylint'],
 \   'typescript': ['tsserver', 'tslint'],
 \   'rust': [],
 \   'solidity': ['solhint', 'solium'],
+\   'python': [],
 \   'javascript': [],
 \   'kotlin': [],
 \   'lua': ['luac', 'luacheck']
@@ -384,6 +384,8 @@ let g:ale_fixers = {
 \   'rust': ['rustfmt']
 \}
 " \   'kotlin': ['kotlinc', 'ktlint', 'languageserver'],
+" \   'python': ['flake8', 'pylint', 'mypy'],
+" \   'python': ['black'],
 
 let g:ale_fix_on_save = 1
 

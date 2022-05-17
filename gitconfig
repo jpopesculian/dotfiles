@@ -1,7 +1,7 @@
 [user]
-	email = jpopesculian@gmail.com
+	email = hi@julian.dev
 	name = Julian Popescu
-	signingkey = A99F1339
+	signingkey = E5BC76E2E5BAB74F!
 [commit]
 	gpgsign = true
 	signoff = true
@@ -78,9 +78,13 @@
 [gitrepo "github"]
 	token = 6ef3b883f73ebfd2f2d2762dbdb88633146a4708
 [diff]
-	tool = nvimdiff
+	tool = difftastic
 [difftool]
 	prompt = false
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+    difftool = true
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52

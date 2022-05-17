@@ -149,7 +149,7 @@ rustup-components: $(CARGO_HOME)/env
 
 cargo-deps: $(CARGO_HOME)/env
 	source $(CARGO_HOME)/env
-	cargo install cargo-edit cargo-watch cargo-expand cargo-tree lsd bat
+	cargo install cargo-edit cargo-watch cargo-expand cargo-tree lsd bat difftastic
 .PHONY: cargo-deps
 
 # NODE
