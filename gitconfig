@@ -38,7 +38,7 @@
 [branch]
 	autosetupmerge = true
 [merge]
-	tool = nvimdiff
+	tool = vimdiff
 [difftool "nvimdiff"]
     cmd = "nvim -d -u ~/.vimrc \"$LOCAL\" \"$REMOTE\""
 [fetch]

@@ -1,6 +1,23 @@
 {
     "diagnostic.checkCurrentLine": true,
     "diagnostic.signOffset": 9999999,
-    "rust-analyzer.checkOnSave.command": "clippy",
-    "rust-analyzer.updates.channel": "nightly"
+    "rust-analyzer.checkOnSave.command": "check",
+    "rust-analyzer.checkOnSave.enable": false,
+    "rust-analyzer.updates.channel": "nightly",
+    "diagnostic.displayByAle": true,
+    "languageserver": {
+        "solidity": {
+            "enable": false,
+            "command": "solc",
+            "args": [
+                "--base-path=.",
+                "--include-path=lib/",
+                "ds-test/=lib/forge-std/lib/ds-test/src/",
+                "forge-std/=lib/forge-std/src/",
+                "--lsp"
+            ],
+            "rootPatterns": [".git/", "foundry.toml"],
+            "filetypes": ["solidity"]
+        }
+    }
 }

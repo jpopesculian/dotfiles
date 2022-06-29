@@ -68,6 +68,10 @@ autocmd BufWinLeave * call clearmatches()
 " italics
 highlight Comment term=italic cterm=italic gui=italic
 
+" ale
+hi ALEError ctermbg=none cterm=underline gui=undercurl
+hi ALEWarning ctermbg=none cterm=underline gui=undercurl
+
 " Windows
 set splitright " Open new split panes to right
 set splitbelow " and bottom, which feels more natural
@@ -360,16 +364,16 @@ let g:airline#extensions#tabline#enabled = 1
 
 " ale
 let g:airline#extensions#ale#enabled = 1
-let g:ale_set_highlights = 0
+let g:ale_set_highlights = 1
 let g:ale_sign_warning = ''
 let g:ale_sign_error = ''
 let g:ale_linters = {
 \   'c': ['clang', 'gcc'],
 \   'go': ['gofmt', 'gobuild', 'golangserver'],
 \   'typescript': ['tsserver', 'tslint'],
-\   'rust': [],
-\   'solidity': ['solhint', 'solium'],
-\   'python': [],
+\   'rust': ['cargo'],
+\   'solidity': ['solc'],
+\   'python': ['flake8', 'pylint', 'mypy'],
 \   'javascript': [],
 \   'kotlin': [],
 \   'lua': ['luac', 'luacheck']
@@ -379,34 +383,30 @@ let g:ale_fixers = {
 \   'go': ['gofmt'],
 \   'json': [],
 \   'javascript': ['prettier'],
+\   'python': ['black'],
 \   'css': ['prettier'],
 \   'java': ['google_java_format'],
 \   'rust': ['rustfmt']
 \}
-" \   'kotlin': ['kotlinc', 'ktlint', 'languageserver'],
-" \   'python': ['flake8', 'pylint', 'mypy'],
-" \   'python': ['black'],
 
+" use coc.nvim for lsp
+let g:ale_disable_lsp = 1
 let g:ale_fix_on_save = 1
 
 " rust
-let g:ale_rust_cargo_check_all_targets = 1
 let g:ale_rust_cargo_check_tests = 1
-
-" lua
-let g:ale_lua_luac_executable = "/usr/bin/luac5.3"
+let g:ale_rust_cargo_use_clippy = 1
 
 " c
 let g:ale_c_parse_makefile = 1
+
+" solidity
+let g:ale_solidity_solc_options = '--base-path . --include-path lib/ ds-test/=lib/forge-std/lib/ds-test/src/ forge-std/=lib/forge-std/src/'
 
 " javascript
 let g:javascript_plugin_jsdoc = 0
 let g:javascript_plugin_flow = 0
 let g:flow#autoclose = 0
-
-" java
-let g:ale_java_google_java_format_options = '--skip-removing-unused-imports'
-let g:ale_kotlin_languageserver_executable = '/home/julian/opt/KotlinLanguageServer/server/build/install/server/bin/server'
 
 " nerdcommenter
 let g:NERDSpaceDelims = 1
