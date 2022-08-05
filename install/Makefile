@@ -2,7 +2,8 @@ SHELL := /bin/bash
 .ONESHELL:
 .SHELLFLAGS: -ec
 
-CTOP_VERSION=0.7.3
+CTOP_VERSION=0.7.7
+BTOP_VERSION=1.2.8
 NVM_VERSION := 0.35.3
 FIRACODE_VERSION := 3.1
 NODE_VERSION := lts/erbium
@@ -23,6 +24,7 @@ DIFF_SO_FANCY_DL_LINK := https://raw.githubusercontent.com/so-fancy/diff-so-fanc
 PRETTYPING_DL_LINK := https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettyping
 DOCKER_COMPOSE_DL_LINK := https://github.com/docker/compose/releases/latest/download/docker-compose-$(shell uname -s)-$(shell uname -m)
 CTOP_DL_LINK := https://github.com/bcicen/ctop/releases/download/v$(CTOP_VERSION)/ctop-$(CTOP_VERSION)-linux-amd64
+BTOP_DL_LINK := https://github.com/aristocratos/btop/releases/download/v$(BTOP_VERSION)/btop-x86_64-linux-musl.tbz
 
 
 all: apt-deps install-assets misc dl-releases node rust fonts zsh file-linking flatpak
@@ -174,7 +176,7 @@ npm-deps: $(NVM_DIR)/nvm.sh
 
 # RELEASE DOWNLOADS
 
-dl-releases: dl-diff-so-fancy dl-prettyping dl-docker-compose dl-ctop
+dl-releases: dl-diff-so-fancy dl-prettyping dl-docker-compose dl-ctop dl-btop
 
 dl-diff-so-fancy:
 	pushd $(DOWNLOADS_LOC)
@@ -202,6 +204,16 @@ dl-ctop:
 	sudo chmod +x /usr/local/bin/ctop
 .PHONY: dl-ctop
 
+dl-btop:
+	mkdir -p "$(DOWNLOADS_LOC)/btop"
+	pushd "$(DOWNLOADS_LOC)/btop"
+	wget -O btop.tbz $(BTOP_DL_LINK)
+	tar -xvf btop.tbz
+	sudo make install
+	popd
+	rm -rf "$(DOWNLOADS_LOC)/btop"
+.PHONY: dl-ctop
+
 # ASSETS
 
 install-assets: add-tmux-terminfo import-yubikey-pubkey
@@ -213,32 +225,6 @@ add-tmux-terminfo:
 import-yubikey-pubkey:
 	gpg --import $(ASSETS_LOC)/pubkey.asc
 .PHONY: import-yubikey-pubkey
-
-# SGX
-
-sgx-driver: install-sgx-driver sign-sgx-driver
-
-install-sgx-driver:
-	curl -s https://download.01.org/intel-sgx/latest/linux-latest/distro/ubuntu20.04-server/driver_readme.txt | awk '{ print $$3 }' |  grep -v "^#\|^$$" | head -n 1 | awk '{print "https://download.01.org/intel-sgx/latest/linux-latest/distro/ubuntu20.04-server/"$$1}' | xargs curl -o /tmp/install-sgx-driver
-	sudo chmod +x /tmp/install-sgx-driver
-	sudo /tmp/install-sgx-driver
-.PHONY: install-sgx-driver
-
-sign-sgx-driver:
-	sudo /usr/src/linux-headers-$$(uname -r)/scripts/sign-file sha256 /usr/modules/MOK.priv /usr/modules/MOK.der $$(modinfo -n isgx)
-	sudo modprobe isgx
-.PHONY: sign-sgx-driver
-
-create-mok-key: /usr/modules/MOK.der
-	sudo mokutil --import /usr/modules/MOK.der
-.PHONY: create-mok-key
-
-/usr/modules/MOK.der:
-	openssl req -new -x509 -newkey rsa:4096 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=Driver Signer/"
-	sudo mkdir -p /usr/modules
-	sudo mv MOK.der /usr/modules
-	sudo mv MOK.priv /usr/modules
-	sudo chown -R root:root /usr/modules
 
 # APT-DEPS
 
@@ -266,12 +252,9 @@ apt-repos:
 	echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo apt-key add -
 	echo 'deb [arch=amd64] https://downloads.1password.com/linux/debian edge main' | sudo tee /etc/apt/sources.list.d/1password.list
-	curl -s https://download.01.org/intel-sgx/sgx_repo/ubuntu/intel-sgx-deb.key | sudo apt-key add -
-	echo 'deb [arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu $(shell lsb_release -cs) main' | sudo tee /etc/apt/sources.list.d/intel-sgx.list
-	curl -s https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
-	sudo add-apt-repository "deb https://dl.winehq.org/wine-builds/ubuntu/ $(shell lsb_release -cs) main"
-	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-	sudo apt-add-repository -u https://cli.github.com/packages
+	curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+	sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+	echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 .PHONY: apt-repo
 
 apt-get:
@@ -288,7 +271,6 @@ apt-get:
 		dbeaver-ce \
 		docker-ce \
 		docker-ce-cli \
-		exuberant-ctags \
 		flatpak \
 		fzf \
 		gh \
@@ -297,13 +279,9 @@ apt-get:
 		gnupg-agent \
 		htop \
 		httpie \
-		hub \
 		jq \
 		kitty \
 		libclang-dev \
-		libpam-u2f \
-		libsgx-enclave-common-dev \
-		libsgx-headers \
 		libssl-dev \
 		lld \
 		neovim \
@@ -314,15 +292,12 @@ apt-get:
 		python3-pip \
 		protonvpn \
 		rcm \
-		redis-server \
 		scdaemon \
-		sgx-aesm-service \
 		silversearcher-ag \
 		software-properties-common \
 		spotify-client \
 		tmux \
 		tmuxinator \
-		unity-tweak-tool \
 		unzip \
 		xsel \
 		yubioath-desktop \
