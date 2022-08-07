@@ -168,8 +168,6 @@ if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
   source "${VIRTUAL_ENV}/bin/activate"
 fi
 
-eval "$(hub alias -s)"
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 FZF_TMUX=1
 alias fzf=fzf-tmux
@@ -295,11 +293,6 @@ codi() {
 
 export WASMTIME_HOME="$HOME/.wasmtime"
 export PATH="$WASMTIME_HOME/bin:$PATH"
-
-if [[ -f "$GOPATH/src/github.com/sachaos/todoist/todoist_functions_fzf.sh" ]]; then
-    alias td="todoist --color --indent"
-    source "$GOPATH/src/github.com/sachaos/todoist/todoist_functions_fzf.sh"
-fi
 
 export RNC_TRUSTED_NODE_PATH_TO_SETTINGS="$HOME/.config/rnc/trusted-node"
 

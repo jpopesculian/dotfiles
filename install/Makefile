@@ -7,7 +7,6 @@ BTOP_VERSION=1.2.8
 NVM_VERSION := 0.35.3
 FIRACODE_VERSION := 3.1
 NODE_VERSION := lts/erbium
-DOCKER_DISTRO := eoan
 
 INSTALL_LOC := $(HOME)/.dotfiles
 ASSETS_LOC := $(INSTALL_LOC)/install/assets
@@ -31,21 +30,17 @@ all: apt-deps install-assets misc dl-releases node rust fonts zsh file-linking f
 
 # MISC
 
-misc: python-alternative pip-deps add-user-groups
+misc: pip-deps add-user-groups
 
 pip-deps:
-	pip3 install --user git+git://github.com/powerline/powerline
-	pip3 install pynvim
+	python3 -m pip install --user git+https://github.com/powerline/powerline
+	python3 -m pip install pynvim
 .PHONY: pip-deps
 
 add-user-groups:
 	sudo usermod -aG docker $(shell whoami)
+	newgrp docker
 .PHONY: add-user-groups
-
-python-alternative:
-	export PYTHONPATH=$$(readlink -f `which python3`)
-	sudo update-alternatives --install /usr/bin/python python $$PYTHONPATH 1
-.PHONY: python-alternative
 
 # ZSH
 
@@ -236,25 +231,32 @@ base-apt-get:
 .PHONY: base-apt-deps
 
 apt-repos:
+	sudo mkdir -p /etc/apt/keyrings
+	# apt-add-repos
 	sudo apt-add-repository -y -n ppa:neovim-ppa/stable
 	sudo apt-add-repository -y -n ppa:yubico/stable
 	sudo apt-add-repository -y -n ppa:ubuntu-mozilla-daily/ppa
 	sudo add-apt-repository ppa:serge-rider/dbeaver-ce
-	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	sudo apt-add-repository -y -n "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(DOCKER_DISTRO) stable"
-	curl -s https://repo.protonvpn.com/debian/public_key.asc | sudo apt-key add -
-	sudo apt-add-repository -y -n 'deb https://repo.protonvpn.com/debian unstable main'
-	curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add -
+	# docker
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+	echo "deb [arch=$$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
+	# spotify
+	curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | sudo apt-key add -
 	echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
-	curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
-	curl -s https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add -
+	# rcm
+	sudo wget -q https://apt.thoughtbot.com/thoughtbot.gpg.key -O /etc/apt/trusted.gpg.d/thoughtbot.gpg
 	echo "deb https://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list
-	echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo apt-key add -
-	echo 'deb [arch=amd64] https://downloads.1password.com/linux/debian edge main' | sudo tee /etc/apt/sources.list.d/1password.list
+	# 1password
+	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+	echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | sudo tee /etc/apt/sources.list.d/1password.list
+	sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
+	curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
+	sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+	# github-cli
 	curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 	sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
-	echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 .PHONY: apt-repo
 
 apt-get:
@@ -263,9 +265,7 @@ apt-get:
 		1password \
 		apt-transport-https \
 		build-essential \
-		brave-browser \
 		ca-certificates \
-		chrome-gnome-shell \
 		containerd.io \
 		curl \
 		dbeaver-ce \
@@ -274,23 +274,19 @@ apt-get:
 		flatpak \
 		fzf \
 		gh \
-		gnome-tweak-tool \
+		gnome-tweaks \
 		gnupg \
 		gnupg-agent \
-		htop \
 		httpie \
 		jq \
 		kitty \
-		libclang-dev \
 		libssl-dev \
-		lld \
 		neovim \
 		nmap \
 		pkg-config \
 		python3 \
 		python3-fontforge \
 		python3-pip \
-		protonvpn \
 		rcm \
 		scdaemon \
 		silversearcher-ag \

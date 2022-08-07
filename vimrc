@@ -486,11 +486,6 @@ let g:NERDCommentEmptyLines = 1
 " let g:neoformat_try_formatprg = 1
 " autocmd BufWritePre *.js if matchend(fnameescape(expand('%:p')), 'single-ops') < 0 | Neoformat
 
-"easytags
-let g:easytags_async = 1
-let g:easytags_auto_highlight = 0
-let g:easytags_autorecurse = 0
-
 " govim
 let g:go_bin_path = expand("~/.go/bin")
 
