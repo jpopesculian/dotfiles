@@ -3,7 +3,7 @@
     "diagnostic.signOffset": 9999999,
     "rust-analyzer.checkOnSave.command": "check",
     "rust-analyzer.checkOnSave.enable": false,
-    "rust-analyzer.updates.channel": "nightly",
+    "rust-analyzer.updates.channel": "stable",
     "diagnostic.displayByAle": true,
     "languageserver": {
         "solidity": {

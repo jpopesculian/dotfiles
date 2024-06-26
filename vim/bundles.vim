@@ -4,8 +4,17 @@ end
 
 call plug#begin('~/.vim/plugged')
 
+function! BuildRust(info)
+  if a:info.status != 'unchanged' || a:info.force
+    !cargo build --release --locked
+  endif
+endfunction
+
 " Let Vundle manage Vundle
 Plug 'gmarik/vundle'
+
+" Copilot
+Plug 'github/copilot.vim'
 
 " General
 Plug 'sheerun/vim-polyglot'
@@ -16,6 +25,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'mileszs/ack.vim'
 Plug 'skwp/greplace.vim'
 Plug 'tpope/vim-commentary'
+
 " Plug 'majutsushi/tagbar'
 Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-fugitive'
@@ -39,6 +49,7 @@ Plug 'tpope/vim-abolish'
 Plug 'metakirby5/codi.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-cucumber'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Assembly
 Plug 'wsdjeg/vim-assembly'
@@ -52,7 +63,6 @@ Plug 'lilyinstarlight/vim-sonic-pi'
 
 " linter
 Plug 'dense-analysis/ale'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Snippets
 " Plug 'SirVer/ultisnips'
@@ -84,15 +94,15 @@ Plug 'jparise/vim-graphql'
 Plug 'leafgarland/typescript-vim'
 
 " Dart
-" Plug 'dart-lang/dart-vim-plugin'
+Plug 'dart-lang/dart-vim-plugin'
 
 " HTML
 Plug 'othree/html5.vim'
 Plug 'mattn/emmet-vim'
 
 " CSS
-Plug 'hail2u/vim-css3-syntax'
-Plug 'hhsnopek/vim-sugarss'
+" Plug 'hail2u/vim-css3-syntax'
+" Plug 'hhsnopek/vim-sugarss'
 " Less
 Plug 'groenewege/vim-less'
 
@@ -129,11 +139,10 @@ Plug 'venantius/vim-cljfmt'
 " Markdown / Writing
 Plug 'reedes/vim-wordy'
 Plug 'godlygeek/tabular'
-Plug 'iamcco/markdown-preview.vim'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'junegunn/goyo.vim'
 Plug 'rhysd/vim-grammarous'
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildRust') }
+Plug 'rafi/telescope-thesaurus.nvim'
 
 " Roku Brightscript
 " Plug 'chooh/brightscript.vim'
@@ -148,8 +157,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 " Elixir
-Plug 'elixir-lang/vim-elixir'
-Plug 'slashmili/alchemist.vim'
+" Plug 'elixir-lang/vim-elixir'
+" Plug 'slashmili/alchemist.vim'
 
 " Solidity
 Plug 'tomlion/vim-solidity'
@@ -180,6 +189,11 @@ if has('nvim')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 else
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'

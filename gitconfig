@@ -35,6 +35,8 @@
 	untracked = cyan
 [push]
 	default = current
+	followTags = true
+    autoSetupRemote = true
 [branch]
 	autosetupmerge = true
 [merge]
@@ -95,3 +97,14 @@
 	driver = npx npm-merge-driver merge %A %O %B %P
 ; [url "git@github.com:"]
 ; 	insteadOf = https://github.com/
+[init]
+	defaultBranch = main
+[credential]
+	helper = store
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[pull]
+	rebase = true

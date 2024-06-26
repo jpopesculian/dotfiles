@@ -60,7 +60,7 @@ ZSH_DOTENV_PROMPT=false
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(tmuxinator tmux history zsh-autosuggestions vi-mode dotenv)
+plugins=(tmuxinator tmux history zsh-autosuggestions vi-mode dotenv fzf-zsh-plugin)
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
@@ -76,17 +76,16 @@ export GOROOT="/usr/local/go-$GO_VERSION"
 export GO111MODULE=on
 export PATH="$GOROOT/bin:$GOBIN:$PATH"
 
-export ANDROID_HOME="$HOME/Android/Sdk"
-export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
-export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+export ANDROID_HOME="/opt/android-studio"
+export PATH="$PATH:$ANDROID_HOME/cmdline-tools/bin"
+export ANDROID_USER_HOME="$HOME/.android-sdk"
+export ANDROID_NDK_HOME="$ANDROID_USER_HOME/ndk"
 
 export RUST_HOME="$HOME/.cargo/bin"
 export PATH="$PATH:$RUST_HOME"
-export RUST_LOG="info"
 
-# source /usr/local/rvm/scripts/rvm
-
-export PATH="$PATH:/opt/flutter/bin"
+export PATH="$PATH:$HOME/.android-sdk/flutter/bin"
+export PATH="$PATH:$HOME/.pub-cache/bin"
 
 export PATH="$HOME/.nimble/bin:$PATH"
 alias nimrun="nim c -r --verbosity:0"
@@ -94,8 +93,6 @@ alias nimrun="nim c -r --verbosity:0"
 export EDITOR=nvim
 
 export NODE_ENV='development'
-
-export JAVA_HOME='/usr/lib/jvm/default-java'
 
 export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"
 
@@ -165,10 +162,9 @@ if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
 fi
 
 if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
-  source "${VIRTUAL_ENV}/bin/activate"
+# source "${VIRTUAL_ENV}/bin/activate"  # commented out by conda initialize
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 FZF_TMUX=1
 alias fzf=fzf-tmux
 alias fzg='ag --nobreak --nonumbers --noheading . | fzf'
@@ -177,11 +173,23 @@ alias fzh='ag --hidden --ignore .git -l -g "" . | fzf'
 alias please='sudo $(fc -ln -1)'
 alias cl='clear'
 alias cll='clear && $(fc -ln -1 -1)'
-alias codereview='git pull-request -pl "code review"'
-alias glorp='ruby -ane '
 alias cds='cd $(pwd -P)'
+alias http-server='http-server --logger --verbose'
 
-alias rustd='rustup docs --path | xargs dirname | xargs http-server -p 1337 &; xdg-open http://localhost:1337/std; fg'
+rustd() {
+    rustup docs --path | xargs dirname | xargs http-server -p 1337 &
+    if [ -z "$1" ]; then; search=""; else; search="?search=$1"; fi
+    xdg-open "http://localhost:1337/std/index.html$search"
+    fg
+}
+crated() {
+    crate_name="$(tomlq -f Cargo.toml package.name)"
+    if [ -z "$crate_name" ]; then; crate_name="$(tomlq -f Cargo.toml workspace.members | jq -r '.[0]')"; fi
+    http-server -p 1338 target/doc &
+    if [ -z "$1" ]; then; search=""; else; search="?search=$1"; fi
+    xdg-open "http://localhost:1338/$(echo $crate_name | tr - _)/index.html$search"
+    fg
+}
 
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
@@ -191,13 +199,8 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 nvm-sudo() { sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"; sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm" }
 
 alias internet-connected='wget --spider --quiet http://google.com'
-
-# eval $(thefuck --alias)
-
-# gdrive
-GDRIVE_DIR=/mnt/gcsf
-alias gdrive-mnt="sudo systemctl start gdrive"
-alias gdrive="ranger $GDRIVE_DIR"
+alias http='noglob http'
+alias scw='noglob scw'
 
 # todo
 # TODO_DIR=/opt/todo.txt_cli-2.11.0
@@ -205,7 +208,10 @@ alias gdrive="ranger $GDRIVE_DIR"
 # source $TODO_DIR/todo_completion complete -F _todo t
 
 # kubectl
-# source <(kubectl completion zsh)
+source <(kubectl completion zsh)
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+kgetall() { kubectl api-resources --verbs=list --namespaced -o name | xargs -n1 kubectl get --show-kind --ignore-not-found "$@" }
 
 # lua
 # alias lua=lua5.3
@@ -233,11 +239,11 @@ fi
 export SGX_DEVICE=/dev/$(ls /dev | grep -m 1 sgx)
 
 # pyenv
-export PYENV_ROOT="$HOME/opt/pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1;then
-    eval "$(pyenv init -)"
-fi
+# export PYENV_ROOT="$HOME/opt/pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+# if command -v pyenv 1>/dev/null 2>&1;then
+#     eval "$(pyenv init -)"
+# fi
 
 # emoji cli
 if [[ -d $HOME/.local/emoji-cli ]]; then
@@ -264,11 +270,16 @@ alias wttr="curl v2.wttr.in"
 alias m="make"
 alias mls="make -qp | awk -F':' '/^[a-zA-Z0-9][^\$#\/\t=]*:([^=]|$)/ {split(\$1,A,/ /);for(i in A)print A[i]}' | sort -u"
 alias dk="docker"
-alias dkc="docker-compose"
+alias dkc="docker compose"
 copy() { \cat $1 | pbcopy }
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm laniksj/dfimage"
 alias lnmap="nmap -sP $( hostname -I | awk '/(192|10)\./{print $1}' | sed -E 's/([0-9]*\.[0-9]*\.[0-9]*)(\.[0-9]*)/\1.1\/24/')"
-rwifi() { sudo modprobe -r iwlwifi; sudo modprobe iwlwifi }
+alias rusti="evcxr"
+mkcd() { mkdir -p $1 && cd $1 }
+alias gsync="rsync -vhra --include='**.gitignore' --exclude='/.git' --filter=':- .gitignore' --delete-after"
+bdiff() {
+    git diff --name-only --relative --diff-filter=d | xargs bat --diff
+}
 
 alias v="nvim"
 vf() { fn=$(fzfl $1); if [ ! -z $fn ]; then; nvim $fn; fi  }
@@ -291,6 +302,11 @@ codi() {
     Codi $syntax" "$@"
 }
 
+# export SOLANG_DIR="/opt/solang"
+# if [ -d $SOLANG_DIR ]; then
+#     PATH="$SOLANG_DIR/llvm13.0/bin:$PATH"
+# fi
+
 export WASMTIME_HOME="$HOME/.wasmtime"
 export PATH="$WASMTIME_HOME/bin:$PATH"
 
@@ -298,3 +314,27 @@ export RNC_TRUSTED_NODE_PATH_TO_SETTINGS="$HOME/.config/rnc/trusted-node"
 
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+
+
+# Scaleway CLI autocomplete initialization.
+# eval "$(scw autocomplete script shell=zsh)"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export DPRINT_INSTALL="/home/julian/.dprint"
+export PATH="$DPRINT_INSTALL/bin:$PATH"
+
+export PATH=/home/julian/.groundcover/bin:${PATH}
+. "$HOME/.cargo/env"
+
+# pnpm
+export PNPM_HOME="/home/julian/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

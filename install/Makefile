@@ -238,8 +238,8 @@ apt-repos:
 	sudo apt-add-repository -y -n ppa:ubuntu-mozilla-daily/ppa
 	sudo add-apt-repository ppa:serge-rider/dbeaver-ce
 	# docker
-	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-	echo "deb [arch=$$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg
+	echo "deb [arch=$$(dpkg --print-architecture) signed-by=/etc/apt/trusted.gpg.d/docker.gpg] https://download.docker.com/linux/ubuntu $$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
 	# spotify
 	curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | sudo apt-key add -
 	echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
@@ -271,6 +271,7 @@ apt-get:
 		dbeaver-ce \
 		docker-ce \
 		docker-ce-cli \
+		exuberant-ctags \
 		flatpak \
 		fzf \
 		gh \

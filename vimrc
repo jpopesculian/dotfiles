@@ -173,8 +173,11 @@ nnoremap <leader>T :tabc<CR>
 nnoremap <leader>Q :tabo<CR>
 
 " File nav
-nnoremap <leader>f :NERDTreeToggle<CR>
-nnoremap <leader>F :NERDTreeFind<CR>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>F :NERDTreeToggle<CR>
 nnoremap <leader>d :e %:p:h<CR>
 nnoremap <leader>D :e .<CR>
 
@@ -192,8 +195,7 @@ nnoremap <leader>H :History:<CR>
 nnoremap <leader>/ :History/<CR>
 
 " Replace all
-nnoremap <leader>r :%S/<c-r>=expand("<cword>")<cr>/
-vnoremap <leader>r "sy:%S/<c-r>s/
+nnoremap <leader>rr :%s/<c-r>=expand("<cword>")<cr>/
 
 " Using fugitive
 nnoremap <leader>cs :Git<cr>
@@ -215,12 +217,15 @@ nnoremap <leader>vb :tabe ~/.dotfiles/vim/bundles.vim<CR>
 nnoremap <leader>vs :so $MYVIMRC<CR>
 nnoremap <leader>vw :w<CR>:so $MYVIMRC<CR>
 
+" Copilot
+nnoremap <leader>cp :Copilot<CR>
+
 " Using Plug
 nnoremap <leader>vi :PlugClean<CR>:PlugInstall<CR>
 
 " Task List
 " nnoremap <leader>v <Plug>TaskList
-nnoremap <leader>v :GrammarousCheck<CR>
+" nnoremap <leader>v :GrammarousCheck<CR>
 
 " Saving and Exiting
 nnoremap <leader>w :w<CR>
@@ -420,6 +425,10 @@ augroup markdown
     au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
 augroup END
 
+" Typescript COC support
+au BufNewFile,BufRead *.tsx,*.ts setlocal filetype=typescript.tsx
+au BufNewFile,BufRead *.jsx,*.js setlocal filetype=javascript.jsx
+
 " pandoc
 let g:pandoc#command#latex_engine = 'pdflatex'
 let g:pandoc#command#autoexec_command = 'Pandoc pdf --variable urlcolor=cyan'
@@ -437,7 +446,9 @@ let g:ale_sign_error = ''
 let g:ale_linters = {
 \   'c': ['clang', 'gcc'],
 \   'go': ['gofmt', 'gobuild', 'golangserver'],
-\   'typescript': ['tsserver', 'tslint'],
+\   'typescript': ['tsserver', 'tslint', 'eslint'],
+\   'html': ['tidy'],
+\   'ruby': ['rubocop'],
 \   'rust': ['cargo'],
 \   'solidity': ['solc'],
 \   'python': ['flake8', 'pylint', 'mypy'],
@@ -451,9 +462,11 @@ let g:ale_fixers = {
 \   'json': [],
 \   'javascript': ['prettier'],
 \   'python': ['black'],
+\   'html': ['prettier'],
 \   'css': ['prettier'],
 \   'java': ['google_java_format'],
-\   'rust': ['rustfmt']
+\   'rust': ['rustfmt'],
+\   'dart': ['dart-format']
 \}
 
 " use coc.nvim for lsp
@@ -499,8 +512,18 @@ let g:python_host_prog = '/usr/bin/python2'
 let g:python3_host_prog = '/usr/bin/python3'
 
 let g:ale_python_auto_pipenv = 1
-let g:ale_python_flake8_use_global = 1
+let g:ale_python_auto_poetry = 1
 let g:ale_python_flake8_auto_pipenv = 1
+let g:ale_python_flake8_auto_poetry = 1
+let g:ale_python_mypy_auto_pipenv = 1
+let g:ale_python_mypy_auto_poetry = 1
+let g:ale_python_pylint_auto_pipenv = 1
+let g:ale_python_pylint_auto_poetry = 1
+let g:ale_python_black_auto_pipenv = 1
+let g:ale_python_black_auto_poetry = 1
+
+" dart
+autocmd FileType dart setlocal shiftwidth=2 softtabstop=2 expandtab
 
 " silver searcher
 
@@ -510,19 +533,6 @@ let g:ackprg = 'ag --vimgrep --smart-case'
 " cnoreabbrev Ag Ack
 " cnoreabbrev AG Ack
 
-let g:grammarous#default_comments_only_filetypes = {
-            \ '*' : 1, 'help' : 0, 'markdown' : 0,
-            \ }
-let g:grammarous#hooks = {}
-function! g:grammarous#hooks.on_check(errs) abort
-    nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
-    nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
-endfunction
-
-function! g:grammarous#hooks.on_reset(errs) abort
-    nunmap <buffer><C-n>
-    nunmap <buffer><C-p>
-endfunction
 
 " devicons
 let g:WebDevIconsUnicodeGlyphDoubleWidth = 0
@@ -548,11 +558,28 @@ let g:tagbar_type_typescript = {
   \ ]
   \ }
 
+" markdown
 let g:vimwiki_list = [
 \ {'path': '~/Dropbox/work/', 'syntax': 'markdown', 'ext': '.md'},
 \ {'path': '~/Dropbox/zettln/', 'syntax': 'markdown', 'ext': '.md'},
 \ {'path': '~/Dropbox/pad/', 'syntax': 'markdown', 'ext': '.md'}
 \]
+
+let g:markdown_composer_autostart = 0
+
+let g:grammarous#default_comments_only_filetypes = {
+            \ '*' : 1, 'help' : 0, 'markdown' : 0,
+            \ }
+let g:grammarous#hooks = {}
+function! g:grammarous#hooks.on_check(errs) abort
+    nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
+    nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
+endfunction
+
+function! g:grammarous#hooks.on_reset(errs) abort
+    nunmap <buffer><C-n>
+    nunmap <buffer><C-p>
+endfunction
 
 let g:rooter_patterns = ['build.gradle', '.git/', 'package.json', 'Cargo.toml']
 
@@ -561,6 +588,7 @@ let g:slumlord_separate_win=1
 " vista
 let g:vista_executive_for = {
   \ 'rust': 'coc',
+  \ 'dart': 'coc',
   \ }
 
 " read jsrender templates as html
@@ -572,3 +600,5 @@ nnoremap <F3> :set hlsearch!<CR>
 " Extra config files " note: deprecate: move to .vim/autoload/
 " execute pathogen#infect()
 " call pathogen#helptags()
+
+lua require('init')
